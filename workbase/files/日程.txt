@@ -77,3 +77,17 @@ POST/api/gemp/event/eventGroupPaper/sencePowerAnalyze/find/v1力量调度：力�
    
   统一交互
     1 表格 单元 居中 
+11-30
+  平涂添加色值
+    字体渐变
+    background-image: -webkit-linear-gradient(top, #FFFD73, #13EAF7, #13EAF7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+     背景设置
+      background: url("@{imgUrl}/pie-decoration.png") no-repeat center / 42% 50%;
+      background-position-x: 49%;
+      background-position-y: 24%;
+      background-position: center center;
+
+
+  

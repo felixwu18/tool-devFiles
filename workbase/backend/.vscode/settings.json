@@ -1,0 +1,191 @@
+{
+    // "workbench.iconTheme": "vscode-icons",
+    // "editor.tabSize": 2,
+    // "files.associations": {
+    //     "*.vue": "vue"
+    // },
+    // "files.autoSave":"off",
+    // "eslint.autoFixOnSave": true,
+    // "eslint.options": {
+    //     "extensions": [
+    //         ".js",
+    //         ".vue"
+    //     ]
+    // },
+    // "eslint.run":"onSave",
+    // "eslint.validate": [
+    //     "javascript",
+    //     "javascriptreact",
+    //     "vue",
+    //     "vue-html",
+    //     { "language": "html", "autoFix": true }
+    // ],
+    // "codebing.useDefaultProviderOnly": false,
+    // "codebing.noInputBoxIfTextSelected": true,
+    // "search.exclude": {
+    //     "**/node_modules": true,
+    //     "**/bower_components": true,
+    //     "**/dist": true
+    // },
+    // "emmet.syntaxProfiles": {
+    //     "javascript": "jsx",
+    //     "vue": "html",
+    //     "vue-html": "html"
+    // },
+    // "extensions.autoUpdate": true,
+    // "editor.renderWhitespace": "boundary",
+    // "editor.cursorBlinking": "smooth",
+    // "sync.gist": "407ffb1970790b82fab2984833285e59",
+    // "editor.renderIndentGuides": false,
+    // "workbench.colorTheme": "Material Theme Darker High Contrast",
+    // "cSpell.enabledLanguageIds": [
+    //     "css",
+    //     "diff",
+    //     "git-commit",
+    //     "html",
+    //     "ignore",
+    //     "javascript",
+    //     "javascriptreact",
+    //     "json",
+    //     "less",
+    //     "markdown",
+    //     "scss",
+    //     "sql",
+    //     "text",
+    //     "typescript",
+    //     "xml"
+    // ],
+    // "background.customImages": [
+    //     "C:/03-01.jpg"//图片地址路径
+    // ],
+    // "background.style": {
+    //     "content":"''",
+    //     "pointer-events":"none",
+    //     "position":"absolute",//图片位置
+    //     "width":"100%",
+    //     "height":"100%",
+    //     "z-index":"9999",
+    //     "background.repeat":"no-repeat",
+    //     "background-size":"100%,100%",//图片大小
+    //     "opacity":0.15 //透明度
+    // },
+    // "background.useFront": false,
+    // "background.useDefault": false,
+    // "sync.quietSync": true,
+    // // 覆盖当前选定颜色主题的颜色。
+    // "workbench.colorCustomizations": {
+    //     // 未激活 选项卡 颜色
+    //     "tab.inactiveForeground": "#746f77",
+    //     // 激活选项卡 前景色
+    //     "tab.activeForeground": "#00e8c6",
+    //     "tab.activeBackground": "#000000",
+    //     // 启用选项卡时编辑器组标题标题的背景颜色
+    //     "editorGroupHeader.tabsBackground": "#000000",
+    //     // 侧栏 文件夹 名称 颜色
+    //     "sideBar.foreground": "#e3dbe7",
+    //     // 侧栏标题颜色
+    //     "sideBarTitle.foreground": "#00e8c6",
+    //     // 侧栏 选项 头部 字体颜色
+    //     "sideBarSectionHeader.foreground": "#00c3ff",
+    //     // 侧栏 outline 背景色
+    //     "sideBarSectionHeader.background": "#000000",
+    //     // 功能 选项栏 背景色
+    //     "activityBar.background": "#23262E",
+    //     // 编辑器 行号颜色
+    //     "editorLineNumber.foreground":"#929191",
+    //     // 编辑器 激活行号 前景色
+    //     "editorLineNumber.activeForeground": "#09ff00",
+    //     // 编辑器导航线的背景色，导航线包括边缘符号和行号
+    //     "editorGutter.background":"#000000",
+    //     //编辑器光标颜色
+    //     // "editorCursor.foreground":"#ff0000",
+    //     // 编辑器所选内容的颜色
+    //     // "editor.selectionBackground": "#056159",
+    //     // 光标所在行高亮文本的背景颜色
+    //     "editor.lineHighlightBackground":"#000000",
+    //     // 其他搜索匹配项的颜色
+    //     "editor.findMatchHighlightBackground": "#3a3a3a",
+    //     // 活动通知徽章的背景颜色。活动栏显示在最左边或右边，允许在侧边栏的视图之间切换。
+    //     "activityBarBadge.background": "#F44336",
+    //     // 背景 色
+    //     "editor.background": "#000000",
+    //     // 当列表/树活动时所选项目的列表/树前景颜色。活动列表/树具有键盘焦点，非活动列表/树没有。
+    //     "list.activeSelectionForeground": "#F44336",
+    //     // 当列表/树不活动时，所选项目的列表/树前景颜色。活动列表/树具有键盘焦点，非活动列表/树没有。
+    //     "list.inactiveSelectionForeground": "#f81e1e",
+    //     // 在列表/树中搜索时，匹配的列表/树的前景颜色将突出显示。
+    //     "list.highlightForeground": "#F44336",
+    //     // 当点击滚动条滑块的背景颜色。
+    //     "scrollbarSlider.activeBackground": "#F4433650",
+    //     // 匹配的颜色在 suggest小部件中突出显示。
+    //     "editorSuggestWidget.highlightForeground": "#F44336",
+    //     // 文本链接的前景色。
+    //     "textLink.foreground": "#F44336",
+    //     // 进度条的背景颜色，可以显示长时间运行的操作。
+    //     "progressBar.background": "#F44336",
+    //     // 快速选择颜色分组标签。
+    //     "pickerGroup.foreground": "#F44336",
+    //     // 活动选项卡底部的边框。选项卡是编辑器区域中编辑器的容器。可以在一个编辑器组中打开多个选项卡。可以有多个编辑器组。
+    //     "tab.activeBorder": "#F44336",
+    //     // 通知链接前景颜色。通知从窗口的右下角滑入。
+    //     "notificationLink.foreground": "#F44336",
+    //     // 编辑器小部件的调整大小栏的边框颜色。只有当小部件选择具有调整大小的边框，并且该颜色没有被小部件覆盖时，才使用该颜色。
+    //     "editorWidget.resizeBorder": "#F44336",
+    //     // 编辑器小部件的边框颜色。只有当小部件选择具有边框且颜色未被小部件覆盖时，才使用该颜色。
+    //     "editorWidget.border": "#F44336",
+    //     // (用于设置编辑器预览)修改后的设置指示器的颜色
+    //     "settings.modifiedItemIndicator": "#F44336",
+    //     // (用于设置编辑器预览)节标题或活动标题的前景色。
+    //     "settings.headerForeground": "#F44336",
+    //     // 活动面板标题的边框颜色。面板显示在编辑器区域下面，其中包含输出和集成终端等视图。
+    //     "panelTitle.activeBorder": "#F44336",
+    //     // 选定面包屑项的颜色。
+    //     "breadcrumb.activeSelectionForeground": "#F44336",
+    //     // 菜单中所选菜单项的前景色
+    //     "menu.selectionForeground": "#F44336",
+    //     // 菜单栏中所选菜单项的前景色。
+    //     "menubar.selectionForeground": "#F44336",
+    //     // 当前搜索匹配的边框颜色。
+    //     "editor.findMatchBorder": "#F44336",
+    //     // 工作台中文本选择的背景颜色(例如用于输入字段或文本区域)。注意，这不适用于编辑器中的选择。
+    //     "selection.background": "#F4433640",
+    //     // 未激活 选项卡 背景色
+    //     // "tab.inactiveBackground": "#0044ff",
+    //     // 资源管理器 搜索 debug git 扩展 侧栏背景色
+    //     // "sideBar.background": "#000000c7",
+    //     // 功能 选项栏 按钮颜色
+    //     // "activityBar.foreground": "#9c45ca",
+    //     // 激活 选项卡 背景色
+    //     // 与所选内容具有相同内容的区域颜色
+    //     // "editor.selectionHighlightBackground":"#ff0000",
+    // },
+    // "editor.tokenColorCustomizations": {
+    //     // 注释
+    //     "comments": "#9f9fa1", 
+    //     // 变量名
+    //     "variables": "#05e3f3",
+    //     // 函数名
+    //     "functions": "#0771fc", 
+    //     // 数字
+    //     "numbers": "#AE81FF",
+    //     // 关键字
+    //     // "keywords": "#0a0",
+    //     // 字符串
+    //     // "strings": "#e2d75dbd", 
+    // },
+    // "materialTheme.accent": "Tomato",
+    // "git.autofetch": true,
+    // "fileheader.customMade": {
+    //     "Description": "",
+    //     "Author": "gleason",
+    //     "Github": "https://github.com/GleasonBian",
+    //     "Date": "Do not edit",
+    //     "LastEditors": "OBKoro1",
+    //     "LastEditTime": "Do not edit"
+    // },
+    // "fileheader.cursorMode": {
+    //     "description": "",
+    //     "param": "",
+    //     "return": ""
+    // },
+}

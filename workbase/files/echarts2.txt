@@ -1,0 +1,95 @@
+option = {
+  // tooltip: {
+  //   trigger: 'item',
+  //   formatter: '{a} <br/>{b}: {c} ({d}%)'
+  // },
+  series: [
+    {
+      // name: 'Access From',
+      type: 'pie',
+      selectedMode: 'single',
+      radius: ['0', '0'],
+      silent: true,
+      label: {
+        position: 'center',
+        fontSize: 18
+      },
+      // labelLine: {
+      //   show: false
+      // },
+      data: [{ value: 50,  name: 'Search\nEngine' }]
+      // rich: {
+      //   lineHeight: 192,
+      // },
+    },
+    {
+      name: '',
+      type: 'pie',
+      radius: ['30%', '45%'],
+      labelLine: {
+        length: 30
+      },
+      dimensions: [],
+      // center: ['50%', '50%'],
+      label: {
+        formatter: '{a|{a}}{abg|}\n  {b|{b}} \n {per|{d}%}  ',
+        // backgroundColor: 'red',
+        // borderColor: '#8C8D8E',
+        color: 'red',
+        borderWidth: 1,
+        borderRadius: 4,
+        rich: {
+          // a: {
+          //   color: '#fff',
+          //   lineHeight: 12,
+          //   align: 'left'
+          // },
+          // hr: {
+          //   borderColor: '#8C8D8E',
+          //   width: '100%',
+          //   borderWidth: 1,
+          //   height: 0
+          // },
+          b: {
+            color: 'blue',
+            fontSize: 14,
+            fontWeight: 'normal',
+            lineHeight: 33,
+            align: 'left'
+          },
+          per: {
+            // color: 'red',
+            // backgroundColor: '#4C5058',
+            // padding: [3, 4],
+            // borderRadius: 4,
+            align: 'left'
+          }
+        }
+      },
+      data: [
+        { value: 20,
+          itemStyle: {
+          color: 'red', },
+          label: {
+        show: true,
+        // position: 'left',
+        color: 'red',
+        // borderColor: '#8C8D8E'
+      }, name: 'Baidu' },
+        { value: 10,
+          itemStyle: {
+          color: 'green', },
+          label: {
+        show: true,
+        // position: 'left',
+        color: 'green',
+        // borderColor: '#8C8D8E'
+      }, name: 'Direct' },
+        { value: 20, name: 'Email' },
+        { value: 20, name: 'Google' },
+        { value: 20,
+        name: 'Union Ads' }
+      ]
+    }
+  ]
+};

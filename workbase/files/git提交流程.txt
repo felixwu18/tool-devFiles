@@ -1,0 +1,12 @@
+
+
+
+
+Remote  :      master <=生产merge=           dev    <=日常merge=       MyRemoteBranch1(临时)    MyRemoteBranch2(临时)  
+           	           ||                                           ||                                                 ^                                                 ^
+                      生产pull                                   pull                                            push                                            push        
+                           v                                           v                                                 ||                                                  ||
+LocalBranch:   master                                   dev    =日常rebase=>        MyLocalBranch1                                   ||
+                                                                                =日常rebase=>        MyLocalBranch2                      ====>
+
+ 
