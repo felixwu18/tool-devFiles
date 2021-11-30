@@ -1,0 +1,19 @@
+select 查询列表 from 表名；  1, 查询列表可以是： 表中字段、表达式、函数 2, 查询的结果是一个虚拟的表格
+查询常量值， 表达式（20*2） ==> 运行并得到计算结果
+起别名(便于理解， 要查询字段有重名，可区分开来) select 100 * 2 as 列名 （as可以用空格代替） 若别名中有空格或#号之类的关键字， 别名需要双引号， 
+
+exit 退出mysql登录  mysql服务还在运行
+select version(); 查看数据库版本   也可在退出mysql情况下，mysql --version 查看（dos命令）
+show database;  查看所有库
+show tables; 查看所有表
+use 库名;  进入库
+show tables from 库名; 查看库里的表
+select database(); 查看所在库
+create table 表名xx (
+          id int,
+          name varchar(20)
+          );    建表 xx 列字段 id, name
+desc 表名;  查看表结构
+insert into 表名 (id, name) values(1, 'felix');  插入数据 可多次之星插入多条， 真实插入， 重启电脑数据还在
+update 表名 set name='wufei' where id=1;  修改id为1的 姓名 felix为 wufei； 真实修改
+delete from 表名 where id=1; 删除id为1的数据； 真实删除
