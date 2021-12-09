@@ -28,10 +28,12 @@ app.all("*", function (req, res, next) {
 //  require路由
 // var setCacheFSPRoute = require("./routes/setCacheFSP"); // 写入缓存分时回调
 var getCacheFSPRoute = require("./routes/getCacheFSP"); // 读取缓存分时回调
+var ceshisqlRoute = require("./routes/mysql/index"); // 读取缓存分时回调
 
 // ------------------ 接口  ----------------------//
 
 // app.post('/setCacheFSP', getCacheFSPRoute) // 测试post
+app.get('/ceshimysql', ceshisqlRoute) // 测试post
 app.get('/getCacheFSP', getCacheFSPRoute) // 获取数据
 app.post('/getCacheFSP', getCacheFSPRoute) // 获取数据
 

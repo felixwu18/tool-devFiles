@@ -1,0 +1,3 @@
+alter user 'root'@'localhost' identified by 'root';   // 修改密码为root
+
+mysql -u root -p

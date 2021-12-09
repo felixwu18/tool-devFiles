@@ -5,23 +5,23 @@ module.exports = function (req, res) {
                             host: "127.0.0.1",
                             port: "3306",
                             user: "root",
-                            password: "123456",
-                            database: "fromnavicat",
+                            password: "root",
+                            database: "db_test",
               });
 
               /* 连接数据库 */
               connection.connect(function (err) {
                             // console.log(err)
-                            if (err) {
-                                          console.log("连接失败");
-                            } else {
-                                          console.log("连接成功");
-                            }
+                  if (err) {
+                                console.log("连接失败");
+                  } else {
+                                console.log("连接成功");
+                  }
               }); // 启动链接 (连接提示)
 
 
-              const sql = `SELECT * FROM biao`;
-            //   const sql = `INSERT INTO vavicatable (n,a,m,e) VALUES(11,'Networkk',33,'Computer Networkk');`;
+              // const sql = `SELECT * FROM t_user_info`;
+              const sql = `INSERT INTO t_user_info (id,name,age) VALUES(11,'Networkk',33);`;
             //   const sql = `DELETE FROM ceshi WHERE n='11';`;
               /* 向数据库查询 */
               connection.query(sql, function (err, result) {
