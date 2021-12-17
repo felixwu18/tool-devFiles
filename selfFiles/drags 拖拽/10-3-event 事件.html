@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-ch">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>event</title>
+  <style>
+    div{
+      background-color: yellowgreen;
+      width: 10em;
+      height: 10em;
+      position: absolute;
+    }
+    p{
+      width: 1em;
+      height: 1em;
+      background-color: red;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+
+
+  <p>
+
+    <div>
+    </div>
+
+  </p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+<script>
+  // clientX,clientY  // 鼠标位置,坐标
+  // scrollTop,scrollLeft//页面卷曲的距离
+  // offsetLeft,offsetTop: //相对于最近的祖先定位元素的
+  //滚动条的意义:可视区与页面顶部的距离
+  //只要加一个全局事件,直接加在document上
+  //添加一个事件,要阻止冒泡,用事件e.cancelBulbble = true;
+
+//获取鼠标的坐标
+  function getPosition(e){
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+    return {x:e.clientX+scrollLeft,y:e.clientY+scrollTop};//加scrollLeft,scrollTop是为了消除滚动条的影响
+  }
+//给文档添加事件
+// document.onmousemove = function(e){
+//     var div = document.getElementsByTagName('div')[0];
+//     var e = e || event;
+//     var position = getPosition(e)
+//     // alert(e.clientX)
+//     div.style.left = position.x+offsetX+'px';
+//     div.style.top = position.y+offsetY+'px';
+//   }
+
+
+//一串跟随鼠标的p
+// document.onmousemove = function(e){
+//     var p = document.getElementsByTagName('p');
+//     var e = e || event;
+//     var position = getPosition(e);
+//     for(var i = p.length-1;i>0;i--){
+//       p[i].style.left = p[i-1].offsetLeft+'px';
+//       p[i].style.top = p[i-1].offsetTop+'px';
+//     }
+//     p[0].style.left = position.x+'px';
+//     p[0].style.top = position.y+'px';
+//   }
+
+
+  //keyCode 获取按键的编码 eg:enter(13),backspace(8) ctrl(17) 等
+  //按键事件 onkeydown,onkeyup
+  //按键控制元素移动
+// document.onkeydown = function(e){
+//   var div = document.getElementsByTagName('div')[0];
+//   var e = e || event;//考虑兼容性
+//   if(e.keyCode == 37){
+//     div.style.left = div.offsetLeft-10+'px';
+//   }
+//   else if(e.keyCode == 39){
+//     div.style.left = div.offsetLeft+10+'px';
+//   }else if(e.keyCode == 38){
+//     div.style.top = div.offsetTop-10+'px';
+//   }else if(e.keyCode == 40){
+//     div.style.top = div.offsetTop+10+'px';
+//   }
+//   console.log(div.offsetTop)
+// }
+
+
+//其他属性,返回一个事件e,e.ctrlKey,e.shiftKey,e.altKey,返回值为真假,可做判断
+// ctrlKey,shiftKey,altKey
+//以前qq发送的按钮就是这样实现的,ctrl+回车 实现提交 :if(e.keyCode == 13 &&e.ctrlKey)
+
+// 拖拽
+//有事件嵌套
+var distanceX = 0;
+var distanceY = 0;
+var div = document.getElementsByTagName('div')[0];
+div.onmousedown = function(e){
+  console.log(e)
+  console.log(e.offsetX)
+   
+    var e = e || event;
+    //这里鼠标点击点到盒子的两侧距离可以用 事件e.offsetX,e.offsetY实现
+    //即,e.offsetX == distanceX
+    //   e.offsetY == distanceY
+    distanceX = e.clientX-div.offsetLeft;
+    console.log(distanceX)
+    distanceY = e.clientY-div.offsetTop;
+    document.onmousemove = function(e){
+        var e = e || event;
+        var l = e.clientX-distanceX;
+        var t = e.clientY-distanceY;
+        //防止拖出页面,做位置修正
+        // clientWidth可视区域的宽度
+        // offsetWidth被拖元素的宽度
+        if(l<0){
+          l = 0;
+        }else if(l>document.documentElement.clientWidth-div.offsetWidth) {
+          l = document.documentElement.clientWidth-div.offsetWidth;
+        }
+        if(t<0){
+          t = 0;
+        }else if(t>document.documentElement.clientHeight-div.offsetHeight){
+          t = document.documentElement.clientHeight-div.offsetHeight;
+        }
+
+        div.style.left = l+'px';
+        div.style.top = t+'px';
+    };
+    document.onmouseup = function(e){
+      document.onmousemove = null;
+      document.onmouseup = null;
+    };
+}
+
+</script>
+</body>
+</html>
