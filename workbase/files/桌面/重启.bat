@@ -1,0 +1,1 @@
+slidetoshutdown /r /t 5

@@ -1,10 +1,12 @@
-// var fs = require("fs"); //文件模块
+// var data = require("./data/test"); //文件模块
+var data = require("./data/fireMonitor"); //文件模块
 
 module.exports = function (req, res) {
     const { secid } = req.query
     const currentItem = true
     const err = false
-    const data = '测试通过！'
+    // const data = '测试通过！'
+    // const data = '测试通过！'
     if (currentItem) {
         //从内存中读取文件
         if (err) {

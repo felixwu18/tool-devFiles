@@ -1,0 +1,80 @@
+
+git使用：1 拉取master分支代码，切换一个自己的分支
+               2 开发完，提交后，=> 切换master分支，拉取最新代码 => 再次切换自己的分支，合并同步master分支
+               3 将自己代码推送对应项目远程仓库自己的新分支(临时分支)
+               4 在远程仓库gitlab，新建Merge Request，合并到master时，删除远程仓库自己的临时分支
+               5 本地切换master分支，再次拉取更新本地master分支代码，
+                  此时为最新代码，可打包 => 切换到自己分支 进入下一个开发循环
+
+前端打包：  1、zip压缩；
+                   2、压缩包名称为工程名称；
+                   3、压缩包打开后，是工程内容，而不是文件夹(dist)。 另外可加 测试环境字样
+
+开发日常处理:  最好，禅道流程管理方式， 不以群组聊天方式，
+                        漏看，打扰日常开发状态 影响开发效率
+
+合并规范
+           合并请求名称：[action][scope]:message
+           eg:  1 [feature-YJKFRJ2020028-1536 > develop][gemp-duty]:灾害信息员统计前端页面提交。
+                  2 [release-v_3.0 > master][edss]:场景动态一张图。
+
+[bug_YJKFRJ2020028-1617 > develop][gemp-watch]:值班总览专项去除一个值班室字段-前端
+
+git:   
+   git pull --rebase origin
+   git push origin
+   git switch
+  
+
+北京npm源： http://devops.gsafety.com/nexus/repository/npm_public/
+武汉npm源： http://172.18.7.25:8081/nexus/repository/npm-public/
+
+凉山项目(北京vpn):  edss-app   euip/euip1234 
+                                                 xiaoliu xiaoliu123@
+
+容错优先数据源头处理，后续交互以此为基础，后续就会少容错
+
+vscode 
+  ctrl + ‘{’ or  '}' 选中代码左右移动 
+  alt + 上下箭头 上下移动
+  ctrl + p 
+  ctrl + \ 拆到侧边
+  ctrl + shift + . 右侧快速定位代码
+  crl + , 快速打开用户配置
+  ctrl + shift 当前打开的目录切换
+  ctrl + alt + 上下箭头 快速复制一行
+  shift + del 删除当前行
+  ctrl + x 删除当前行
+  ctrl + / 注释当前行
+  Ctrl+K+[ 折叠所有子区域
+  Ctrl+K+0 折叠所有区域
+  Ctrl+K+J 展开所有区域
+  ctrl + home 移动到文件头 （单独home => 行首）
+  ctrl + end 移动到文件尾 （单独home => 行尾）
+
+ temp-watch => 值班值守
+
+北京npm源： http://devops.gsafety.com/nexus/repository/npm_public/
+武汉npm源： http://172.18.7.25:8081/nexus/repository/npm-public/
+
+开发
+      单独建以项目为专题的群组，小规模沟通， 项目完结，解除群组 => 缩小沟通范围，信息有效关注
+
+  edss-app  政务网 开发环境
+  clientId：  28524d8c65844630a3427270c9a16323 
+  clientSecret： 84bc17650bb04491aa8475b9cbe3d1c4
+  edss-app  政务网 生产环境
+  clientId：  f843b5263b79486da974c7d27426c663 
+  clientSecret： 77f81d3c57e7421a8e0a22bc665b638d
+
+  edss-app 视频会商  开发环境
+  appKey   b0349d82d0ac4ac89521387084b1c7ac
+  edss-app 视频会商  生产环境
+  appKey   ddc1ad3f0280488b876c8706710404c9
+
+
+ id  测试  23a5bf84-3520-47e0-b0c2-cf3e8b51f645
+      生产  9b69042d-dc1b-4c53-8aa7-fa7d3d20fc62
+ FirePointSatelliteMonitorPopup 处理位置
+
+
