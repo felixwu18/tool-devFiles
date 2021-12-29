@@ -1,0 +1,76 @@
+文件EventAndTopics => getTopicOptions获得页面左侧导航栏数据
+进入处置 => theme-module-normalLeft-eventInfo => .getEventInfo({  => 获取 未结束 已结束事件列表
+接入处置点击后 => normalLeft/eventInfo.vue => console.debug('>>>>>>>>地图加载事件信息!!') 定位 访问了 closePopup
+
+gisModule/popUp/eventInfo 处置组件
+
+Xjfutb2K1T,X
+﻿arrFromConfigNew 左侧导航栏数据
+
+StudyToolHalf 左侧导航栏组件
+FuncToolHalf 右侧导航组件
+
+ feature -> disasterModule ->  disasterTeams 灾害信息员卡片详情
+DisasternformationOfficerServer 获取灾害信息详情接口
+getCitySelected 
+
+
+document.getElementsByClassName('allTeamsEventsHomeMain')[0].style="display: none"
+
+data.researchPanel.some((ele: any) => ele.name === '灾害信息员')
+
+[bugFix-YJKFRJ2020028-1590 > develop][edss]:灾害信息员数据获取参数调整及项目部分报错容错处理-前端
+ProgressSituation.feature-detail => 视频 音频 图片 文字 参考
+
+gemp-extend/api/gemp/knowledge/case/list/v1 参照配置请求
+MemberUnitsNotResponded 已有全员响应 分了 应急预案 planType 1 工作方案 planType 2
+
+打包：
+  css fonts img js dingding.html index.html
+
+=========================== 整体思路 ====================================
+页面访问方式： 项目启动直接访问，无需通过nginx代理访问
+
+1 读数据
+    (1) http 远程获取
+    (2) 本地获取  
+              侧边栏内容:    状态                        数据路径
+                                  初始化              左导航栏 本地 pulic -> json -> eventConfig -> common.json
+                                  点击进入处置    左导航栏 本地 pulic -> json -> normalConfig -> all.json
+
+2 写数据
+
+
+
+3 传递数据
+
+
+=========================== 项目结构 ====================================
+public 静态资源 如： 图片 json数据 库文件
+tests 单例测试
+src 
+   gis 地图文件
+
+
+
+
+
+=========================== 页面功能 ====================================
+页面左上：全部事件  事件列表
+                 搜索定位功能
+
+页面右上：工具类 => 高清图 标绘 工具箱(测量 地图打印 清屏 一键截图)  视频监控 在线终端(在线单兵， 头戴头盔，在线轨迹球)  灾害信息员-以行政区划
+                 当前定位城市显示(城市列表) 视频会商
+
+左侧导航栏：  
+                场景动态 数字预案 综合研判 力量调度 物资保障 辅助分析
+
+右侧导航栏： 
+                 物联感知 风险隐患 应急物资 防护目标 气象监测
+
+页面右下：图层(河网水系 人口热力 交通状况 失联人口)
+                 搜索定位功能
+
+
+
+

@@ -1,0 +1,186 @@
+10-29
+         个人铭牌
+getListWithWarningInfo
+11-1  jira填写 ok 论文发送ok 体检发送ok
+11-7  jira填写 ok  开发手册（新人流程-安装 包括新人进的环境搭建 前后端共性的安装 如软件包-前后端，jira vpn 项目派发 开始 工作记录 结束，
+                                              群组添加 群组功能, 人员情况，每周会议情况，公司技术情况（包括每次分享的技术资料获得渠道）， 目前git使用流程及规范，git使用方式-命令行-工具，项目情况-前后端
+                                              开发流程-使用  需求 => 实现 包括 产品出原型，ui图，评审会，及中间的配合情况-找人员-可能出现的问题及问题解方案-无法解决问题的反映渠道）
+11-8  1, 专项值班功能确认 
+         2, 灾害信息员 bug反馈修改
+         测试环境  CHONG_XQ xxq123.. (http://221.237.108.15:8090/auth/jsp/optimus/public/index.jsp)
+         元素上宽度不能转化为rem，需要处理到样式表中的class设置样式
+11-10
+   弹框返回（取消）-   保存（确定） 位置前后ui不统一
+   返回确认提示框需优化
+11-11
+   总览字体 微软雅黑
+11-15
+    3da77f3bd838a03a5d92
+11-16
+   短信内容 勾选同步右侧 轮播样式问题
+   gemp-maillist
+   过滤关键词下拉框交互优化
+   前端为什么要做过滤 以来后端 通过关键字段过滤 后端如果多个需求 字段可能变化 前端也要跟着变化
+   展开父节点
+   personPhone
+11-22
+   欣桐 周三给ui图
+11-23
+   特殊效果是根据状态来，还是纯粹的动画hover效果
+    --------------------------------------------
+   // 明飞给的事件信息借口
+   //事件信息(组卷)  gemp-event
+   /api/gemp/event/eventbase/queryInfoFlow/v1
+   http://172.18.8.52:8868/gemp-event/swagger-ui.html     swagger搜索  事件基础操作类
+   {"eventId":"ff8080817d4c05b4017d4c0d10100000"}
+
+   //简报下载    gemp-duty
+   /api/gemp/duty/brief/downLoadBriefReport/v1     
+   http://172.18.8.52:8868/gemp-event/swagger-ui.html   swagger搜索  简报请求控制类
+   {"briefId":"ff8080817d3d23c8017d4a5717f126db"}  briefId为 type类型是 信息简报 中返回的id
+    --------------------------------------------
+11-24
+    --------------------------------------------
+// 雯雯给的事件信息借口
+POST/api/gemp/event/eventGroupPaper/queryAttachmentList/find/v1力量调度：信息回传
+POST/api/gemp/event/eventGroupPaper/queryCallList/find/v1物资装备：物资调拨联系
+POST/api/gemp/event/eventGroupPaper/queryGroupListByEvent/find/v1力量调度：响应情况
+POST/api/gemp/event/eventGroupPaper/queryTeamProgress/find/v1力量调度：进展情况
+POST/api/gemp/event/eventGroupPaper/sencePowerAnalyze/find/v1力量调度：力量分析
+    --------------------------------------------
+11-25
+  群发信息主副字段添加
+  表格hover 条纹 加loading 
+11-26
+  力量调度 - 进度情况 记得删除 this.activities = [...this.activities, ...this.activities, ...this.activities];
+  力量调度 - 进度情况 删除 ff8080817bb9fcdb017bba042a090002
+11-29 
+   时间节点 12-25 2-28
+   8.30 - 晚上没有点
+   unity 3D => 游戏 c#
+   通过以下伪元素实现更精细的audio video控制区域样式设置
+   audio::-webkit-media-controls-panel
+   audio::-webkit-media-controls-enclosure
+   audio::-webkit-media-controls-mute-button
+   audio::-webkit-media-controls-play-button
+   audio::-webkit-media-controls-timeline-container
+   audio::-webkit-media-controls-current-time-display
+   audio::-webkit-media-controls-time-remaining-display
+   audio::-webkit-media-controls-timeline
+   //audio::-webkit-media-controls-volume-slider-container
+   //audio::-webkit-media-controls-volume-slider
+   audio::-webkit-media-controls-seek-back-button
+   audio::-webkit-media-controls-seek-forward-button
+   audio::-webkit-media-controls-fullscreen-button
+   audio::-webkit-media-controls-rewind-button
+   audio::-webkit-media-controls-return-to-realtime-button
+   audio::-webkit-media-controls-toggle-closed-captions-button
+
+&::-webkit-media-controls-panel {
+                  background: transparent;
+                  position: relative;
+                }
+                &::-webkit-media-controls-enclosure {
+                  background: transparent;
+                }
+                &::-webkit-media-controls-play-button {
+                  background-size: 100%;
+                  position: absolute;
+                  left: 43%;
+                  transform: translatex(-50%);
+                  transform: scale(1.5);
+                }
+                &::-webkit-media-controls-current-time-display {
+                  color: white;
+                  display: none;
+                }
+                &::-webkit-media-controls-time-remaining-display{
+                  color: white;
+                  display: none;
+                }
+                &::-webkit-media-controls-timeline {
+                  display: none;
+                }
+
+controlsList="nodownload nofullscreen noremoteplayback" 去掉下载等
+
+                          <svg height="0" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                  <filter id='change'>
+                                    <feColorMatrix type="matrix" values="
+                                    0 0 0 0 0.55
+                                    0 0 0 0 0.23
+                                    0 0 0 0 0
+                                    0 0 0 0 1
+                                    "
+                                    />
+                                  </filter>
+                                </defs>
+                          </svg>
+
+   
+  统一交互
+    1 表格 单元 居中 
+11-30
+  平涂添加色值
+    字体渐变
+    background-image: -webkit-linear-gradient(top, #FFFD73, #13EAF7, #13EAF7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+     背景设置
+      background: url("@{imgUrl}/pie-decoration.png") no-repeat center / 42% 50%;
+      background-position-x: 49%;
+      background-position-y: 24%;
+      background-position: center center;
+
+12-3
+informationHandling 信息处理弹框
+
+12-7 
+ /api/gemp/duty/info/baseinfo/getReportList  获取cbflag 控制上报呈报
+12-9
+  map.json   publishobject.json
+
+  edss-app  政务网 开发环境
+  clientId：  28524d8c65844630a3427270c9a16323 
+  clientSecret： 84bc17650bb04491aa8475b9cbe3d1c4
+  edss-app  政务网 生产环境
+  clientId：  f843b5263b79486da974c7d27426c663 
+  clientSecret： 77f81d3c57e7421a8e0a22bc665b638d
+
+12-12
+标会如何触发， 弹框移动，
+12-13
+  后端 刘江松 作战部署--12-15演示
+12-18
+ 任务评估 反馈工作量
+
+12-20
+clickClass: "icon-circle-plus"
+iconClass: "preIcon startIcon"
+inputKey: ""
+isClickOptions: false
+placeholder: "请输入起点或在地图上选点"
+
+clickClass: ""
+iconClass: "preIcon endIcon"
+inputKey: ""
+isClickOptions: false
+placeholder: "请输入终点或在地图上选点"
+
+
+//checked: (…)
+//componetName: (…)
+//icon: (…)
+//key: (…)
+alias: "舆情分析"
+checked: false
+componentParam: Object
+   types: Array(1)
+   0: "10600"
+componetName: "PopularAnalysis"
+icon: "yjzz"
+key: "PopularAnalysis"
+name: "舆情分析"
+
+  
