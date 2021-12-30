@@ -1,0 +1,59 @@
+<div class="flex-full">
+  <div class="replacementEdit">
+    <div :class="temp.style.matter_content_form">
+      <el-form label-position="right" :model="listparams" :rules="rules" ref="listparams" label-width="120px" class="demo-listparams">
+        <el-row>
+          <el-col :span="12">
+            <el-row>
+              <el-form-item label="申请人:" prop="applicantId">
+                <el-select v-model.trim="listparams.applicantId" @change="select(listparams.applicantId,'applicantName')">
+                  <el-option :value="item.userId" v-for="(item,index) in scaleList" :label="item.userName" :key="index" >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-row>
+          </el-col>
+          <el-col :span="12">
+            <el-row>
+              <el-form-item label="替班人:" prop="peopleid">
+                <el-select v-model.trim="listparams.peopleid" @change="select(listparams.peopleid,'peopleName')">
+                  <el-option :value="item.userId" v-for="(item,index) in scaleList" :label="item.userName" :key="index">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-row>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-row>
+              <el-form-item label="替班时间:" required prop="swapInsteadTime">
+                <el-date-picker type="date" v-model.trim="listparams.swapInsteadTime"></el-date-picker>
+              </el-form-item>
+            </el-row>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="替班类型:" required prop="exchangeType">
+              <el-select v-model="listparams.exchangeType">
+                <el-option :value="item.id" v-for="item in replacementType" :label="item.label" :key="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-form-item label="替班原因:" prop="exchangeReason">
+          <el-input v-model="listparams.exchangeReason" rows="2" type="textarea" maxlength='300' show-word-limit></el-input>
+          <!-- <el-autocomplete :maxlength="50" v-model.trim="listparams.information" :fetch-suggestions="searchAddress" :trigger-on-focus="false"
+                                @select="">
+                            </el-autocomplete> -->
+        </el-form-item>
+        <el-form-item label="备注:" prop="remarksInformation">
+          <el-input resize="none" rows="6" type="textarea" maxlength='500' show-word-limit v-model.trim="listparams.remarksInformation"></el-input>
+        </el-form-item>
+        <el-button type="primary" @click="addReportInfo" style="position: relative;left: 49%;">
+          <i class="el-icon-check"></i> 保存</el-button>
+      </el-form>
+    </div>
+  </div>
+</div>

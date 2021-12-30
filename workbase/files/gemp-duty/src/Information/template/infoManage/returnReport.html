@@ -1,0 +1,12 @@
+
+    <div class="examineInfoList">
+        <el-form :class="temp.style.infoExam">
+          <el-form-item label="退回原因">
+            <el-input type="textarea" v-model="returnData.sendBackReason" :rows="4" :maxlength="500" show-word-limit></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" icon="el-icon-switch-button" plain @click="cancleFun">取消</el-button>
+          <el-button type="primary" icon="el-icon-close" @click="saveFun">退回</el-button>
+        </div>
+    </div>

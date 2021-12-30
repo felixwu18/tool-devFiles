@@ -1,0 +1,8 @@
+<div class="flex-full dialog__wrapper_margin_left">
+    <!-- 发送短信弹窗 -->
+    <iams-form v-model="formdata" :gisshow="true" :disabled="false" ref="simpleTable"></iams-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" icon="el-icon-s-promotion" plain @click="sendMessage">发送</el-button>
+        <!-- <el-button type="primary" icon="el-icon-switch-button" plain @click="cancelOpen">关闭</el-button> -->
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div :class="temp.style.new_text_add">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" :content="titleData"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-check" @click="addReportInfo">保存</el-button>
+            <el-button size="small" type="primary" icon="el-icon-top-right" @click="addReport">上报
+            </el-button>
+            </el-button>
+            <!-- <el-button size="small" type="primary" class="el-icon-share" @click="shareInformatiom('share-mask','分享')">分享</el-button> -->
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="goback">返回
+            </el-button>
+        </div>
+    </div>
+    <div class="leaveReport">
+        <div :class="temp.style.add_nav">
+            <el-scrollbar style="height:100%">
+                <el-form label-position="right" :model="listparams" :rules="rules" ref="leaveReport" label-width="120px"
+                    class="demo-listparams">
+                    <el-row>
+                        <el-form-item label="编号:" prop="dutyPeopleName">
+                            <el-input v-model.trim="listparams.dutyPeopleName" type="text" maxlength='20'></el-input>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item label="公文标题:" prop="documentTitle">
+                            <el-input v-model.trim="listparams.documentTitle" type="text" maxlength='50'></el-input>
+                        </el-form-item>
+                    </el-row>
+                    <!-- <el-row>
+                        <el-col :span="12">
+                            <el-row>
+                                <el-form-item label="编辑人:" prop="receiveName">
+                                    <el-input type="text" v-model="listparams.receiveName" :disabled="true"></el-input>
+                                </el-form-item>
+                            </el-row>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-row>
+                                <el-form-item label="接收人:" prop="receiveName">
+                                    <el-input type="text" v-model="listparams.receiveName" :disabled="false"></el-input>
+                                </el-form-item>
+                            </el-row>
+                        </el-col>
+                    </el-row> -->
+                    <el-row>
+                        <el-form-item label="内容摘要:" prop="content">
+                            <el-input v-model.trim="listparams.content" rows="2" type="textarea" maxlength='300'
+                                show-word-limit></el-input>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item label="信息附件:" prop="attchmentList">
+                            <iams-upload ref="upload" v-model="listparams.attachmentList" :limit=5></iams-upload>
+                        </el-form-item>
+                    </el-row>
+                </el-form>
+            </el-scrollbar>
+        </div>
+        <el-dialog :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog" :destroy-on-close="true"
+            width="1050px">
+            <component :is="dialogConfig.templateName" ref="childrenDialog" :propdata="dialogConfig.propsData"
+                @dialogcallback="closeDialogCall"></component>
+        </el-dialog>
+    </div>
+</div>

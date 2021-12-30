@@ -1,0 +1,36 @@
+<div class="flex-full">
+  <div class="search_filter">
+    <div class="toolbar_txt">
+      <el-page-header title="" content="领导节假日带班表编辑"></el-page-header>
+    </div>
+    <div class="toolbar_right">
+      <el-button icon="el-icon-check" type="primary" @click.native="submit">保存</el-button>
+      <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="goBack()">返回</el-button>
+    </div>
+  </div>
+  <!-- 列表 -->
+
+
+  <div class="flex-full">
+    <el-scrollbar>
+      <el-table ref="table" :stripe="true" :data="tableData"  >
+        <el-table-column label="日期" prop="dutyDate">
+        </el-table-column>
+        <el-table-column label="星期" prop="dutyWeek">
+           <template slot-scope="scope">
+              <span>{{getWeek(scope.row.dutyDate)}}</span>
+           </template>
+        </el-table-column>
+        <el-table-column label="带班人员" >
+          <template slot-scope="scope">
+            <el-select v-model="scope.row.dutyPeopleId" placeholder="请选择" clearable filterable @change="peopleSelect(scope.row)">
+              <el-option v-for="item,index in options" :key="index" :label="item.userName" :value="item.userId">
+              </el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+      </el-table>
+
+    </el-scrollbar>
+  </div>
+</div>

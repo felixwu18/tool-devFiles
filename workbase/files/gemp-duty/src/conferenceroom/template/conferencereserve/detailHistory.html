@@ -1,0 +1,113 @@
+<div class="flex-full">
+  <div class="search_filter">
+    <div class="left_search">
+      <el-page-header title="" content="预定信息"></el-page-header>
+    </div>
+    <div class="right_search">
+      <el-button type="primary" @click.native="getBack" icon="el-icon-arrow-left" plain>返回</el-button>
+    </div>
+  </div>
+  <!-- <div :class="temp.style.matter_content"> -->
+    <div :class="temp.style.history_report">
+      <el-scrollbar>
+            <el-form label-position="right" :model="ruleForm" ref="ruleForm" label-width="120px" :class="temp.style.form">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="会议室名称:">
+                      <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.roomName"></el-input>
+                  </el-form-item>
+                </el-col>  
+                <el-col :span="12">
+                  <el-form-item label="使用多媒体:">
+                    <el-radio v-model="ruleForm.enablingMultimedia" disabled="disabled" label="1">是</el-radio>
+                    <el-radio v-model="ruleForm.enablingMultimedia" disabled="disabled" label="0">否</el-radio>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="会议日期:">
+                      <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.meetingDate"></el-input>
+                  </el-form-item>
+                </el-col>  
+                <el-col :span="12">
+                  <el-form-item label="会议人数:">
+                    <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.participantNum"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="会议开始时间:">
+                      <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.meetingStartTime"></el-input>
+                  </el-form-item>
+                </el-col>  
+                <el-col :span="12">
+                  <el-form-item label="会议结束时间:">
+                    <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.meetingEndTime"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="使用领导:">
+                      <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.usingLeader"></el-input>
+                  </el-form-item>
+                </el-col>  
+                <el-col :span="12">
+                  <el-form-item label="预订人:">
+                    <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.reserveName"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="预订人处室:">
+                      <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.reserveDept"></el-input>
+                  </el-form-item>
+                </el-col>  
+                <el-col :span="12">
+                  <el-form-item label="预订人电话:">
+                    <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.reservePhone"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="经办人:">
+                      <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.operatorName"></el-input>
+                  </el-form-item>
+                </el-col>  
+                <el-col :span="12">
+                  <el-form-item label="经办人电话:">
+                    <el-input readonly="readonly" :maxlength="50" v-model.trim="ruleForm.operatorPhone"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="会议议题:">
+                    <el-input readonly="readonly" resize="none" rows="6" type="textarea" maxlength='2000' show-word-limit v-model="ruleForm.meetingAgenda"></el-input>
+                  </el-form-item>
+                </el-col>  
+              </el-row>
+
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="备注:">
+                      <el-input readonly="readonly" resize="none" rows="6" type="textarea" maxlength='2000' show-word-limit v-model="ruleForm.remarks"></el-input>
+                  </el-form-item>
+                </el-col>  
+              </el-row>
+
+            </el-form>
+      </el-scrollbar>
+    </div>
+  <!-- </div> -->
+</div>

@@ -1,0 +1,54 @@
+<div class="transferDialog">
+  <el-form :class="temp.style.infoExam" :model="transferData"  label-width="180px" ref="transferDialog" :rules="rules">
+    <el-form-item label="接收单位：" prop="orgCodes">
+      <div>
+        <iams-combobox :list="false" listtype="getOrgTree" :rootcheck="true" :receive="true" :multiple="true" :defaultchecked="transferData.orgCodes"
+        v-model="transferData.orgCodes"></iams-combobox>
+      </div>
+    </el-form-item>
+    <el-form-item label="接收人：" prop="userids">
+      <div>
+        <el-select v-model="transferData.userids" multiple>
+          <el-option v-for="item in reviceUserdata" :label="item.label" :value="item.id" :key="item.id">
+          </el-option>
+        </el-select>
+      </div>
+    </el-form-item>
+    <el-form-item label="紧急程度：" prop="disposePriority">
+      <el-select v-model="transferData.disposePriority" clearable>
+        <el-option v-for="item in disposePriorityData" :label="item.label" :value="item.value" :key="item.value">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="转办事项：">
+      <div>
+        <el-input v-model="transferData.title" :disabled="true"></el-input>
+      </div>
+    </el-form-item>
+    <el-form-item label="转办内容及意见：" prop="opinionContent">
+      <div>
+        <el-input resize="none" rows="6" type="textarea" maxlength='500' show-word-limit v-model="transferData.opinionContent"></el-input>
+      </div>
+    </el-form-item>
+    <el-form-item label="附件：">
+      <!-- <div :class="temp.style.title">信息附件:</div> -->
+      <!-- <div :class="temp.style.img">
+        <div v-if="transferData.attachmentList && transferData.attachmentList.length" :class="temp.style.img_message">
+          <span v-for="item in transferData.attachmentList" :class="temp.style.img_content">
+            <img v-if="/(.*)\.(jpg|bmp|gif|ico|pcx|jpeg|tif|png|raw|tga)$/.test(item.name)" :src="item.url"
+              alt="item.name">
+           <img v-else src="../../../../assets/image/file.png" alt="">
+            <p :class="temp.style.img_name" :title="item.name">{{item.name}}</p>
+          </span>
+        </div> -->
+        <!-- <img-upload :attachmentList="messageData.attachmentList" @attach="getAttachList"></img-upload> -->
+        <!-- <span v-else>暂无附件信息</span> -->
+        <span>暂无附件信息</span>
+      <!-- </div> -->
+      <!-- <img-upload :attachmentList="transferData.attachmentList"></img-upload> -->
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="saveTransfer">确定</el-button>
+  </div>
+</div>

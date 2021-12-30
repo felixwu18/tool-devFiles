@@ -1,0 +1,17 @@
+<div :class="temp.style.details_process" style="margin-top:18px">
+    <div :class="temp.style.details_process_tree">
+        <el-scrollbar style="height:100%">
+            <ul  v-if="stepData && stepData.length > 0" :class="temp.style.process_tree_ul">
+                <li :class="temp.style.process_tree_li" v-for="item in stepData">
+                    <div>
+                        <div :class="temp.style.process_tree_name">{{item.operPersonName}}  <span>{{item.remark}}</span> <em :class="temp.style.arrow"></em></div>
+                        <div :class="temp.style.process_tree_desc" v-text="item.operDescription"></div>
+                        <div :class="temp.style.process_tree_time">{{item.updateTime}}</div>
+                    </div>
+                </li>
+            </ul>
+            <el-table v-else :data="[]"></el-table>
+        </el-scrollbar>
+    </div>
+</div>
+

@@ -1,0 +1,34 @@
+<div :class="temp.style.details_process">
+    <div :class="temp.style.details_process_tree">
+        <el-scrollbar style="height:100%">
+            <ul v-if="list && list.length > 0" :class="temp.style.process_tree_ul">
+                <li :class="temp.style.process_tree_li" v-for="item in list">
+                    <div>
+                        <div :class="temp.style.process_tree_name">{{item.operPersonName}} <span>{{item.remark}}</span>
+                            <!-- 修改为只有在呈报上报时，才有预览信息值班的功能 -->
+                            <i v-show="item.remark.indexOf('呈报上报') > -1" @click="getDutyInfo(item)">
+                                <em class="el-icon-document"></em>
+                            </i> 
+                            <!-- <em :class="temp.style.arrow"></em> -->
+                        </div>
+                        <div v-show="item.operDescription" :class="temp.style.process_tree_desc" v-text="item.operDescription"></div>
+                        <div :class="temp.style.process_tree_time">{{item.updateTime}}</div>
+                    </div>
+                </li>
+            </ul>
+            <el-table v-else :data="[]"></el-table>
+        </el-scrollbar>
+    </div>
+    <el-dialog :visible.sync="viewDialogDuty" :destroy-on-close="true"
+        :class="['viewDialogPreview',temp.style.dutyDialog]">
+        <div :class="temp.style.docInfo">
+            <iframe :src="docUrl" :class="temp.style.iframe" id="docUrl"></iframe>
+            <div style="position: absolute;right: 180px;top: 10px;color: #fff;cursor: pointer;z-index: 1000;" @click="handleFullScreen">全屏</div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+            <!-- <el-button type="primary" icon="el-icon-check" @click="downloadDoc">保存</el-button> -->
+            <!-- <el-button type="primary" icon="el-icon-link" @click="handle">办理</el-button> -->
+            <el-button type="primary" icon="el-icon-switch-button" plain @click="handleCancel">关闭</el-button>
+        </div>
+    </el-dialog>
+</div>

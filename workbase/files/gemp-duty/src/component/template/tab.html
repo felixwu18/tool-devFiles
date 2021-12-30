@@ -1,0 +1,8 @@
+   <el-tabs v-model="activeTab" @tab-click="handleClick">
+        <el-tab-pane v-for="(item,index) in tabdata" :key="index" :label="item.label" :name="item.name">
+            {{item.label}}
+            <div class="tabContentWrap">
+                <component :is="item.component"></component>
+            </div>
+        </el-tab-pane>
+    </el-tabs>

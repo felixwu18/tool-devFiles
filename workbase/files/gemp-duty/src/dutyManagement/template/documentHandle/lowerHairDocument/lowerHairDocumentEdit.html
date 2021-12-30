@@ -1,0 +1,44 @@
+<div :class="temp.style.new_text_add">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" content="新增值班信息"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="$router.history.go(-1)">返回</el-button>
+            <el-button size="small" type="primary" icon="el-icon-check" @click="addReportInfo">保存草稿</el-button>
+            <el-button size="small" type="primary" icon="el-icon-top-right">上报</el-button>
+            <el-button size="small" type="primary" icon="el-icon-bottom-right" @click="">下发</el-button>
+            <!-- <el-button size="small" type="primary" class="el-icon-share">分享</el-button> -->
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <div :class="temp.style.textAdd_left">
+            <div :class="temp.style.first_pane">
+                <el-input v-model='listParams.reportTitle' placeholder="请输入标题" :class="temp.style.input" maxlength="50" show-word-limit></el-input>
+                <el-input type="textarea" :rows="27"  v-model="listParams.reportContent" style="margin-top:2px;" placeholder="请输入内容">
+                </el-input>
+            </div>
+            <div :class="temp.style.textAdd_right" class="text_right">
+                <el-tabs v-model="activeNamex" @tab-click="handleClick" :class="temp.style.right_tab">
+                    <el-tab-pane label="处理过程" name="first">
+                        <div :class="temp.style.details_process_tree">
+                            <el-scrollbar style="height:100%">
+                                <ul v-if="handlelist && handlelist.length > 0" :class="temp.style.process_tree_ul">
+                                    <li :class="temp.style.process_tree_li" v-for="item in handlelist">
+                                        <div :class="temp.style.process_tree_name">{{item.operPersonName + ' ' + item.remark + ':'}}</div>
+                                        <div :class="temp.style.process_tree_desc" v-html="item.operDescription"></div>
+                                        <div :class="temp.style.process_tree_time">{{item.updateTime}}</div>
+                                    </li>
+                                </ul>
+                                <el-table v-else :data="[]"></el-table>
+                            </el-scrollbar>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
+            </div>
+        </div>
+    </div>
+    <el-dialog :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog" :destroy-on-close="true">
+        <component :is="dialogConfig.templateName" ref="childrenDialog" :propdata="propsData" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

@@ -1,0 +1,11 @@
+<div class="preservation">
+    <!-- <el-form :class="temp.style.infoExam" @submit.native.prevent>
+        <el-form-item> -->
+            <el-input type="textarea" :rows="6" placeholder="请输入删除原因" v-model='description' maxlength="200" show-word-limit style="margin-top:2px;"></el-input>
+        <!-- </el-form-item>
+    </el-form> -->
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" icon="el-icon-check" @click="saveFun">确定</el-button>
+        <el-button type="primary" icon="el-icon-switch-button" plain @click="handleCancel">取消</el-button>
+    </div>
+</div>

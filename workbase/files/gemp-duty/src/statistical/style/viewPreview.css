@@ -1,0 +1,8 @@
+.docInfo {
+  border: 1px solid #dcdcdc;
+  height: 30rem;
+}
+.docInfo .iframe {
+  width: 100%;
+  height: 100%;
+}

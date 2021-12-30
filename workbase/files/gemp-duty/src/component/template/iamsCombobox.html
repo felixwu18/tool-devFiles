@@ -1,0 +1,55 @@
+<div class="search_slide_input">
+    <el-input @focus="searchKey = false" :placeholder="placeholder" @input="changeSearchStatus" ref="input" :disabled="disabled"
+        v-model.trim="slideValue" type="text"
+        :suffix-icon="showSlide?'el-icon--right el-icon-arrow-up':'el-icon--right el-icon-arrow-down'"></el-input>
+    <div :class="temp.style.search_slide" v-show="showSlide">
+        <el-tabs :class="temp.style.tabs" v-show="!searchKey">
+            <el-tab-pane label="常用">
+                <el-scrollbar>
+                    <ul :class="temp.style.filter_list">
+                        <li v-if="listData.length === 0" style="text-align: center;">暂无数据</li>
+                        <li :class="index == commonSelectIndex?temp.style.active:''" v-for="item,index in listData"
+                            @click="handleSelect(item,index)">{{item.parentLabel?item.parentLabel:item.label}}</li>
+                    </ul>
+                </el-scrollbar>
+            </el-tab-pane>
+            <el-tab-pane label="全部">
+                <el-scrollbar>
+                    <div>
+                        <el-tree v-if="!islazy" ref="tree"
+                            :default-checked-keys="typeof(defaultchecked) == 'string'?[defaultchecked]:defaultchecked"
+                            :check-strictly="rootcheck" :data="treeData" node-key="id" show-checkbox
+                            :props="getDefaultProps" @check="handleNodeClick">
+                        </el-tree>
+                        <el-tree v-else ref="tree" class="lazy_tree"
+                            :default-checked-keys="typeof(defaultchecked) == 'string'?[defaultchecked]:defaultchecked"
+                            :check-strictly="rootcheck" :data="treeData" node-key="id" :props="getDefaultProps">
+                            <span slot-scope="scope">
+                                <i v-if="!scope.data.leaf" @click.stop="treeLoad(scope.data,scope.node)"
+                                    :class="[!!scope.node.expanded && scope.data.children.length >0 ?'el-icon-caret-bottom':'el-icon-caret-right',temp.style.tree_icon]"></i>
+                                <i v-else style="width:30px;height:30px;display: inline-block;"></i>
+                                <el-checkbox v-if="!scope.data.virtualNode" v-model="scope.data['checked']"
+                                    @change.self="lazyHandleClick(scope.node)">{{scope.node.label}}</el-checkbox>
+                                <span v-else style="font-size:14px">{{scope.node.label}}</span>
+                            </span>
+                        </el-tree>
+                    </div>
+                </el-scrollbar>
+            </el-tab-pane>
+        </el-tabs>
+        <div :class="temp.style.tabs" v-show="searchKey" style="height:294px">
+            <el-scrollbar>
+                <ul :class="temp.style.filter_list">
+                    <div style="text-align:center;height:12px">
+                        <span v-if="searchList.length == 0">
+                            未搜索到数据
+                        </span>
+                    </div>
+                    <li :class="index == commonSelectIndex?temp.style.active:''" v-for="item,index in searchList"
+                        @click="handleSelect(item,index)">{{item.parentLabel?item.parentLabel:item.label}}</li>
+                </ul>
+            </el-scrollbar>
+        </div>
+        <div :class="temp.style.popper__arrow" style="left: 35px;"></div>
+    </div>
+</div>

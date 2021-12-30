@@ -1,0 +1,12 @@
+<div style="height: 300px !important;" class="transferDelete">
+  <el-form>
+    <el-form-item>
+      <div>
+        <el-input type="textarea" v-model="addInfo" :rows="4" placeholder="请输入内容" maxlength="500" show-word-limit></el-input>
+      </div>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button type="primary" icon="el-icon-check" @click="saveFun">保存</el-button>
+  </div>
+</div>

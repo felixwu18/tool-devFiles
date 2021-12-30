@@ -1,0 +1,10 @@
+<div class="law flex-full">
+    <div :class="temp.style.details_law_search">
+        <el-input placeholder="请输入查询关键字" :max="50" type="string" v-model="list.keyWord"  @keyup.enter.native="searchHandle">
+            <el-button slot="append" icon="el-icon-search" type="primary" @click.native="searchHandle"></el-button>
+        </el-input>
+    </div>
+    <div :class="temp.style.bt_list">
+        <list-table :unsortable="true" :propdata="propData"  @tablecallback="tablecallback"></list-table>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+<div class="search_slide_input test">
+    <el-select v-model="selectlistDefault.id" @change="handleNode" :disabled="selectlistDefault.disabled">
+        <el-option v-for="options in selectlistData" :label="options.label" :value="options.id" :key="options.id"></el-option>
+    </el-select>
+</div>

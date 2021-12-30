@@ -1,0 +1,133 @@
+<div class="flex-full govermentdutyTable " style="width: 100%">
+  <!-- <div class="spliterSty">
+    <div class="toolbar_txt">2019年09月值班表</div>
+    <div class="toolbar_right" :class="temp.style.toolbar_right">
+      <el-date-picker type="month" placeholder="请选择月份" value-format="yyyy-MM" v-model="searchlist.date"></el-date-picker>
+      <el-button style="margin-left:8px" type="primary" icon="el-icon-search" @click.native="loadData">搜索</el-button>
+      <el-button type="primary" icon="el-icon-download" @click.native="exporttable">导出</el-button>
+      <el-button type="primary" icon="el-icon-plus" @click.native="submit">保存</el-button>
+      <span :class="temp.style.buttonset" @click="go('/workforceManagement/govermenttable')">
+        <i class="el-icon-picture"></i>
+      </span>
+      <span :class="temp.style.buttonpain">
+        <i class="el-icon-s-operation"></i>
+      </span>
+    </div>
+  </div> -->
+  <!-- 列表 -->
+  <!-- <div class="duty-list flex-ful"> -->
+    <!-- <div class="duty-list-left">
+      <search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+    </div> -->
+    <!-- <div class="duty-list-right flex-ful resetdisabled"> -->
+      <el-scrollbar class="resetdisabled" style="width: 100%">
+        <el-table ref="table" :stripe="true" :data="tabledata" style="width:100%">
+          <el-table-column label="日期">
+            <template slot-scope="scope">
+              <div>
+                <p>{{scope.row.date}}</p>
+                <p>{{scope.row.week}}</p>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="白班">
+            <el-table-column label="带班领导" prop="name">
+              <template slot-scope="scope">
+                <div :class="temp.style.displace">
+                  <!-- 有替换班的情况先把替换班删除才能 变更人员 否则禁用 -->
+                  <el-select v-show="scope.row.dateFlag=='1'" v-model="scope.row.dutyList[0].personId" placeholder="请选择" clearable filterable :disabled="(scope.row.dutyList[0].personStatus&&scope.row.dutyList[0].personStatus!='2')"
+                    @change="selectpeople(scope.row.dutyList[0],day1)">
+                    <el-option v-for="item,index in day1" :key="index" :label='item.peopleName' :value="item.peopleId">
+                    </el-option>
+                  </el-select>
+                  <el-input disabled v-show="scope.row.dateFlag=='0'" v-model="scope.row.dutyList[0].personName"></el-input>
+                  <!-- 有替换班 删除按钮 -->
+                  <!-- <el-tag closable @click="displaceDetail(scope.row.dutyList[0])" @close="displaceColese(scope.row.dutyList[0])" v-if="scope.row.dutyList[0].personStatus&&scope.row.dutyList[0].personStatus!=2"
+                  :class="temp.style.tag">{{scope.row.dutyList[0].personStatus=='1'?'替':'换'}}</el-tag> -->
+                  <el-tag @click="displaceDetail(scope.row.dutyList[0])" @close="displaceColese(scope.row.dutyList[0])" v-if="scope.row.dutyList[0].personStatus&&scope.row.dutyList[0].personStatus!=2"
+                    :class="temp.style.tag">{{scope.row.dutyList[0].personStatus=='1'?'替':'换'}}</el-tag>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="主班" prop="zhiwu">
+              <template slot-scope="scope">
+                <div :class="temp.style.displace">
+                  <el-select v-show="scope.row.dateFlag=='1'" v-model="scope.row.dutyList[1].personId" placeholder="请选择" clearable filterable :disabled="(scope.row.dutyList[1].personStatus&&scope.row.dutyList[1].personStatus!='2')"
+                    @change="selectpeople(scope.row.dutyList[1],day2)">
+                    <el-option v-for="item,index in day2" :key="index" :label='item.peopleName' :value="item.peopleId">
+                    </el-option>
+                  </el-select>
+                  <el-input disabled v-show="scope.row.dateFlag=='0'" v-model="scope.row.dutyList[1].personName"></el-input>
+                  <el-tag @click="displaceDetail(scope.row.dutyList[1])" @close="displaceColese(scope.row.dutyList[1])" v-if="scope.row.dutyList[1].personStatus&&scope.row.dutyList[1].personStatus!=2"
+                    :class="temp.style.tag">{{scope.row.dutyList[1].personStatus=='1'?'替':'换'}}</el-tag>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="副班" prop="tel">
+              <template slot-scope="scope">
+                <div :class="temp.style.displace">
+                  <el-select v-show="scope.row.dateFlag=='1'" v-model="scope.row.dutyList[2].personId" placeholder="请选择" clearable filterable :disabled="(scope.row.dutyList[2].personStatus&&scope.row.dutyList[2].personStatus!='2')"
+                    @change="selectpeople(scope.row.dutyList[2],day3)">
+                    <el-option v-for="item,index in day3" :key="index" :label='item.peopleName' :value="item.peopleId">
+                    </el-option>
+                  </el-select>
+                  <el-input disabled v-show="scope.row.dateFlag=='0'" v-model="scope.row.dutyList[2].personName"></el-input>
+                  <el-tag @click="displaceDetail(scope.row.dutyList[2])" @close="displaceColese(scope.row.dutyList[2])" v-if="scope.row.dutyList[2].personStatus&&scope.row.dutyList[2].personStatus!=2"
+                    :class="temp.style.tag">{{scope.row.dutyList[2].personStatus=='1'?'替':'换'}}</el-tag>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table-column>
+          <el-table-column label="夜班">
+            <el-table-column label="带班领导" prop="name">
+              <template slot-scope="scope">
+                <div :class="temp.style.displace">
+                  <el-select v-show="scope.row.dateFlag=='1'" v-model="scope.row.dutyList[3].personId" placeholder="请选择" clearable filterable :disabled="(scope.row.dutyList[3].personStatus&&scope.row.dutyList[3].personStatus!='2')"
+                    @change="selectpeople(scope.row.dutyList[3],night1)">
+                    <el-option v-for="item,index in night1" :key="index" :label='item.peopleName' :value="item.peopleId">
+                    </el-option>
+                  </el-select>
+                  <el-input disabled v-show="scope.row.dateFlag=='0'" v-model="scope.row.dutyList[3].personName"></el-input>
+                  <el-tag @click="displaceDetail(scope.row.dutyList[3])" @close="displaceColese(scope.row.dutyList[3])" v-if="scope.row.dutyList[3].personStatus&&scope.row.dutyList[3].personStatus!=2"
+                    :class="temp.style.tag">{{scope.row.dutyList[3].personStatus=='1'?'替':'换'}}</el-tag>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="主班" prop="zhiwu">
+              <template slot-scope="scope">
+                <div :class="temp.style.displace">
+                  <el-select v-show="scope.row.dateFlag=='1'" v-model="scope.row.dutyList[4].personId" placeholder="请选择" clearable filterable :disabled="(scope.row.dutyList[4].personStatus&&scope.row.dutyList[4].personStatus!='2')"
+                    @change="selectpeople(scope.row.dutyList[4],night2)">
+                    <el-option v-for="item,index in night2" :key="index" :label='item.peopleName' :value="item.peopleId">
+                    </el-option>
+                  </el-select>
+                  <el-input disabled v-show="scope.row.dateFlag=='0'" v-model="scope.row.dutyList[4].personName"></el-input>
+                  <el-tag @click="displaceDetail(scope.row.dutyList[4])" @close="displaceColese(scope.row.dutyList[4])" v-if="scope.row.dutyList[4].personStatus&&scope.row.dutyList[4].personStatus!=2"
+                    :class="temp.style.tag">{{scope.row.dutyList[4].personStatus=='1'?'替':'换'}}</el-tag>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="副班" prop="tel">
+              <template slot-scope="scope">
+                <div :class="temp.style.displace">
+                  <el-select v-show="scope.row.dateFlag=='1'" v-model="scope.row.dutyList[5].personId" placeholder="请选择" clearable filterable :disabled="(scope.row.dutyList[5].personStatus&&scope.row.dutyList[5].personStatus!='2')"
+                    @change="selectpeople(scope.row.dutyList[5],night3)">
+                    <el-option v-for="item,index in night3" :key="index" :label='item.peopleName' :value="item.peopleId">
+                    </el-option>
+                  </el-select>
+                  <el-input disabled v-show="scope.row.dateFlag=='0'" v-model="scope.row.dutyList[5].personName"></el-input>
+                  <el-tag @click="displaceDetail(scope.row.dutyList[5])" @close="displaceColese(scope.row.dutyList[5])" v-if="scope.row.dutyList[5].personStatus&&scope.row.dutyList[5].personStatus!=2"
+                    :class="temp.style.tag">{{scope.row.dutyList[5].personStatus=='1'?'替':'换'}}</el-tag>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table-column>
+        </el-table>
+      </el-scrollbar>
+    <!-- </div> -->
+    <!-- 替换班情况弹框 -->
+    <el-dialog :title="dialogOption.titleName" :visible.sync="dialogOption.flag">
+      <goverment-detail v-model="dialogOption.formdata" :dutytype="dialogOption.type"></goverment-detail>
+    </el-dialog>
+  <!-- </div> -->
+</div>

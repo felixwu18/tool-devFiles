@@ -1,0 +1,11 @@
+  <div >
+    <div :class="temp.style.docInfo">
+        <iframe :src="docUrl" :class="temp.style.iframe" id="docUrl" style="z-index: 100;"></iframe>
+        <div style="position: absolute;right: 180px;top: 10px;color: #fff;cursor: pointer;z-index: 1000;" @click="handleFullScreen">全屏</div>
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <!-- <el-button type="primary" icon="el-icon-check" @click="downloadDoc">保存</el-button> -->
+      <!-- <el-button type="primary" icon="el-icon-link" @click="handle">办理</el-button> -->
+      <el-button type="primary" icon="el-icon-switch-button" plain @click="handleCancel">取消</el-button>
+    </div>
+  </div>  

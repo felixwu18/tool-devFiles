@@ -1,0 +1,12 @@
+<div class="leadDialog">
+  <el-form >
+    <el-form-item>
+      <div>
+        <el-input type="textarea" v-model="instructInfo" :rows="4" placeholder="输入批示信息"></el-input>
+      </div>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="saveFun">确定</el-button>
+  </div>
+</div>

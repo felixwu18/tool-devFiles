@@ -1,0 +1,13 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="查看收件箱"></el-page-header>
+        </div>
+        <div class="right_search">
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="$router.history.go(-1)">返回</el-button>
+        </div>
+    </div>
+    <div class="list-contain flex-full">
+      <iams-form v-model="formdata" ref="simpleTable" :disabled="true"></iams-form>
+    </div>
+</div>

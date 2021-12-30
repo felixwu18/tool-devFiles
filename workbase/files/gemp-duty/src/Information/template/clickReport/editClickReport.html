@@ -1,0 +1,43 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="一键上报编辑"></el-page-header>
+        </div>
+        <div class="right_search">
+            <el-button type="success" @click.native="addReport" icon="el-icon-check">一键上报</el-button>
+        </div>
+    </div>
+    <div :class="temp.style.add_report">
+            <el-scrollbar>
+                    <el-form ref="reportform" :model="reportParams" label-width="120px" :rules="rules" :class="temp.style.form">
+                        <el-form-item label="事件标题:" prop="eventName">
+                            <el-input v-model="reportParams.eventName" type="text"></el-input>
+                        </el-form-item>
+                        <el-form-item label="上报日期:" prop="eventTime">
+                            <el-date-picker v-model="reportParams.eventTime" type="date" placeholder="选择日期" clearable
+                                :picker-options="pickerOptions" value-format="yyyy-MM-dd">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="内容:" prop="eventCentent">
+                            <!--   maxlength="200" show-word-limit -->
+                            <el-input v-model="reportParams.eventCentent" type="textarea" :rows="6" placeholder="请输入上报内容">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="模板下载:">
+                            <a class="fz16" style="" id="uploadexample" :class="temp.style.importname" href=""
+                                download="" @click="downloadFiles" title="模板下载">点击下载模板</a>
+                        </el-form-item>
+                        <el-form-item label="文件导入:" prop="attachmentList">
+                            <iams-upload ref="upload" v-model="reportParams.attachmentList" :limit=5></iams-upload>
+                        </el-form-item>
+                        <el-form-item label="操作说明:">
+                            <ul>
+                                <li>1. 填写标题</li>
+                                <li>2. 将上传文件上传到系统</li>
+                                <li>3. 然后点击一键上报</li>
+                            </ul>
+                        </el-form-item>
+                    </el-form>
+                </el-scrollbar>
+    </div>
+</div>

@@ -1,0 +1,171 @@
+
+.el-button+.el-button {
+    margin-left: 0.3125rem !important;
+}
+
+.el-message-box__message{
+    font-size:1rem;
+}
+.el-message__content{
+    font-size:1rem;
+}
+.el-table__row .el-button {
+    border: none !important;
+    background: transparent !important;
+}
+
+.el-message-box__btns .confirmButtonClass.el-button {
+    padding: 0 1.35rem !important;
+    font-size: 14px !important;
+    height: 1.85rem !important;
+    line-height: 1.85rem !important;
+}
+
+.el-table__row .el-button.el-button--success {
+    color: #88C274;
+}
+
+.el-table__row .el-button.el-button--warning {
+    color: #FF5555;
+}
+
+.el-table__row .el-button.el-button--primary {
+    color: #4A7DFF;
+}
+
+.el-table__row .el-button.el-button--danger {
+    color: #FF5555;
+}
+
+.el-tabs__nav-scroll .el-tabs__item.is-active {
+    color: #4A7DFF;
+}
+
+.el-tabs__nav-scroll .el-tabs__item:hover {
+    color: #4A7DFF;
+}
+
+.el-tabs__nav-scroll .el-tabs__active-bar {
+    background-color: #4A7DFF;
+}
+
+.search_showSearch.el-button {
+    color: #4A7DFF !important;
+    border-color: #4A7DFF !important;
+    background-color: #fff !important;
+}
+.search_showSearch.el-button:focus, .search_showSearch.el-button:hover {
+    color: #4A7DFF !important;
+    border-color: #4A7DFF !important;
+    background-color: #fff !important;
+}
+
+.right_search .el-input__inner{
+    height: 2.14rem ;
+    line-height: 2.14rem ;
+    /* font-size: 0.9rem; */
+}
+.el-textarea .el-input__count {
+    right: 0.1rem !important;
+    background: transparent !important;
+}
+
+.transferDelete .el-textarea .el-input__count {
+    bottom: -1.6rem !important;
+    right: 0.1rem !important;
+}
+
+.details-leader-title .el-table th {
+    padding: 0 !important;
+}
+
+.el-table .el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+    top: 8px;
+}
+
+.el-table .el-checkbox__inner::after {
+    left: 8px;
+    top : 4px;
+}
+.confirmButtonClass.el-button {
+  
+    padding: 0 0.65rem !important;
+    font-size: 1rem !important;
+    height: 2.25rem !important;
+    line-height: 2.25rem !important;
+}
+
+.confirmButtonClass.el-button {
+    padding: 0 0.35rem !important;
+    font-size: 14px !important;
+    height: 1.25rem !important;
+    line-height: 1.25rem !important;
+}
+.el-input__icon .el-range__close-icon{
+    height:2rem;
+}
+.cancelButtonClass .el-button {
+    padding: 0 0.35rem !important;
+    font-size: 14px !important;
+    height: 1.25rem !important;
+    line-height: 1.25rem !important;
+
+}
+
+/* 事故调查模块按钮样式 */
+.accidentButton .el-button--mini,
+.el-button--small:last-of-type {
+    margin-right: 10px;
+}
+
+/* 修改期号弹框的input样式 */
+.modiftyIssue .el-input__inner {
+    border: none !important;
+    border-bottom: 1px solid #808080 !important;
+    border-radius: 0 !important;
+    text-align: center !important;
+    font-size: 1.5rem !important;
+    color: #F56C6C !important;
+}
+
+.el-table__row .el-button:nth-of-type(1) {
+    padding: 0 0.65rem 0 0 !important;
+}
+
+.el-button-group .el-button+.el-button {
+    margin-left: 0 !important;
+}
+
+.search_slide_input .el-input__icon.el-icon--right.el-icon-search {
+    width: 33px;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.search_slide_input .el-tree-node__content {
+    height: 2rem;
+}
+
+.search_slide_input .el-tree-node__expand-icon {
+    font-size: 18px;
+}
+
+.search_slide_input .el-tree-node__label {
+    font-size: 16px;
+    padding-right: 8px;
+}
+
+.duty_record_add .el-date-editor{
+    width:100%;
+}
+.transferDialog .el-menu.el-menu--horizontal{
+    border-bottom: none
+}
+
+
+.el-btn{
+    color: #49445f;
+}
+.activeScopeBtn {
+  color: #66b1ff;
+}

@@ -1,0 +1,79 @@
+<div class="flex-full">
+  <div class="search_filter">
+    <div class="left_search">
+      <el-button-group>
+        <el-button type="primary">分组人员设置</el-button>
+        <el-button @click="go('/workforceManagement/restTime')">节假日</el-button>
+          <el-button  @click="go('/workforceManagement/majorTime')">重要时段</el-button>
+      </el-button-group>
+    </div>
+  </div>
+
+  <div class="duty-list flex-ful">
+    <!-- 机构树 -->
+    <div class="duty-list-left">
+        <search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+    </div>
+
+    <!-- 值班表 -->
+    <div class="duty-list-right" style="padding-bottom: 60px;padding-top: 0.5rem">
+     
+      <div :class="temp.style.onduty">
+      <span>值班表类型：</span>
+      <div style="width:200px;margin-left:5px;">
+      <el-select v-model="select" @change="changeDuty">
+        <el-option value="2" label="政务值班表"></el-option>
+        <el-option value="0" label="领导节假日带班表"></el-option>
+        <el-option value="1" label="领导重要时段带班表"></el-option>
+      </el-select>
+      </div>
+      </div>
+      <el-scrollbar>
+      <el-table ref="table" :stripe="true" :data="tableData">
+        <el-table-column label="分组排序" type="index" width="150">
+        </el-table-column>
+        <el-table-column label="分组类型" prop="groupTypeName" width="200">
+        </el-table-column>
+        <el-table-column label="人员名单" >
+          <template slot-scope="scope">
+              <div>
+                <el-tag size="small"  v-for="(item,index) in scope.row.groupPerson" :key="index" v-show="item" closable @close="deletstaff(scope.row,item.userId)" :class="temp.style.tag">{{item.userName}}</el-tag>
+              </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="添加人员" prop="date" width="200">
+          <template slot-scope="scope">
+            <el-button size="small" type="primary" @click="selectStaff(scope.row,scope.$index)">添加人员</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-scrollbar>
+    </div>
+  </div>
+<!-- 人员列表弹框 -->
+  <el-dialog title="选择人员" :visible.sync="viewlog" destroy-on-close  >
+    <div slot="footer" :class="temp.style.dialogfooter">
+      <div class="search_filter">
+        <div>
+          <el-input v-model="searchlist.userName" placeholder="可按人员名称筛选" @keyup.enter.native="getStaff">
+            <el-button slot="append" icon="el-icon-search" @click.native="getStaff"></el-button>
+          </el-input>
+        </div>
+        <div>
+          <el-button type="primary" icon="el-icon-check" @click="submit">保存</el-button>
+        </div>
+      </div>
+
+      <el-table ref="stafftable" :stripe="true" :data="staff" @selection-change="handleSelectionChange" height="300">
+        <el-table-column  type="selection" width="80" :selectable="selectable">
+        </el-table-column>
+        <el-table-column label="姓名" prop="userName">
+        </el-table-column>
+        <!-- <el-table-column label="员工编号" prop="userId">
+        </el-table-column> -->
+        <el-table-column label="职务" prop="userPosition">
+        </el-table-column>
+      </el-table>
+    </div>
+  </el-dialog>
+</div>

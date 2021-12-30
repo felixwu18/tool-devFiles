@@ -1,0 +1,13 @@
+.details_leader {
+  margin: 0 10px 1.25rem;
+  border: 1px dashed #ff7a7a;
+  box-shadow: -3px 2px 1px 2px #f5dddd;
+}
+.details_leader .content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hide {
+  display: none;
+}

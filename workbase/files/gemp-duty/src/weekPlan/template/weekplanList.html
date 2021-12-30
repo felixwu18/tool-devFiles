@@ -1,0 +1,182 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="周工作安排"></el-page-header>
+        </div>
+        <div class="right_search">
+            <div class="search_form">
+                <el-form :inline="true">
+                    <el-form-item label="时间:">
+                        <el-date-picker v-model="search_time" type="daterange" range-separator="至"
+                            start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="领导:">
+                        <el-select v-model="searchData.userId" placeholder="请选择领导">
+                            <el-option v-for="leaders,index in leaderList" :key="index" :label="leaders.name"
+                                :value="leaders.userId"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="关键字:">
+                        <el-input placeholder="内容关键字" v-model.trim="searchData.keyWord"
+                            :class="temp.style.search_input"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button icon="el-icon-search" type="primary" @click.native="search">
+                            查询
+                        </el-button>
+                        <el-button icon="el-icon-refresh" type="primary" @click.native="clearSearch">重置</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+    </div>
+    <div class="duty-list flex-ful">
+        <!-- <div class="duty-list-left">
+            <search-tree :lazyload="true" listtype="getOrgCurrentTree" @change="getOrg" ref="searchtree" :defaultchecked="defaultchecked" @treecallback="treecallback"></search-tree>
+        </div> -->
+        <div :class="temp.style.right_panel" style="width: 100%;">
+            <el-scrollbar>
+                <div :class="temp.style.right_panel_contain">
+                    <div v-for="plans in tableData" :class="temp.style.right_panel_item">
+                        <div :class="temp.style.days_title">
+                            <span :class="temp.style.days_title_date"><i class="el-icon-time"></i>
+                                {{plans.workTime}}</span>
+                            <el-select :class="temp.style.org_user" v-model="plans.gooutFlag"
+                                @change="weekPlanSaveSelect(plans)">
+                                <el-option v-for="egressops in egressop" :value="egressops.value"
+                                    :label="egressops.label"></el-option>
+                            </el-select>
+                        </div>
+                        <div :class="temp.style.days_center">
+                            <div :class="temp.style.days_content">
+                                <el-scrollbar>
+                                    <div :class="temp.style.days_content_item"
+                                        v-for="(contents, types) in plans.contentListMap" v-if="contents.length > 0">
+                                        <span v-for="items in contents">
+                                            <img v-if="items.period == 1" src="../../../assets/image/morning.png"
+                                                alt="">
+                                            <img v-if="items.period == 2" src="../../../assets/image/afternoon.png"
+                                                alt="">
+                                            <img v-if="items.period == 3" src="../../../assets/image/moonnight.png"
+                                                alt="">
+                                            <img v-if="items.period == 4" src="../../../assets/image/allday.png" alt="">
+                                            <!-- <el-tooltip class="item" effect="light" :content="items.arrangeWork" placement="top"> -->
+                                            <em :title="items.arrangeWork">{{items.arrangeWork}}</em>
+                                            <!-- </el-tooltip> -->
+                                        </span>
+                                    </div>
+                                    <span :class="temp.style.emptyData"
+                                        v-if="plans.weekArrangeWorkContentList.length == 0">
+                                        <img src="../../../assets/image/empty-plan.png" alt="">
+                                    </span>
+                                </el-scrollbar>
+                            </div>
+                            <div :class="temp.style.handle_list">
+                                <span v-if="plans.updateRecord.length > 0">{{plans.updateRecord[0].update_time}}
+                                    {{plans.updateRecord[0].modifier}}</span>
+                                <el-button type="text" @click.native="showUpdateRecord(plans.updateRecord)"
+                                    :class="temp.style.more_button">更多 <i class="el-icon-arrow-right"></i></el-button>
+                            </div>
+                            <div :class="temp.style.other_info">
+                                <el-scrollbar>
+                                    <div :class="temp.style.other_inner">{{plans.note}}</div>
+                                </el-scrollbar>
+                            </div>
+                        </div>
+                        <div :class="temp.style.days_bottom">
+                            <div @click="dialogVisibleOpen(plans.id,plans.contentListMap)">
+                                <i class="el-icon-s-operation"></i> 添加工作安排
+                            </div>
+                            <div @click="changeRemark(plans)">
+                                <i class="el-icon-message"></i> 备注
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="noData" style="text-align: center;color: #666;margin-top: 20px;">暂无数据</div>
+            </el-scrollbar>
+        </div>
+    </div>
+    <el-dialog title="工作安排内容" :visible.sync="dialogVisible" width="850px" :before-close="handleClose">
+        <div :class="[temp.style.work_plan_inner,'work_plan_inner']">
+            <div :class="temp.style.work_plan_main">
+                <el-scrollbar>
+                    <div :class="temp.style.work_plan_header"><i class="el-icon-caret-right"></i> 已添加工作安排</div>
+                    <el-collapse v-model="defaultCollapse" accordion>
+                        <el-collapse-item :name="index" v-for="(collapse,index) in currentWorkPlanList"
+                            :disabled="collapse.length==0">
+                            <template slot="title">
+                                <img v-if="index == 'afternoon'" src="../../../assets/image/afternoon.png" alt="">
+                                <img v-if="index == 'allday'" src="../../../assets/image/allday.png" alt="">
+                                <img v-if="index == 'moonnight'" src="../../../assets/image/moonnight.png" alt="">
+                                <img v-if="index == 'morning'" src="../../../assets/image/morning.png" alt="">
+                            </template>
+                            <ul :class="temp.style.work_plan_list">
+                                <li v-for="item in collapse">&nbsp;{{item.arrangeWork}}
+                                    <span :class="temp.style.list_button"><i class="el-icon-s-tools"
+                                            @click="editSingleRecord(item)"></i><i @click="deleteRecord(item)"
+                                            class="el-icon-error"></i></span>
+                                </li>
+                            </ul>
+                        </el-collapse-item>
+                    </el-collapse>
+                    <div :class="temp.style.work_plan_header"><i class="el-icon-caret-right"></i> 添加工作安排</div>
+                    <div :class="temp.style.add_work_plan">
+                        <div :class="temp.style.add_work_plan_header">
+                            <el-select v-model="weekArrange.period">
+                                <el-option v-for="parts in timepart" :value="parts.value" :label="parts.label"
+                                    :key="parts.value"></el-option>
+                            </el-select>
+                            <div :class="temp.style.work_plan_checkbox">
+                                <!-- <el-checkbox v-model="weekArrange.isRemind">设置提醒时间</el-checkbox>
+                            <el-checkbox>推送系统</el-checkbox> -->
+                            </div>
+                        </div>
+                        <div :class="temp.style.add_work_plan_content">
+                            <el-input :rows="4" type="textarea" v-model="weekArrange.arrangeWork" show-word-limit
+                                maxlength="500" ref="gain"></el-input>
+                        </div>
+
+                    </div>
+                </el-scrollbar>
+            </div>
+            <div :class="temp.style.work_plan_footer">
+                <el-button type="primary" plain icon="el-icon-refresh" @click.native="resetWork">重置</el-button>
+                <el-button type="primary" icon="el-icon-check" @click.native="saveWork">保存</el-button>
+            </div>
+        </div>
+    </el-dialog>
+    <el-dialog title="修改记录" :visible.sync="editRecordVisible" width="30%" @close="editRecordVisible = false">
+        <div :class="temp.style.editRecordPanel">
+            <el-scrollbar>
+                <el-steps direction="vertical" :active="1">
+                    <el-step v-for="item in editRecord" icon="el-icon-edit">
+                        <template slot="title">
+                            {{item.update_time}} {{item.modifier}}
+                        </template>
+                    </el-step>
+                </el-steps>
+            </el-scrollbar>
+        </div>
+    </el-dialog>
+    <el-dialog title="备注" :visible.sync="addRemarkVisible" width="30%" @close="addRemarkVisible = false">
+        <el-form ref="form" :model="updateData" :rules="rules">
+            <!-- <el-form-item label="备注:" prop="note">
+                <el-input v-model.trim="updateData.note" type="textarea" :rows="4" maxlength="500" show-word-limit>
+                </el-input>
+            </el-form-item> -->
+            <el-form-item label="备注" prop="note">
+                <el-input type="textarea" v-model="updateData.note" :rows="4" maxlength="500" show-word-limit>
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <div :class="temp.style.bottom_button">
+                    <el-button type="primary" icon="el-icon-close" @click.native="addRemarkVisible = false" plain>取消
+                    </el-button>
+                    <el-button type="primary" icon="el-icon-check" @click.native="submitForm()">保存</el-button>
+                </div>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+</div>

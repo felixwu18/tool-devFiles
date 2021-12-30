@@ -1,0 +1,58 @@
+<div :class="[temp.style.new_text_add,'lowerHair']">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" :content="titleData"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-check" @click="addReportInfo">保存</el-button>
+            <el-button size="small" type="primary" icon="el-icon-plus" @click="addLower">下发
+            </el-button>
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="goback">返回
+            </el-button>
+            <!-- <el-button size="small" type="primary" class="el-icon-share" @click="shareInformatiom('share-mask','分享')">分享</el-button> -->
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <el-scrollbar>
+            <div class="lowerHairIssue">
+                <el-form ref="simpleTable" :model="formdata" label-width="180px" :rules="rules">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="批示领导" prop="reviewLeaderName">
+                                <el-input placeholder="请选择批示事件自动补全批示领导" :disabled="true" v-model.trim="formdata.reviewLeaderName"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="批示时间" prop="reviewDate">
+                                <el-date-picker placeholder="请选择批示时间" type="datetime" v-model.trim="formdata.reviewDate">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-form-item label="批示标题" prop="documentTitle">
+                        <el-input maxlength="50" v-model.trim="formdata.documentTitle"></el-input>
+                    </el-form-item>
+                    <el-form-item label="批示事件" prop="reviewEvent">
+                        <el-select v-model="formdata.reviewEvent" @change="changeLeader">
+                            <el-option v-for="item in instructionEvents" :label="item.documentTitle" :value="item.publicId" style="min-width: 100%;"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="批示内容" prop="content">
+                        <el-input type="textarea" :rows="4" maxlength="500" show-word-limit v-model.trim="formdata.content">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="备注" prop="remarks">
+                        <el-input type="textarea" :rows="4" maxlength="500" show-word-limit v-model.trim="formdata.remarks">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="附件" prop="attachmentList">
+                        <iams-upload ref="upload" v-model="formdata.attachmentList"></iams-upload>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </el-scrollbar>
+    </div>
+    <el-dialog :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog" :destroy-on-close="true">
+        <component :is="dialogConfig.templateName" ref="childrenDialog" :propdata="dialogConfig.propsData" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

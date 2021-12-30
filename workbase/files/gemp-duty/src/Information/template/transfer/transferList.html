@@ -1,0 +1,41 @@
+<div class="flex-full">
+    <div :class="temp.style.search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="转办督办列表"></el-page-header>
+        </div>
+        <div class="right_search">
+            <el-button v-if="roleLevel&&btnConfig.add" icon="el-icon-plus" @click.native="go('/information/transferAdd')" type="success">
+                添加转办督办
+            </el-button>
+            <el-button icon="el-icon-share" type="primary" @click.native="checkEventHandel" v-if="btnConfig.all">{{checkLabel}}</el-button>
+            <el-button icon="el-icon-star-on" type="primary" @click.native="haveRead" v-if="btnConfig.read">标记已读</el-button>
+            <el-input @keyup.enter.native="searchKeyword" placeholder="可按标题搜索" v-model.trim="searchData.keyWord" :class="temp.style.search_input" v-if="btnConfig.search">
+                <el-button slot="append" @click.native="searchKeyword" icon="el-icon-search"></el-button>
+            </el-input>
+            <div :class="temp.style.search_slot">
+                <el-button @click="showSearch = !showSearch" class="search_showSearch" v-if="btnConfig.accurateSearch">
+                    精准搜索
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <div :class="[temp.style.search_form,'search_form']" v-show="showSearch">
+                    <el-form :inline="true">
+                        <el-form-item label="转办时间">
+                            <el-date-picker v-model="search_time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" style="width: 20rem;">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button icon="el-icon-check" type="primary" @click="searchKeyword">
+                                确定
+                            </el-button>
+                            <el-button icon="el-icon-refresh" type="primary" @click.native="clearSearch">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <list-table :propdata="propData" @tablecallback="tablecallback" :classname="tableRowClassName"></list-table>
+    <el-dialog title="删除原因" :visible.sync="deleteConfig.visible" @close="deleteConfig.visible = false" :destroy-on-close="true">
+        <el-input rows="4" type="textarea" maxlength="500" show-word-limit disabled v-model="deleteConfig.reason"></el-input>
+    </el-dialog>
+</div>

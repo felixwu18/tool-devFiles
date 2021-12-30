@@ -1,0 +1,16 @@
+<div :class="temp.style.new_text_add">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" content="快报详情"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="$router.history.go(-1)">返回</el-button>
+            <!-- <el-button size="small" type="primary" class="el-icon-check" plain @click="examine('preservation','保存信息')">保存</el-button>
+            <el-button size="small" type="primary" class="el-icon-check" plain>另存为</el-button>
+            <el-button size="small" type="primary" class="el-icon-s-check" @click="examine('examine-brief','选择领导')">内审</el-button> -->
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <document-processedcom ref="processedcom" :opendocbyurl="openDocByurl" :reporttype="type" :handlelist="handlelist" :dialogflag="dialogOption.flag"></document-processedcom>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+.add_report {
+  height: 100%;
+  width: 100%;
+}
+.add_report .form {
+  height: 100%;
+  width: 100%;
+  padding: 1.1rem;
+}
+.add_report .form > div {
+  margin-bottom: 1rem !important;
+}
+.add_report .form .importname {
+  color: blue;
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+.title {
+  padding-left: 1rem;
+  line-height: 35px;
+  background: #fafafa;
+  border-bottom: 1px solid #dfdfe3;
+  border-top: 1px solid #dfdfe3;
+  text-align: left;
+}
+.nodata {
+  text-align: center;
+  padding-top: 20px;
+}
+.sign_list {
+  padding: 0.625rem;
+  display: flex;
+  justify-content: space-between;
+}
+.sign_list > ul {
+  border: 1px solid #dfdfe3;
+  padding: 1.25rem 1rem;
+  width: 49%;
+  margin-top: 1%;
+}
+.sign_list > ul li {
+  font-size: 0.875rem;
+  padding: 0.25rem 0;
+}
+.sign_list > ul li > span {
+  color: #909399;
+}
+.sign {
+  margin-left: 1rem;
+}

@@ -1,0 +1,43 @@
+<div class="flex-full list-contain">
+    <div class="flex-header">
+        <el-radio-group v-model="checkPage">
+            <el-radio-button label="1">转办信息</el-radio-button>
+            <el-radio-button label="2">处理过程</el-radio-button>
+        </el-radio-group>
+        <div>
+            <el-button icon="el-icon-arrow-left" type="primary" @click="go('/information/transfer')" plain>返回</el-button>
+            <el-button icon="el-icon-s-comment" type="primary" @click="openDialog('transferApply-dialog','回复')" v-if="!replyIsShow" :disabled="!signFlag">回复</el-button>
+            <!-- <el-button icon="el-icon-printer" type="text">打印</el-button> -->
+            <el-button type="primary" @click="collectionHandle" v-if="collectionIsShow" :disabled="!signFlag || !allSignFlag">催收</el-button>
+            <el-button type="primary" @click="signHandle" v-if='signIsShow' :disabled="signFlag">{{signLabel}}</el-button>
+            <el-button type="primary" @click="priintDialog" :disabled="!signFlag">标准打印</el-button>
+            <!-- <el-button type="primary" @click.native="routeToNtko" :disabled="!signFlag">自定义打印</el-button> -->
+            <el-button icon="el-icon-chat-dot-square" type="primary" @click="openDialog('appendSend-dialog','追加发送')" v-if='appendSendIsShow' :disabled="!signFlag">追加发送</el-button>
+        </div>
+    </div>
+    <div class="flex-full">
+        <transfer-info v-show="checkPage == '1'" :transfercontent="signrecord" :propdata="propsData" ref="transferInfo"></transfer-info>
+        <process-page v-show="checkPage == '2'" :propdata="propsData" ref="processPage"></process-page>
+    </div>
+    <el-dialog :title="tilteName" :visible.sync="flag" @close="closeDialog" :destroy-on-close="true">
+        <transferapply-dialog v-if="showTransferApply" :propdata="propsData" @dialogcallback="closeDialogCall"></transferapply-dialog>
+        <appendsend-dialog ref="childrenDialog" :propdata="propsData" :infocontent="msgappendinfo" @dialogcallback="closeAppendDialogCall" v-else></appendsend-dialog>
+    </el-dialog>
+    <!-- <el-dialog title="标准打印" :visible.sync="printFlag" @close="printFlag = false" :destroy-on-close="true" append-to-body>
+         <pdf-page :posttype="201"></pdf-page>
+    </el-dialog> -->
+    <!-- 打印弹框 -->
+    <div class='printViewDialog'>
+        <el-dialog :visible.sync="viewDialogPrint" :destroy-on-close="true"
+        :class="['viewDialogPreview',temp.style.dutyDialog]">
+            <div :class="temp.style.docInfo">
+                <iframe :src="docUrl" :class="temp.style.iframe"></iframe>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <!-- <el-button type="primary" icon="el-icon-check" @click="downloadDoc">保存</el-button> -->
+                <!-- <el-button type="primary" icon="el-icon-link" @click="handle">办理</el-button> -->
+                <el-button type="primary" icon="el-icon-switch-button" plain @click="handleCancel">关闭</el-button>
+            </div>
+        </el-dialog>
+    </div>
+</div>

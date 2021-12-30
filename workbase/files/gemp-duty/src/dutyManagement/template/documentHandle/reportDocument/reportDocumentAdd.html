@@ -1,0 +1,16 @@
+<div class="flex-full list-contain">
+    <div class="flex-header">
+        <el-radio-group v-model="checkPage">
+            <!-- <el-radio-button label="1">值班信息</el-radio-button> -->
+            <el-radio-button label="2">请假报备</el-radio-button>
+            <el-radio-button label="3">外出报备</el-radio-button>
+            <el-radio-button label="4">其他公文</el-radio-button>
+        </el-radio-group>
+    </div>
+    <div class="flex-full">
+        <!-- <duty-add-information v-if="checkPage == '1'"></duty-add-information> -->
+        <leave-report v-if="checkPage == '2'"></leave-report>
+        <outgoing-report v-if="checkPage == '3'"></outgoing-report>
+        <other-document v-if="checkPage == '4'"></other-document>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="flex-full">
+    <div class="search_filter padding_0">
+        <div class="left_search">
+            <el-page-header title="" content="下发公文"></el-page-header>
+        </div>
+        <div class="right_search">
+            <!-- <el-button icon="el-icon-top-right" type="primary" @click="lowerAdd">上报</el-button> -->
+            <!-- <el-button icon="el-icon-plus" type="primary" @click="lowIssue" v-show="showReportButton&&btnConfig.add">下发</el-button> -->
+            <el-button icon="el-icon-minus" type="danger" @click="recall">撤回</el-button>
+            <el-button icon="el-icon-plus" type="success" @click="lowIssue">新增</el-button>
+            <!-- <el-button icon="el-icon-share" type="primary" @click.native="searchUnread">{{readSign}}</el-button> -->
+            <!-- <el-button icon="el-icon-star-on" type="primary" @click.native="signReaded">标记已读</el-button> -->
+            <el-input placeholder="可按标题搜索" v-model.trim="searchData.documentTitle" class="search_input"
+                @keyup.enter.native="getListData" v-if="btnConfig.search">
+                <el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
+            </el-input>
+            <div class="search_slot">
+                <el-button @click.native="showSearch = !showSearch" type="primary" plain v-if="btnConfig.accurate">
+                    高级搜索<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <div class="search_form" v-show="showSearch">
+                    <el-form :inline="true">
+                        <el-form-item label="上报时间:">
+                            <el-date-picker v-model="search_time" type="datetimerange" range-separator="至"
+                                start-placeholder="开始日期" end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button icon="el-icon-check" type="primary" @click="getListDataBytime">
+                                确定
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-full">
+        <el-scrollbar>
+            <el-collapse v-model="activeNames" v-for="(item,index) in listData" :key="index"
+                @change="openCollapse(item, index)">
+                <el-collapse-item class="default" :name="item.detailLinkId">
+                    <template slot="title">
+                        <div :class="temp.style.colHeaderTitle">
+                            <i class="el_icon el_icon_blue"
+                                :class="[temp.style.el_icon_blue, activeNames.indexOf(item.detailLinkId) <= -1 ?'el-icon-caret-right': 'el-icon-caret-bottom']"></i>
+                            <span :class="temp.style.colTitle">{{item.documentTitle}}</span>
+                            <span>发送总数：{{item.sendTotal}}</span>
+                            <span>创建人：{{item.senderName}}</span>
+                            <span>公文类型：{{item.documentTypeName}}</span>
+                            <span>更新时间：{{item.createTime}}</span>
+                        </div>
+                    </template>
+                    <list-table :propdata="item.propData" @handleselection="handleselection"
+                        @tablecallback="(data)=>tablecallback(data,item)"></list-table>
+                </el-collapse-item>
+            </el-collapse>
+            <div style="height: 3rem;text-align: center;font-size: 1rem;border-bottom: 1px solid rgb(244, 241, 241);color: #909399;line-height: 3rem;"
+                v-if="listData.length == 0">暂无数据</div>
+        </el-scrollbar>
+        <el-pagination background @current-change="handlePageChange" current-page.sync="1"
+            :page-size="listPageParams.pageSize" layout='total, prev, pager, next,jumper' :total="listPageParams.total">
+        </el-pagination>
+    </div>
+
+</div>

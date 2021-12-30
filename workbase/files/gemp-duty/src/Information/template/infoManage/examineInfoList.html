@@ -1,0 +1,29 @@
+<div class="examineInfoList">
+  <el-form :class="temp.style.infoExam">
+    <el-form-item>
+      <div>发送给</div>
+      <ul class="imitateLiist">
+        <li v-for="(item,index) in leaderList" :key="index" :class="{active: activeLeader.indexOf(item) > -1}" @click="addClass($event,item)">{{ item.userName }}</li>
+      </ul>
+    </el-form-item>
+    <el-form-item label="信息审核：">
+      <div>
+          <iams-replybox placeholder="请输入审核内容" ref="emoticon" v-model="approvalContent"></iams-replybox>
+      </div>
+    </el-form-item> 
+    <el-form-item>
+      <div :class="temp.style.ordinary"> 
+        <!-- <div style="position: absolute;left: -49px;line-height: 37px;">常用:</div> -->
+        <ul>
+          <li v-for="(item, index) in commonLanguageData" :key="index" @click='getDomData'>{{item.words}}</li>
+          <!-- <li @click='getDomData'>如拟。</li>
+          <li @click='getDomData'>呈XXX阅示。</li> -->
+        </ul>
+      </div>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button type="primary" icon="el-icon-close" @click.native="cancleFun">取消</el-button>
+    <el-button type="primary" icon="el-icon-check" @click.native="saveFun">确定</el-button>
+  </div>
+</div>

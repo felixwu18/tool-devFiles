@@ -1,0 +1,42 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="发件箱"></el-page-header>
+        </div>
+        <div class="right_search">
+            <el-button icon="el-icon-plus" type="success" @click="boxAdd">新增</el-button>
+            <el-checkbox v-model="workStatus" label="系统消息" border></el-checkbox>
+            <el-input placeholder="可按标题搜索" v-model="searchData.keyWord" class="search_input">
+                <el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
+            </el-input>
+            <div class="search_slot">
+                <el-button @click="showSearch = !showSearch" type="primary" plain>
+                    高级搜索<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <div class="search_form" v-show="showSearch">
+                    <el-form :inline="true">
+                        <el-form-item label="发送时间:">
+                            <el-date-picker v-model="search_time" type="datetimerange" range-separator="至"
+                                start-placeholder="开始日期" end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button icon="el-icon-check" type="primary" @click="getListData">
+                                确定
+                            </el-button>
+                            <el-button
+                            icon="el-icon-success"
+                            type="primary"
+                            @click="getListDataAll"
+                            >
+                                全部
+                              </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <list-table unsortable="true" :propdata="propData" @tablecallback="tablecallback"></list-table>
+    <!-- <select-common listtype="urgencyLevel" @changelist="getListCode" :defaultchecked="defaultchecked"></select-common> -->
+</div>

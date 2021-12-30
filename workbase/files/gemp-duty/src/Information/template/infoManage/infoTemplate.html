@@ -1,0 +1,43 @@
+<div class="flex-full">
+    <div :class="temp.style.info_container">
+        <el-input :disabled="!templateChecked" type="textarea" :class="temp.style.info_textarea" v-model="templateData.templateContent">
+        </el-input>
+        <div :class="temp.style.info_bottom_row">
+            <span>
+                <el-button type="text" size="small" @click.native="selectEventType = true">选择模板</el-button>
+                <el-button type="text" size="small" @click.native="templateExample = true" :disabled="!templateChecked">情况描述实例</el-button>
+            </span>
+            <em>{{num}}/1000</em>
+        </div>
+    </div>
+    <div :class="temp.style.bottom_btn_group">
+        <el-button type="primary" icon="el-icon-switch-button" @click.native="cancleTemplate" plain>取消</el-button>
+        <el-button :disabled="!templateData.templateContent.trim()" type="primary" icon="el-icon-edit-outline" @click.native="parseTemplate">智能解析</el-button>
+    </div>
+    <!-- 选择模板弹框 -->
+    <el-dialog title="选择事件模板" :visible.sync="selectEventType" width="32.25rem"  append-to-body>
+        <div :class="temp.style.eventCheck">
+            <el-form label-width="120px">
+                <el-form-item label="事件类型" prop="eventType">
+                    <iams-combobox :rootcheck="true" listtype="getInfoTypeTree"  @change="selectEvent" v-model=templateData.eventTypeCode></iams-combobox>
+                </el-form-item>
+            </el-form> 
+        </div>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" icon="el-icon-success" @click.native="selectTemplate" :disabled="!templateData.eventTypeCode.trim()">使用模板</el-button>
+        </div>
+    </el-dialog>
+    <!-- 情况描述示例弹框 -->
+    <el-dialog title="情况描述示例" :visible.sync="templateExample" width="32.25rem" append-to-body>
+        <div :class="temp.style.eventCheck">
+            <el-scrollbar>
+                <div style="white-space:pre-wrap">
+                    {{templateData.templateExample}}
+                </div>
+            </el-scrollbar>
+        </div>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" icon="el-icon-close" @click.native="templateExample = false">关闭</el-button>
+        </div>
+    </el-dialog>
+</div>

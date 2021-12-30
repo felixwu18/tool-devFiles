@@ -1,0 +1,196 @@
+<div class="flex-full from-main details-matter">
+
+    <!-- <el-collapse v-model="activeNames">
+            <el-collapse-item title="转办详情" name="1"> -->
+    <div style="height: 100%">
+
+        <div :class="temp.style.transfer_left">
+            <el-scrollbar>
+                <div style="padding-right: 0.75rem">
+                <details-leader :propdata="transferInfo.instruction" :onlyshow="true"></details-leader>
+                </div>
+                <p :class="temp.style.title">转办详情</p>
+                <div :class="temp.style.transfer_list">
+                    <ul>
+                        <li>
+                            <span><i class="el-icon-document-copy"></i>事件信息:</span>
+                            <router-link v-if="transferInfo.infoId"
+                                :to="{
+                                    path:'/information/detailsManage',
+                                    query:{
+                                        id: transferInfo.infoId,
+                                        transferId: transferInfo.transferId,
+                                        targetUrl: $route.fullPath
+                                    }
+                                }"
+                                class="link">
+                                {{transferInfo.detail.info}}
+                            </router-link>
+                            <span v-else>{{transferInfo.detail.info}}</span>
+                        </li>
+                        <li>
+                            <span><i class="el-icon-s-promotion"></i>转办事项:</span>{{transferInfo.detail.items}}
+                        </li>
+                        <li>
+                            <span><i class="el-icon-timer"></i>转办时间:</span>{{transferInfo.detail.time}}
+                        </li>
+                        <li >
+                            <span><i class="el-icon-warning"></i>紧急程度:</span><span class="red">{{transferInfo.detail.warn}}</span>
+                        </li>
+                        <li>
+                            <span>附件信息:</span>
+                            <file-cell :filelist="transferInfo.detail.attachmentList"></file-cell>
+                        </li>
+                    </ul>
+                    <el-dialog title="查看图片" :visible.async="showImage" width="30%" @close="showImage = false" :destroy-on-close="true">
+                        <div class="flex-full" style="align-items: center;justify-content: center;max-height:31rem">
+                            <img :src="checkImage" width="100%" height="100%"></img>
+                        </div>
+                    </el-dialog>
+                </div>
+                <!-- </el-collapse-item> -->
+                <!-- <el-collapse-item title="签收记录" name="2"> -->
+                <p :class="temp.style.title">签收记录</p>
+                <div v-if="transferInfo.signInfo.receiveUnit.total == 0 && transferInfo.signInfo.receivePeople.total == 0" :class="temp.style.nodata">暂无数据</div>
+                <div v-else :class="temp.style.sign_list">
+                    <ul v-if="transferInfo.signInfo.receiveUnit.total > 0">
+                        <li>
+                            <span>接收单位:</span>{{transferInfo.signInfo.receiveUnit.num}}/
+                            <span class="red">{{transferInfo.signInfo.receiveUnit.total}}</span>({{transferInfo.signInfo.receiveUnit.status}})
+                        </li>
+                        <li>
+                            <span>未签收:</span>
+                            <span class="red">{{transferInfo.signInfo.receiveUnit.noReceive}}</span>
+                        </li>
+                        <li>
+                            <span>及时签收:</span>{{transferInfo.signInfo.receiveUnit.timelyReceive}}
+                        </li>
+                        <!-- <li>
+                            <span>迟签:</span>{{transferInfo.signInfo.receiveUnit.lateReceive}}
+                        </li>
+                        <li>
+                            <span>超期:</span>{{transferInfo.signInfo.receiveUnit.delayReceive}}
+                        </li> -->
+                    </ul>
+                    <ul v-if="transferInfo.signInfo.receivePeople.total > 0">
+                        <li>
+                            <span>接收人:</span>{{transferInfo.signInfo.receivePeople.num}}/
+                            <span class="red">{{transferInfo.signInfo.receivePeople.total}}</span>({{transferInfo.signInfo.receivePeople.status}})
+                        </li>
+                        <li>
+                            <span>未签收:</span>
+                            <span class="red">{{transferInfo.signInfo.receivePeople.noReceive}}</span>
+                        </li>
+                        <li>
+                            <span>及时签收:</span>{{transferInfo.signInfo.receivePeople.timelyReceive}}
+                        </li>
+                        <!-- <li>
+                            <span>迟签:</span>{{transferInfo.signInfo.receivePeople.lateReceive}}
+                        </li>
+                        <li>
+                            <span>超期:</span>{{transferInfo.signInfo.receivePeople.delayReceive}}
+                        </li> -->
+                    </ul>
+                </div>
+            </el-scrollbar>
+        </div>
+
+        <!-- </el-collapse-item> -->
+        <!-- <el-collapse-item title="回复情况" name="3"> -->
+        <!-- 原回复页面 -->
+        <!-- <div :class="temp.style.transfer_right">
+            <el-scrollbar>
+                <p :class="temp.style.title">回复情况</p>
+                <div :class="temp.style.report_list">
+                    <div v-if="transferInfo.replyInfo && transferInfo.replyInfo.length == 0" :class="temp.style.nodata">暂无数据</div>
+                    <ul v-else>
+                        <li :class="temp.style.transfer_message" v-for="item,index in transferInfo.replyInfo" :key="index">
+                            <div>
+                                <div :class="temp.style.apply_tit">
+                                    <i class="el-icon-s-custom"></i>{{item.disposeOrgName}} {{item.disposePersonName}}:
+                                    <div :class="temp.style.apply_date">
+                                        <span>{{item.disposeTime}}</span>
+                                    </div>
+                                </div>
+                                <div :class="temp.style.apply_cont" v-html="item.disposeDescription"></div>
+                            </div>
+                            <file-cell :filelist="item.attachmentList"></file-cell>
+                            <div :class="temp.style.reply" v-if="item.gempInfoReplyDTO && item.gempInfoReplyDTO.length">
+                                <div v-for="option,index in item.gempInfoReplyDTO" :key="index">
+                                    <div :class="temp.style.apply_tit">
+                                        <i class="el-icon-s-custom"></i>{{option.disposeOrgName}} {{option.disposePersonName}}:
+                                        <div :class="temp.style.apply_date">
+                                            <span>{{option.disposeTime}}</span>
+                                            <el-button type="text" size="mini" disabled>回复</el-button>
+                                        </div>
+                                    </div>
+                                    <div :class="temp.style.apply_cont" v-html="option.disposeDescription"></div>
+                                </div>
+                            </div>
+                            <div style="text-align:right">
+                                <el-button plain icon="el-icon-s-comment" v-if="item.isSubject == '1' && !item.show" type="primary" size="small" @click=showReceiveDom(item,index)
+                                    style="padding:0 0.3rem;">回复</el-button>
+                            </div>
+                            <div v-if="item.show && item.show == true">
+                                <iams-replybox ref="emoticon" v-model="approvalContent" ></iams-replybox>
+                                <div style="margin-top: 10px;text-align: right;">
+                                    <el-button @click="hideReceiveDom(item,index)" icon="el-icon-switch-button" plain type="primary">取消</el-button>
+                                    <el-button @click="saveReceive(item, index)" type="primary" icon="el-icon-check">保存</el-button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </el-scrollbar>
+        </div> -->
+
+        <!-- 现回复页面 -->
+        <div :class="temp.style.transfer_right">
+                <p :class="temp.style.title">回复情况</p>
+                    <div :class="temp.style.details_process" style="margin-top:18px">
+                        <div :class="temp.style.details_process_tree">
+                            <el-scrollbar style="height:100%">
+                                <div v-if="transferInfo.replyInfo && transferInfo.replyInfo.length == 0" :class="temp.style.nodata">暂无数据</div>
+                                <ul  v-else :class="temp.style.process_tree_ul">
+                                    <li :class="temp.style.process_tree_li" v-for="item in transferInfo.replyInfo">
+                                        <div>
+                                            <div :class="temp.style.process_tree_name">{{item.operPersonName}}  <span>{{item.remark}}</span> <em :class="temp.style.arrow"></em></div>
+                                            <div :class="temp.style.process_tree_desc" v-text="item.operDescription"></div>
+                                            <div :class="temp.style.process_tree_imglist" v-if="item.attachmentList && item.attachmentList.length">
+                                                <!-- <img v-for="(list, index) in item.attachmentList"  :src="list.url" alt=""> -->
+                                                <template v-for="(list, index) in item.attachmentList">
+                                                    <template v-if="!/(.*)\.(jpg|bmp|gif|ico|pcx|jpeg|tif|png|raw|tga)$/.test(list.name)">
+                                                        <a href="javascript:void(0)" @click="download(list)">
+                                                            <img v-if="/(.*)\.(ppt|pptx)$/.test(list.name)" src="../../../../../assets/image/ppt.png" alt="" >
+                                                            <img v-else-if="/(.*)\.(doc|docx)$/.test(list.name)" src="../../../../../assets/image/word.png" alt="" >
+                                                            <img v-else-if="/(.*)\.(xlsx|xls)$/.test(list.name)" src="../../../../../assets/image/excel.png" alt="" >
+                                                            <img v-else-if="/(.*)\.(txt)$/.test(list.name)" src="../../../../../assets/image/txt.png" alt="" >
+                                                            <img v-else-if="/(.*)\.(pdf)$/.test(list.name)" src="../../../../../assets/image/PDF.png" alt="" >
+                                                            <img v-else-if="/(.*)\.(mp4|avi|mp3|mov|rmvb|rm|3gp|flv)$/i.test(list.name)" src="../../../../../assets/image/video.png" alt="" >
+                                                            <img v-else src="../../../../../assets/image/file.png" alt="" >
+                                                        </a>
+                                                    </template>
+                                                    <template v-else>
+                                                        <a href="javascript:void(0)" :key="list.url">
+                                                            <img @click="handlePictureCardPreview(list)" :src="list.url" alt="">
+                                                        </a>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                            <div :class="temp.style.process_tree_time">{{item.updateTime}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </el-scrollbar>
+                        </div>
+                </div>
+        </div>
+
+        <el-dialog title="查看附件" append-to-body :visible.sync='dialogVisible' :destroy-on-close="true">
+            <el-image style="height:30rem;width:100%" fit="scale-down" :src="dialogImageUrl" alt=""></el-image>
+        </el-dialog>
+        <!-- </el-collapse-item> -->
+        <!-- </el-collapse> -->
+        <!-- </el-scrollbar> -->
+    </div>
+</div>

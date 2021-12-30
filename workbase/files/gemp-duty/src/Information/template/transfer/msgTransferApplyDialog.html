@@ -1,0 +1,19 @@
+<div class="transferDialog applyrDialog">
+    <el-form :class="temp.style.infoExam" :model="transferData"  label-width="95px" ref="transferDialog" :rules="rules">
+        <el-form-item label="回复内容：" prop="approvalContent">
+            <div>
+                <!-- <iams-replybox ref="emoticon" v-model="approvalContent" ></iams-replybox> -->
+                <el-input type="textarea" v-model.trim="transferData.approvalContent" rows="4" maxlength="500" show-word-limit></el-input>
+            </div>
+        </el-form-item>
+        <el-form-item label="附件信息：">
+            <div>
+                <iams-upload v-model="transferData.attachmentList"></iams-upload>
+            </div>
+        </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" icon="el-icon-switch-button" plain @click="closeTransfer">取消</el-button>
+        <el-button type="primary" icon="el-icon-check" @click="saveTransfer">确定</el-button>
+    </div>
+</div>

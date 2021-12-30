@@ -1,0 +1,378 @@
+<div :class="temp.style.details_edit" class="details_edit  flex-full">
+  <div class="search_filter">
+    <div class="left_search">
+      <el-page-header title="" :content="title"></el-page-header>
+    </div>
+    <div class="right_search">
+      <el-button type="primary" @click.native="getBack" icon="el-icon-arrow-left" plain>返回</el-button>
+      <el-button type="primary" @click.native="submitReport(true)" class="el-icon-check" v-if="!isReport">提交</el-button>  
+      <el-button type="primary" @click.native="submitReport(false)" class="el-icon-check" v-if="isReport">上报</el-button>
+      <el-button type="primary" class="el-icon-view" @click="preview" v-if="isReport">预览</el-button>
+    </div>
+  </div>
+  <div :class="temp.style.matter_content"  class="flex-full">
+    <el-scrollbar>
+      <div :class="temp.style.matter_content_left_new" class="flex-full" :style="{width:isReport ? '60%':leftContentWidth}">
+          <div :class="temp.style.matter_content_left_scroll " class="flex-full" :style="{width:isReport ? 'auto':'55rem'}">
+              <div :class="temp.style.matter_content_form" class="flex-full">
+                <el-form label-position="right" class="flex-full demo-ruleForm" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
+                  <el-row>
+                    <el-col :span="12">
+                      <el-form-item label="事件标题:" prop="infoTitle">
+                        <el-input placeholder="请输入事件标题" :maxlength="50" v-model.trim="ruleForm.infoTitle"></el-input>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="事发时间:" prop="incidentDate">
+                        <el-col :span="24">
+                          <el-date-picker type="datetime" format="yyyy-MM-dd HH:mm" :picker-options="start_Date"
+                            v-model.trim="initTime" style="width: 100%"></el-date-picker>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row class="edit_row">
+                    <el-col :span="12">
+                      <el-form-item label="事发地点:" prop="infoAddress">
+                        <el-autocomplete :maxlength="50" placeholder="输入地址可刷新地图、自动关联位置。" v-model.trim="ruleForm.infoAddress"
+                          :fetch-suggestions="searchAddress" :trigger-on-focus="false" @select="selectAddress" :class="temp.style.matter_autocomplete">
+                        </el-autocomplete>
+                        <img :src="imgSrc" alt="" :class="temp.style.matter_icon_map" @click="showMapDialog"/>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="事件等级:" prop="eventLevelCode">
+                        <el-select v-model.trim="ruleForm.eventLevelCode">
+                          <el-option :value="item.eventLevelCode" v-for="item in scaleList" :label="item.eventLevelName"
+                            :key="item.eventLevelName">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+           
+                    <el-col :span="12">
+                      <el-form-item label="事件类型:" prop="eventType">
+                        <iams-combobox :placeholder="eventTypePlaceholder" :rootcheck="true" listtype="getInfoTypeTree"
+                          :defaultchecked="ruleForm.eventType" @change="selectEventType" v-model="ruleForm.eventType"></iams-combobox>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="接报时间:" prop="reportDate">
+                        <el-col :span="24">
+                          <el-date-picker type="datetime" format="yyyy-MM-dd HH:mm" :picker-options="start_Date" v-model.trim="initTime2"
+                            style="width: 100%" placeholder=""></el-date-picker>
+                        </el-col>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-form-item label="信息附件" prop="hadAttachment">
+                    <el-radio-group v-model="ruleForm.hadAttachment">
+                      <el-radio :label="1">有附件</el-radio>
+                      <el-radio :label="0">无附件</el-radio>
+                    </el-radio-group>
+                    <iams-upload v-model="ruleForm.attachmentList" listtype="text" v-if="ruleForm.hadAttachment === 1"></iams-upload>
+                  </el-form-item>
+                  <el-form-item label="人员伤亡:" prop="isCasualties">
+                      <el-radio-group v-model="ruleForm.isCasualties">
+                        <el-radio :label="0">待定</el-radio>
+                        <el-radio :label="1">无人员伤亡</el-radio>
+                        <el-radio :label="2">有人员伤亡</el-radio>
+                      </el-radio-group>
+                      <el-row :class="temp.style.matter_form_edit" v-if="ruleForm.isCasualties === 2">
+                        <el-col :span="8" :class="temp.style.dynamic2">
+                          <el-form-item label="" prop="deathNum">
+                            <span>死亡:</span>
+                            <el-input min="0" v-model.number="ruleForm.deathNum" :maxlength="9">
+                            </el-input>
+                            <span>人</span><i :class="temp.style.edit_icon" @click="listPop('0', ruleForm.deathNum)"></i>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8" :class="temp.style.dynamic2">
+                          <el-form-item label="" prop="seriousInjureNum">
+                            <span>重伤:</span>
+                            <el-input min="0" v-model.number="ruleForm.seriousInjureNum" :maxlength="9">
+                            </el-input>
+                            <span>人</span><i :class="temp.style.edit_icon" @click="listPop('1', ruleForm.seriousInjureNum)"></i>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8" :class="temp.style.dynamic2">
+                          <el-form-item label="" prop="minorInjureNum">
+                            <span>轻伤:</span>
+                            <el-input min="0" v-model.number="ruleForm.minorInjureNum" :maxlength="9">
+                            </el-input>
+                            <span>人</span><i :class="temp.style.edit_icon" @click="listPop('2', ruleForm.minorInjureNum)"></i>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8" :class="temp.style.dynamic2">
+                          <el-form-item label="" prop="woundNum">
+                            <span>受伤:</span>
+                            <el-input min="0" v-model.number="ruleForm.woundNum" :maxlength="9">
+                            </el-input>
+                            <span>人</span><i :class="temp.style.edit_icon" @click="listPop('3', ruleForm.woundNum)"></i>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8" :class="temp.style.dynamic2">
+                          <el-form-item label="" prop="lossNum">
+                            <span>失踪:</span>
+                            <el-input min="0" v-model.number="ruleForm.lossNum" :maxlength="9">
+                            </el-input>
+                            <span>人</span><i :class="temp.style.edit_icon" @click="listPop('4', ruleForm.lossNum)"></i>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="8" :class="temp.style.dynamic2">
+                          <el-form-item label="" prop="trappedNum">
+                            <span>受困:</span>
+                            <el-input min="0" v-model.number="ruleForm.trappedNum" :maxlength="9">
+                            </el-input>
+                            <span>人</span><i :class="temp.style.edit_icon" @click="listPop('5', ruleForm.trappedNum)"></i>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                    <el-form-item label="详情描述:" prop="infoDescription">
+                      <el-input placeholder="请输入详情描述" resize="none" rows="6" type="textarea" maxlength='2000' show-word-limit
+                        v-model.trim="ruleForm.infoDescription"></el-input>
+                    </el-form-item>
+                    <!-- 动态模板拼接 -->
+                    <el-row v-if="moreInfoStatu">
+                      <el-form :class="temp.style.dynamic" label-position="right" :model="tep" :ref="'ruleForm'+index"
+                        v-for="(tep,index) in ruleForm.elements" :key="index">
+                        <el-form-item v-if="tep.dataType=='number'" :label="tep.elementName" prop="elementValue"
+                          :rules="[{validator:validateNumber}]">
+                          <el-input type="text" v-model="tep.elementValue" :maxlength="9"></el-input>
+                          <span>{{tep.unit}}{{ index == ruleForm.elements.length-1?'。':'，'}}</span>
+                        </el-form-item>
+                        <el-form-item v-if="tep.dataType=='float'" :label="tep.elementName" prop="elementValue"
+                          :rules="[{validator:validateFloat},{max:10,message:'长度最大为10'}]">
+                          <el-input type="text" v-model="tep.elementValue" :maxlength="10"></el-input>
+                          <span>{{tep.unit}}{{ index == ruleForm.elements.length-1?'。':'，'}}</span>
+                        </el-form-item>
+                        <el-form-item v-if="tep.dataType=='string'" :label="tep.elementName" prop="elementValue"
+                          :rules="[{max:64,message:'最大长度为64'}]" :class="temp.style.string">
+                          <el-input type="text" v-model="tep.elementValue" :maxlength="64"></el-input>
+                          <!-- <span>{{tep.unit}}{{ index == ruleForm.elements.length-1?'。':'，'}}</span> -->
+                        </el-form-item>
+                      </el-form>
+                    </el-row>
+                </el-form>
+              </div> 
+          </div>
+      </div>
+    </el-scrollbar>
+      <div :class="temp.style.matter_content__submit" v-if="isReport">
+        <iframe :src="docUrl" id="docUrl" :class="temp.style.iframe"></iframe>
+        <div style="position: absolute;right: 180px;top: 10px;color: #fff;font-size: 14px;cursor: pointer;z-index: 1000;"
+          @click="handleFullScreen">全屏</div>
+      </div>
+    <div :class="temp.style.matter_content_right" :style="{right:rightMap}" v-if="!isReport">
+      <div :class="temp.style.matter_btn" @click="toggleShowMap()">智能填报</div>
+      <el-scrollbar>
+        <div class="flex-full">
+          <!-- <info-template @getparsedata="getparsedata"></info-template> -->
+          <div :class="temp.style.intel_report_right">
+            <div :class="temp.style.intel_report_right_item1">
+              <div class="spliterSty inner">
+                <span :class="temp.style.toolbar_txt_right">填写上报信息</span>
+                <!-- <span class="el-icon-warning-outline"></span> -->
+              </div>
+              <div :class="temp.style.input_shade">
+                  <el-input resize="none" rows="6" type="textarea" :placeholder="placeholder" maxlength='200' show-word-limit v-model.trim="smartTextData"></el-input>
+                  <div :class="temp.style.video_gif" v-show="enterVoice">
+                      <img :src="videogif" width="95" height="84"  alt="">
+                  </div>
+              </div>
+              <!-- <div :class="temp.style.sound_recording" v-show="isVoice">录音中,请开始说话... 再次点击结束录音</div> -->
+              <!-- <div :class="temp.style.sound_recording" v-show="isVoiceAnalysis">正在解析中，请稍等...</div> -->
+              <!-- <div :class="temp.style.intel_report_right_video" @click="startV"><span class="el-icon-microphone"></span></div> -->
+              <el-row :class="temp.style.intel_report_right_btn">
+                  <el-button size="small" type="primary" icon="el-icon-microphone" v-show="startVoice && !speechSwitchStatu" @click.native="startV1">语音输入</el-button>
+                  <el-button size="small" type="primary" icon="el-icon-microphone" v-show="enterVoice" @click.native="startV2">输入中</el-button>
+                  <el-button size="small" type="primary" v-show="analysisVoice" :loading="true">转译中</el-button>
+                  <el-button size="small" icon="el-icon-circle-close" @click.native="clearSmartText">清空</el-button>
+                  <el-button size="small" type="primary" icon="el-icon-document" @click.native="textTransferSortData">智能解析</el-button>
+              </el-row>
+            </div>
+
+            <div :class="temp.style.intel_report_right_item2">
+              <div class="spliterSty inner">
+                <span :class="temp.style.toolbar_txt_right">解析结果<i>*填充前请核对信息无误</i></span>
+                <!-- <span class="el-icon-warning-outline"></span> -->
+              </div>
+              <div :class="temp.style.matter_content_form">
+                <el-form label-position="right" :rules="rules" label-width="100px" class="demo-ruleForm">
+                  <el-form-item :class="temp.style.el_form_item_style" label="事发时间:">
+                    <el-input :maxlength="50" v-model.trim="smartData.incidentDate"></el-input>
+                  </el-form-item>
+                  <el-form-item :class="temp.style.el_form_item_style" label="事件类型:">
+                      <!-- <el-input :maxlength="50" v-model.trim="smartData.eventType"></el-input> -->
+                      <iams-combobox :placeholder="eventTypePlaceholder" :rootcheck="true" listtype="getInfoTypeTree" :defaultchecked="smartData.eventType" v-model="smartData.eventType"></iams-combobox>
+                  </el-form-item>
+                  <el-form-item :class="temp.style.el_form_item_style" label="事发地点:">
+                      <el-input :maxlength="50" v-model.trim="smartData.infoAddress"></el-input>
+                  </el-form-item>
+                  <el-form-item :class="temp.style.el_form_item_style" label="死亡:" prop="deathNum">
+                      <el-input :maxlength="9" v-model.number="smartData.deathNum"></el-input>
+                  </el-form-item>
+                  <el-form-item :class="temp.style.el_form_item_style" label="重伤:" prop="seriousInjureNum">
+                      <el-input :maxlength="9" v-model.number="smartData.seriousInjureNum"></el-input>
+                  </el-form-item>
+                  <el-form-item :class="temp.style.el_form_item_style" label="轻伤:" prop="minorInjureNum">
+                      <el-input :maxlength="9" v-model.number="smartData.minorInjureNum"></el-input>
+                  </el-form-item>
+                  <el-form-item :class="temp.style.el_form_item_style" label="受伤:" prop="woundNum">
+                      <el-input :maxlength="9" v-model.number="smartData.woundNum"></el-input>
+                  </el-form-item>
+                </el-form>
+              </div>  
+              <el-row :class="temp.style.intel_report_right_btn">
+                  <el-button icon="el-icon-arrow-left"@click.native="toggleShowMap()">返回</el-button>
+                  <el-button type="primary" icon="el-icon-document" @click.native="smartFillDialog = true">填充信息</el-button>
+              </el-row>    
+            </div>
+            
+          </div>
+        </div>
+      </el-scrollbar>
+    </div>
+  </div>
+  <el-dialog title="提示!" width="30%" :visible.sync="smartFillDialog">
+    <span :class="temp.style.smart_fill_dialog_text">填充前请核对信息无误</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="smartFillDialog = false">取 消</el-button>
+      <el-button type="primary" @click="msgToLeft">填 充</el-button>
+    </span>
+  </el-dialog>
+
+    <el-dialog title="人员情况" width="950px" :visible.sync="personListDialog" class="person-situation-pop"
+      @close="closePersonListDialog">
+      <!-- <el-scrollbar> -->
+      <p style="padding: 0 5px 20px 0;font-size: 0.8rem;">{{currentPersonstatus}}人数：{{currentPersonNumber}}</p>
+      <div style="height:20rem;">
+        <el-scrollbar style="height:100%;width: 100%;">
+          <div>
+            <el-table :default-sort="{prop: 'layerId'}" highlight-current-row ref="singleTable" :data="activeData">
+              <el-table-column prop="layerId" label="序号" type="index" align="center" width="50">
+              </el-table-column>
+              <el-table-column prop="name" label="姓名" width="100">
+                <template slot-scope="scope">
+                  <el-input type="text" v-model="scope.row.name" placeholder="" :disabled="scope.row.disabled"
+                    maxlength="50"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="sex" label="性别" width="80">
+                <template slot-scope="scope">
+                  <el-input v-if="scope.row.disabled" v-model="scope.row.sex" :disabled="scope.row.disabled" maxlength="10">
+                  </el-input>
+                  <el-select v-model="scope.row.sex" v-else>
+                    <el-option label="男" value="男"></el-option>
+                    <el-option label="女" value="女"></el-option>
+                  </el-select>
+                </template>
+              </el-table-column>
+              <el-table-column prop="country" label="国籍" width="80">
+                <template slot-scope="scope">
+                  <el-input v-model="scope.row.country" placeholder="" :disabled="scope.row.disabled" maxlength="50">
+                  </el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="nation" label="民族" width="80">
+                <template slot-scope="scope">
+                  <el-input v-if="scope.row.disabled || !scope.row.country || scope.row.country.indexOf('中国') === -1"
+                    v-model="scope.row.nation" placeholder="" :disabled="scope.row.disabled" maxlength="50"></el-input>
+                  <el-select v-else v-model="scope.row.nation">
+                    <el-option :label="item.label" :value="item.name" v-for="(item,index) in nationList" :key="index">
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-table-column>
+              <el-table-column prop="idCard" label="身份证号" width="160">
+                <template slot-scope="scope">
+                  <el-input v-model="scope.row.idCard" placeholder="" :disabled="scope.row.disabled" maxlength="50"
+                    @change="(val) => {changeIdCard(val, scope.row)}"></el-input>
+                </template>
+              </el-table-column>
+              <el-table-column prop="remarks" label="备注" width="200">
+                <template slot-scope="scope">
+                  <el-input v-model="scope.row.remarks" placeholder="" v-if="!scope.row.disabled" maxlength="500">
+                  </el-input>
+                  <div v-else class="text-overflow" :title="scope.row.remarks">{{scope.row.remarks}}</div>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                  <el-button @click="editPersonState(scope.row)" type="text" size="small" title="编辑"
+                    v-if="!scope.row.isEdit">编辑</el-button>
+                  <el-button @click="savePersonState(scope.row)" type="text" size="small" title="保存"
+                    v-if="scope.row.isEdit">保存</el-button>
+                  <el-button @click="cancelPersonState(scope.row)" type="text" size="small" title="取消"
+                    v-if="scope.row.isEdit">取消</el-button>
+                  <el-button @click="deletePersonState(scope.row)" type="text" size="small" title="删除"
+                    v-if="!scope.row.isEdit">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div @click="addPersonList"
+              style="height: 36px;width: 100%;border: 2px dashed rgb(238,238,238);line-height: 36px;text-align: center;cursor: pointer;margin-bottom: 20px;margin-top: 24px;">
+              <span :class="temp.style.add_person">添加</span>
+            </div>
+          </div>
+        </el-scrollbar>
+      </div>
+    </el-dialog>
+    <!-- 地图选址 -->
+      <el-dialog title="地图选址" :visible.sync="viewMapDialog">
+        <div :class="temp.style.matter_map_box">
+          <div style="display: flex;margin-bottom: 10px;">
+            <el-input placeholder="北纬 N" v-if="showlatlon" v-model="ruleForm.latitude"
+              style="width: 200px;margin-right: 20px;" @change="changeLonLatGetData($event, '1')">
+              <template slot="prepend">北纬 N</template>
+            </el-input>
+            <el-input placeholder="东经 E" v-if="showlatlon" v-model="ruleForm.longitude" style="width: 200px;"
+              @change="changeLonLatGetData($event, '2')">
+              <template slot="prepend">东经 E</template>
+            </el-input>
+            <div :class="temp.style.lat_lon_style" v-if="!showlatlon" style="line-height: 40px;">
+              <span>N:</span>
+              <input type="text" v-model="N1" style="width: 40px" @change="changeToDu('1')"></input>
+              <span>°</span>
+              <input type="text" v-model="N2" style="width: 40px" @change="changeToDu('1')"></input>
+              <span>'</span>
+              <input type="text" v-model="N3" style="width: 40px" @change="changeToDu('1')"></input>
+              <span>"</span>
+              <!-- <el-input type="text" v-model="n1" style="width: 40px"></el-input>
+                                      <span>°</span>
+                                      <el-input type="text" v-model="N2" style="width: 40px"></el-input>
+                                      <span>'</span>
+                                      <el-input type="text" v-model="N3" style="width: 40px"></el-input>
+                                      <span>"</span> -->
+            </div>
+            <div :class="temp.style.lat_lon_style" v-if="!showlatlon" style="margin-left: 10px;line-height: 40px;">
+              <span>S:</span>
+              <input type="text" v-model="S1" style="width: 40px" @change="changeToDu('2')"></input>
+              <span>°</span>
+              <input type="text" v-model="S2" style="width: 40px" @change="changeToDu('2')"></input>
+              <span>'</span>
+              <input type="text" v-model="S3" style="width: 40px" @change="changeToDu('2')"></input>
+              <span>"</span>
+            </div>
+            <div style="line-height: 40px;margin-left: 15px;cursor: pointer;" @click="handleLatLonToggle">
+              <img :src="transferIcon" width="20px" height="20px" />
+            </div>
+      
+          </div>
+          <div :class="temp.style.matter_content_map">
+            <!-- <gis-map :postflag="true" :mapinfo="mapInfo" @mapcallback="mapCallback" ref="detailMap" :islistener="true"></gis-map> -->
+            <egis-map @maprenderfinish="mapRenderFinish" :postflag="true" :mapinfo="mapInfo" @mapcallback="mapCallback"
+              @mapstatustips="mapStatusTips" ref="detailMap"></egis-map>
+          </div>
+        </div>
+      </el-dialog>
+      <!-- egis-map 隐藏在此处查询地理位置 -->
+      <egis-map @maprenderfinish="mapRenderFinish" :postflag="true" :mapinfo="mapInfo" @mapcallback="mapCallback"
+        @mapstatustips="mapStatusTips" ref="hideMap" v-show="false"></egis-map>
+
+  <!-- 信息处理 -->
+  <information-handling v-if="manageDialog" @cancelpop="cancelPop" :infoid="editId" :xbinfoid="editId"  :cbflag="cbFlag"> </information-handling>
+
+
+</div>

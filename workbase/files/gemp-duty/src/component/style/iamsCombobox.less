@@ -1,0 +1,84 @@
+.search_slide {
+    position     : absolute;
+    transition   : all 0.5s;
+    top          : 50px;
+    width        : 100%;
+    background   : rgba(255, 255, 255, .9);
+    border       : 1px solid #E4E7ED;
+    box-shadow   : 0 2px 12px 0 rgba(0, 0, 0, .1);
+    border-radius: 4px;
+    box-sizing   : border-box;
+    z-index      : 11;
+
+    .tabs {
+        padding: 0 4px;
+
+        .filter_list {
+            li {
+                cursor      : pointer;
+                color       : #606266;
+                font-size   : 14px;
+                padding-left: 18px;
+                line-height: 30px;
+
+                &:hover {
+                    background: #66b1ff;
+                    color     : #fff;
+                }
+
+                &.active {
+                    background: #66b1ff;
+                    color     : #fff;
+                }
+            }
+        }
+    }
+
+    .popper__arrow {
+        position           : absolute;
+        display            : block;
+        width              : 0;
+        height             : 0;
+        border-color       : transparent;
+        border-style       : solid;
+        border-width       : 6px;
+        -webkit-filter     : drop-shadow(0 2px 12px rgba(0, 0, 0, .03));
+        filter             : drop-shadow(0 2px 12px rgba(0, 0, 0, .03));
+        top                : -6px;
+        left               : 50%;
+        margin-right       : 3px;
+        border-top-width   : 0;
+        border-bottom-color: #EBEEF5;
+
+        &:after {
+            content            : '';
+            position           : absolute;
+            display            : block;
+            width              : 0;
+            height             : 0;
+            border-color       : transparent;
+            border-style       : solid;
+            border-width       : 6px;
+            top                : 1px;
+            margin-left        : -6px;
+            border-top-width   : 0;
+            border-bottom-color: #FFF
+        }
+    }
+}
+
+.headerdrops {
+    margin-left  : 1.6rem;
+    margin-bottom: 3px;
+    display      : inline-block;
+    width        : 6px;
+    height       : 6px;
+    border-radius: 50%;
+    background   : #C0C4CC;
+}
+
+.tree_icon {
+    color    : #C0C4CC;
+    font-size: 18px;
+    padding  : 6px;
+}

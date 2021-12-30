@@ -1,0 +1,62 @@
+<div :class="temp.style.detailPage">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" content="事故详情"></el-page-header>
+        </div>
+        <div class="toolbar_right accidentButton">
+            <el-button size="small" type="primary" class="el-icon-arrow-left" @click="$router.history.go(-1)">返回</el-button>
+            <!-- <el-button size="small" type="primary" @click="saveInfo" icon="el-icon-check">保存</el-button> -->
+        </div>
+    </div>
+    <div :class="temp.style.content">
+        <el-form label-position="right" :model="ruleForm" :disabled="disabled" :rules="rules" ref="ruleForm" label-width="120px"
+            class="demo-ruleForm accidentDetailData">
+            <p :class="temp.style.title">* 基本信息</p>
+            <div :class="temp.style.accidentSelect">
+                <el-form-item prop="accName" label="事故名称:">
+                    <span slot="label" :class="temp.style.formitem_title">事故名称:</span>
+                    <el-input v-model="ruleForm.accName"></el-input>
+                </el-form-item>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item prop="accTypeCode" :class="temp.style.form_item" label="事故名称:">
+                            <span slot="label" :class="temp.style.formitem_title">事故类型:</span>
+                            <el-select v-model="ruleForm.accTypeCode" placeholder="请选择事故类型">
+                                <el-option v-for="options in accidentType" :label="options.accTypeName" :value="options.accTypeCode" :key="options.accTypeCode"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item prop="accLevelCode" :class="temp.style.form_item">
+                            <span slot="label" :class="temp.style.formitem_title">事件等级:</span>
+                            <el-select v-model="ruleForm.accLevelCode" placeholder="请选择事故级别">
+                                <el-option v-for="options in accidentLevel" :label="options.accLevelName" :value="options.accLevelCode" :key="options.accLevelCode"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+            <div class="accidentDetail">
+                <p :class="temp.style.title">* 详细信息</p>
+                <el-row :class="temp.style.accidentinfo">
+                    <el-col :span="4">
+                        <div :class="temp.style.eaaminetitle">
+                            <i :class="showNode?'el-icon-arrow-down':'el-icon-arrow-right'" @click="spreadNode"></i>
+                            调查情况
+                        </div>
+                        <div :class="temp.style.childrenNode" v-show="showNode">
+                            <div @click="changeClassName(index,item)" v-for="(item,index) in childrenNodeData" :key="index" :class="{'blue':index == nodeIndex }">
+                                <img src="../../../assets/image/accident.png" alt="">
+                                <i class="el-icon-search"></i>{{ item.name }}</div>
+                        </div>
+                    </el-col>
+                    <el-col :span="20">
+                        <el-form-item v-for="item in childrenNodeData" :key="item.id">
+                            <el-input type="textarea" :rows="21" v-show="item.flag" :placeholder='"在这里填写“"+item.name+"”信息"' v-model="tableform[item.value]"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+        </el-form>
+    </div>
+</div>

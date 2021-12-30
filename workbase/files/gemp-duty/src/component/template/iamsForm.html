@@ -1,0 +1,157 @@
+<div class="flex-full iams-form">
+  <el-scrollbar>
+    <el-form :label-width="value.width?value.width:'100px'" :model="value.data" :disabled=disabled ref="simpletableform"
+      id="simpletableform">
+      <el-row v-for="(rowData,$index) in propRules" :key="$index">
+        <div v-if="rowData.label" class="form-risk-title">{{rowData.label}}</div>
+        <el-col v-for="(row,index) in rowData.dataProp" :span="rowData.span[index]" :key="index">
+          <div v-for="inputCell in row" :key="inputCell.prop">
+            <div v-if="inputCell instanceof Array">
+              <el-row>
+                <el-col v-for="cells in inputCell" :span="24/inputCell.length" :key="cells.prop">
+                  <el-form-item :label="cells.label" :prop="cells.prop" :rules="cells.rules">
+                    <el-input v-if="cells.type == 'text'" v-model="value.data[cells.prop]" :maxlength="cells.maxlength">
+                    </el-input>
+                    <el-input v-if="cells.type == 'number'" v-model="value.data[cells.prop]"
+                      :maxlength="cells.maxlength">
+                      <i slot='suffix'>人</i>
+                    </el-input>
+                    <el-input v-if="cells.type == 'email'" v-model="value.data[cells.prop]"
+                      :maxlength="cells.maxlength">
+                    </el-input>
+                    <el-input v-if="cells.type == 'time'" v-model="value.data[cells.prop]" :maxlength="cells.maxlength">
+                      <i slot='suffix'>小时</i>
+                    </el-input>
+                    <el-input v-if="cells.type == 'num'" v-model="value.data[cells.prop]" :maxlength="cells.maxlength">
+                    </el-input>
+                    <el-input v-if="cells.type == 'area'" v-model="value.data[cells.prop]" :maxlength="cells.maxlength">
+                      <i slot='suffix'>平方米</i>
+                    </el-input>
+                    <el-input v-if="cells.type == 'cube'" v-model="value.data[cells.prop]" :maxlength="cells.maxlength">
+                      <i slot='suffix'>立方米</i>
+                    </el-input>
+                    <el-autocomplete v-if="inputCell.type == 'address'" v-model="value.data[inputCell.prop]"
+                      :fetch-suggestions="searchAddress" :trigger-on-focus="false" @select="selectAddress"
+                      :maxlength="cells.maxlength"></el-autocomplete>
+                    <el-date-picker v-if="cells.type == 'date' || cells.type == 'datetime'"
+                      v-model="value.data[cells.prop]" type="cells.prop">
+                    </el-date-picker>
+                    <el-select v-model="value.data[inputCell.prop]"
+                      v-if="cells.type == 'option' && cells.source == 'storagePoint'" @change="getstoragePointCode"
+                      :disabled="cell.disabled">
+                      <el-option v-for=" options in disabledData" :label="options.label" :value="options.id"
+                        :key="options.id"></el-option>
+                    </el-select>
+                    <iams-selectlist v-if="cells.type == 'select'" :listtype="cells.source" :disabled="cells.disabled"
+                      v-model="value.data[inputCell.prop]" :defaultchecked="value.data[cells.prop]">
+                    </iams-selectlist>
+                    <iams-combobox v-if="cells.type == 'tree'" :defaultchecked="value.data[cells.prop]"
+                      :listtype="cells.source" :rootcheck="true" v-model="value.data[cells.prop]">
+                    </iams-combobox>
+                    <iams-upload :disabled="disabled" v-if="cells.type == 'imgUpload'" v-bind="cells.bind || {}"
+                      v-model="value.data[cells.prop]"
+                      :attachmentlist="value.data[inputCell.prop]?[{name:value.data[inputCell.prop].substring(value.data[inputCell.prop].length-6),url:value.data[inputCell.prop]}]:[]">
+                    </iams-upload>
+                    <el-input v-if="cells.type == 'textarea' && !disabled" v-model="value.data[cells.prop]"
+                      type="textarea" :maxlength="cells.maxlength" show-word-limit>
+                    </el-input>
+                    <div v-if="cells.type == 'textarea' && disabled" class="simpletablearea" :autosize="autoHeight">
+                      <el-scrollbar>
+                        <div>{{ value.data[cells.prop] }}</div>
+                      </el-scrollbar>
+                    </div>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
+            <div v-else>
+              <el-form-item :label="inputCell.label" :prop="inputCell.prop" :rules="inputCell.rules">
+                <el-input v-if="inputCell.type == 'text'" v-model="value.data[inputCell.prop]"
+                  :disabled="!!inputCell.disabled" :maxlength="inputCell.maxlength">
+                </el-input>
+                <el-input v-if="inputCell.type == 'handlingPeople'" v-model="value.data[inputCell.prop]"
+                  :maxlength="inputCell.maxlength" :disabled="true">
+                </el-input>
+                <el-autocomplete v-if="inputCell.type == 'address'" v-model="value.data[inputCell.prop]"
+                  :fetch-suggestions="searchAddress" :trigger-on-focus="false" @select="selectAddress"
+                  :maxlength="inputCell.maxlength"></el-autocomplete>
+                <el-input v-if="inputCell.type == 'email'" v-model="value.data[inputCell.prop]"
+                  :maxlength="inputCell.maxlength">
+                </el-input>
+                <el-input v-if="inputCell.type == 'number'" v-model="value.data[inputCell.prop]"
+                  :maxlength="inputCell.maxlength">
+                  <i slot='suffix'>人</i>
+                </el-input>
+                <el-input v-if="inputCell.type == 'time'" v-model="value.data[inputCell.prop]"
+                  :maxlength="inputCell.maxlength">
+                  <i slot='suffix'>小时</i>
+                </el-input>
+                <el-input v-if="inputCell.type == 'num'" v-model="value.data[inputCell.prop]"
+                  :maxlength="inputCell.maxlength">
+                </el-input>
+                <el-input v-if="inputCell.type == 'area'" v-model="value.data[inputCell.prop]"
+                  :maxlength="inputCell.maxlength">
+                  <i slot='suffix'>平方米</i>
+                </el-input>
+                <el-input v-if="inputCell.type == 'cube'" v-model="value.data[inputCell.prop]"
+                  :maxlength="inputCell.maxlength">
+                  <i slot='suffix'>立方米</i>
+                </el-input>
+                <el-date-picker v-if="inputCell.type == 'date' || inputCell.type == 'datetime' "
+                  v-model="value.data[inputCell.prop]" :type="inputCell.type" placeholder="请选择日期">
+                </el-date-picker>
+                <el-select v-model="value.data[inputCell.prop]" v-if="inputCell.type == 'selectCommon'">
+                  <el-option v-for="options in inputCell.option" :label="options.label" :value="options.value">
+                  </el-option>
+                </el-select>
+                <el-select v-model="value.data[inputCell.prop]"
+                  v-if="inputCell.type == 'option' && inputCell.source == 'storagePoint'" @change="getstoragePointCode"
+                  :disabled="inputCell.disabled">
+                  <el-option v-for="(options,indexop) in disabledData" :label="options.label" :key="indexop"
+                    :value="options.id"></el-option>
+                </el-select>
+                <iams-selectlist v-if="inputCell.type == 'select'" :defaultchecked="value.data[inputCell.prop]"
+                  :listtype="inputCell.source" v-model="value.data[inputCell.prop]" :disabled="inputCell.disabled">
+                </iams-selectlist>
+                <iams-combobox v-if="inputCell.type == 'tree'" :defaultchecked="value.data[inputCell.prop]"
+                  :listtype="inputCell.source" :rootcheck="true" v-model="value.data[inputCell.prop]">
+                </iams-combobox>
+                <iams-upload :disabled="disabled" v-if="inputCell.type == 'imgUpload'" v-bind="inputCell.bind || {}"
+                  v-model="value.data[inputCell.prop]"
+                  :attachmentlist="value.data[inputCell.prop]?[{name:value.data[inputCell.prop].substring(value.data[inputCell.prop].length-6),url:value.data[inputCell.prop] z}]:[]">
+                </iams-upload>
+                <!-- 文本域 刘文磊 -->
+                <el-input v-if="inputCell.type == 'textarea' && !disabled" v-model="value.data[inputCell.prop]"
+                  type="textarea" :maxlength="inputCell.maxlength" show-word-limit>
+                </el-input>
+                <el-select v-model="value.data[inputCell.prop]"
+                  v-if="inputCell.type == 'option' && inputCell.prop == 'recoredType'">
+                  <el-option v-for="(options,indexop) in recoredType" :label="options.label" :key="indexop"
+                    :value="options.id"></el-option>
+                </el-select>
+                <div :class="temp.style.show_picture" v-if="inputCell.type == 'picture'">
+                  <img :class="temp.style.show_title" :src="value.data[inputCell.prop]" alt=""  v-if="value.data[inputCell.prop]">
+                  <img :class="temp.style.show_title" src="../../../assets/image/nopic.png" alt="" v-else>
+                </div>
+                <div v-if="inputCell.type == 'textarea' && disabled" class="simpletablearea  simpletablearealeft"
+                  :autosize="autoHeight">
+                  <el-scrollbar>
+                    <div>{{ value.data[inputCell.prop] }}</div>
+                  </el-scrollbar>
+                </div>
+              </el-form-item>
+            </div>
+          </div>
+          <el-form-item v-if="$index==0 && index == 1 && !gisshow">
+            <div class="gismap_div">
+              <span class="gisname">地图定位: </span>
+              <!-- <gis-map :mapinfo="mapinfo" ref="detailMap" :mapcallback="mapmessage"></gis-map> -->
+              <egis-map :postflag="true" :mapinfo="mapinfo" @mapcallback="mapCallback" ref="detailMap"
+                :islistener="true"></egis-map>
+            </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+  </el-scrollbar>
+</div>

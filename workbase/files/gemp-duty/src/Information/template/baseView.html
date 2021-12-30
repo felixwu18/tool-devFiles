@@ -1,0 +1,8 @@
+<div  class="flex-full">
+    <el-container class="flex-full">
+        <nav-bar :childrenlist="childrenList"></nav-bar>
+        <div class="flex-full">
+            <router-view :key="$route.fullPath"></router-view>
+        </div>
+    </el-container>
+</div>

@@ -1,0 +1,68 @@
+<div class="flex-full">
+    <div  :class="temp.style.details_top">
+            <div :class="temp.style.details_title">
+                <p>{{propsData.infoTitle}}</p>
+                <p>
+                    <span>{{propsData.orgName}}</span>
+                    <span>{{propsData.reportPerson}}</span>
+                    <span>更新时间：{{propsData.updateTime}}</span>
+                </p>
+            </div>
+            <!-- <el-page-header title="" content="信息详情"></el-page-header> -->
+            <div  :class="temp.style.back_btn">
+                <el-button size="small" plain type="primary" @click="back" icon="el-icon-arrow-left">
+                    返回</el-button>
+                <el-button size="small" type="primary" @click="createEvent" icon="el-icon-document" :disabled="eventDisabled">生成事件</el-button>
+            </div>
+            <div :class="temp.style.tabs">
+                <div :class="tabType === '1'?temp.style.tabs_pane_active:''" @click="changeTabType('1')">事件信息</div>
+                <div :class="tabType === '2'?temp.style.tabs_pane_active:''" @click="changeTabType('2')">现场汇报</div>
+                <div :class="tabType === '3'?temp.style.tabs_pane_active:''" @click="changeTabType('3')">专家意见</div>
+                <div :class="tabType === '4'?temp.style.tabs_pane_active:''" @click="changeTabType('4')">调度指令</div>
+            </div>
+    </div>
+    <div class="flex-full" :class="temp.style.details_content_box">
+        <div class="flex-full" :class="temp.style.details_content_left_box" :style="{width:leftContentWidth}">
+            <div :class="temp.style.details_content_left" class="flex-full">
+            
+                <details-content ref="detaiWrap" @getdata="getInfoDetail" :mapupdatesize="isLeftMapShow" 
+                    @supplementbtnclick="click('supplement-dialog','补充信息')" :tabtype="tabType">
+                </details-content>
+            </div>
+        </div>
+  
+        
+        <div :class="temp.style.details_content_right" class="details_content_right" :style="{right:rightMap}">
+            <div class="controlBtn" :class="{'el-icon-arrow-left': isLeftMapShow, 'el-icon-arrow-right': !isLeftMapShow}"
+                                    @click="toggleShowMap"></div>
+            <details-nav :signforflag="signForFlag" :detailsright="propsData" ></details-nav>
+        </div>
+
+    </div>
+
+
+
+    <el-dialog :title="tilteName" :visible.sync="flag" :destroy-on-close="true" top="8vh">
+        <component :is="templateName" ref="childrenDialog" :propdata="propsData" @dialogcallback="closeDialogCall">
+        </component>
+    </el-dialog>
+    <!-- 抄送弹窗 -->
+    <el-dialog title="抄送信息" :visible.sync="viewDialog" :destroy-on-close="true">
+
+        <el-form :class="temp.style.infoExam" label-width="80px">
+            <el-form-item label="抄送单位">
+                <div>
+                    <iams-combobox listtype="getMultipleOrgTree" :receive="true" :rootcheck="true" :multiple="true"
+                        @change="getOrg"></iams-combobox>
+                </div>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" icon="el-icon-switch-button" plain @click="viewDialog=false">取消</el-button>
+            <el-button type="primary" icon="el-icon-check" @click="afterCopy">确定</el-button>
+        </div>
+    </el-dialog>
+    <div @click="gotop" :class="temp.style.gotop" v-show="gobackbtn" title="返回顶部">
+      <!-- <el-button type="warning" plain circle><i class="el-icon-top"></i></el-button> -->
+    </div>
+</div>

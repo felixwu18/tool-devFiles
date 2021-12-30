@@ -1,0 +1,47 @@
+<div :class="temp.style.details_leader" v-show="propdata && propdata.length > 0">
+  <el-scrollbar>
+    <div class="details-leader-title" style="height: 13rem">
+      <el-table ref="leadershiptable" :data="propdata" style="width:100%" @selection-change="hanlderChange">
+        <el-table-column type="selection" width="100" v-if="(roleLevel || store.state.HANDLE_STATE) && !(this.config && this.config.defaultCheckAll || this.onlyshow)"> </el-table-column>
+        <el-table-column width="40" v-else> </el-table-column>
+        <el-table-column>
+          <template slot="header">
+            <div style="font-size: 1rem;color:#ff5555;padding-left: 0">
+              <i class="el-icon-tickets"></i>
+              <span>领导批阅:</span>
+            </div>
+          </template>
+          <template slot-scope="scope">
+            <div>
+              <i class="el-icon-s-custom"></i>
+              <span style="color: #ccc">{{scope.row.indirectPerson}}同志</span>
+              <span style="color: #ccc;float:right;font-size: 12px;margin-right:0.5rem">{{scope.row.disposeTime}} </span>
+            </div>
+            <div :class="temp.style.content" :title="scope.row.disposeDescription">{{scope.row.disposeDescription}} </div>
+          </template>
+        </el-table-column>
+        <el-table-column width="280" v-if="!(this.config && this.config.defaultCheckAll || this.onlyshow)">
+          <template slot="header">
+            <!-- 垂直体系的代码合并 -->
+            <div style="display: inline-flex;">
+                <el-button style="display: inline-block!important;" ref="handleButton" icon="el-icon-s-promotion" v-show="roleLevel || store.state.HANDLE_STATE" plain size="small" type="primary" @click.native="transferClick('transfer-dialog','转办督办')">转办</el-button>
+                <el-button style="display: inline-block!important;" ref="handleButton" icon="el-icon-tickets" v-show="roleLevel || store.state.HANDLE_STATE" plain size="small" type="primary" @click.native="cleanUpClick('clean-up','抄清')">抄清</el-button>
+            </div>
+
+            <!-- <el-button ref="handleButton" icon="el-icon-s-promotion" v-show="roleLevel || store.state.HANDLE_STATE" plain size="small" type="primary" @click.native="transferClick('transfer-dialog','转办督办')">转办</el-button> -->
+          </template>
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.disposeOrder !== 1" type="text" @click.native="sticky(scope.$index,scope.row)">上移</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+  </el-scrollbar>
+  <el-dialog :title="tilteName" :visible.sync="flag" :destroy-on-close="true">
+    <component :is="templateName" ref="childrenDialog" :propdata="detailsLeaderSelect" :infodisposeid="detailsLeaderSelectid" @dialogcallback="closeDialogCall"></component>
+  </el-dialog>
+  <!-- 抄清弹框页面 -->
+  <el-dialog :visible.sync="viewDialogCleanUp" :destroy-on-close="true" class="viewDialogPreview">
+    <component v-if="viewDialogCleanUp" :is="templateName" :propdata="propsData" @dialogcallback="closeDialogCallCleanUp"></component>
+  </el-dialog>
+</div>

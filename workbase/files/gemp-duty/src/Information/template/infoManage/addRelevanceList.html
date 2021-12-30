@@ -1,0 +1,23 @@
+<div class="flex-full">
+    <div :class="temp.style.b_list">
+        <el-form :inline="true" :class="temp.style.b_list_header">
+            <el-form-item label="事件类型:" style="vertical-align: middle;" class='label_style'>
+                <div :class="temp.style.b_list_header_content">
+                    <iams-combobox :class="temp.style.b_list_header_select" placeholder="请选择事件类型" :rootcheck="true"
+                        listtype="getInfoTypeTree" :defaultchecked="searchData.eventTypes"
+                        v-model="searchData.eventTypes" @change="selectEventType">
+                    </iams-combobox>
+                    <el-input :class="temp.style.b_list_header_input" placeholder="可按标题搜索"
+                        v-model="searchData.infoTitle" @keyup.enter.native="getMessageList(1)">
+                        <el-button slot="append" @click="getMessageList(1)" icon="el-icon-search"></el-button>
+                    </el-input>
+                </div>
+            </el-form-item>
+        </el-form>
+        <list-table :class="temp.style.b_list_body" :propdata="propData" :unsortable="true" ref='getListData'
+            @tablecallback="tablecallback" @handleselection="selectionChange" id="border_style"></list-table>
+    </div>
+    <div :class="temp.style.b_center">
+        <el-button @click.native='addMessage' type="primary" :class='temp.style.width8'>关联信息</el-button>
+    </div>
+</div>

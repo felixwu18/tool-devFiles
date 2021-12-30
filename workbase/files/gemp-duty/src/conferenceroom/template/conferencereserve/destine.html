@@ -1,0 +1,57 @@
+<div class="flex-full">
+    <div :class="temp.style.search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="会议室预定列表"></el-page-header>
+        </div>
+        <div class="right_search">
+            <span>{{showTime}}</span>
+            <i class="el-icon-arrow-left" @click="searchDate(-1)"></i>
+            <el-date-picker type="week" placeholder="选择周" :picker-options="{'firstDayOfWeek': 1}" format="yyyy 第 WW 周" value.format="yyyy-MM-dd" v-model="search_time" @change="getChangeData" :clearable="false"></el-date-picker>
+            <i class="el-icon-arrow-right" @click="searchDate(1)"></i>
+            <el-button type="primary" @click.native="Tweek">查看本周
+            </el-button>
+        </div>
+    </div>
+    <div style="height:94% !important;padding: 1.4rem;">
+        <el-scrollbar id="calendar">
+            <div :class="temp.style.calendar">
+                <div :class="temp.style.calendar_header">
+                    <div>周一 (<span>{{MondayTime}}</span>)</div>
+                    <div>周二 (<span>{{TuesdayTime}}</span>)</div>
+                    <div>周三 (<span>{{WednesdayTime}}</span>)</div>
+                    <div>周四 (<span>{{ThursdayTime}}</span>)</div>
+                    <div>周五 (<span>{{FridayTime}}</span>)</div>
+                    <div>周六 (<span>{{SaturdayTime}}</span>)</div>
+                    <div>周日 (<span>{{SundayTime}}</span>)</div>
+                </div>
+                <div :class="temp.style.calendar_body" v-for="week,index in tabledata" :key="index">
+                    <span v-for="day,dayindex in week" :key="dayindex" width="360">
+                        <div slot="reference" :class="temp.style.caltoday">
+                            <el-tooltip class="item" effect="dark" :content="day.roomName" placement="top">
+                            <span :class="temp.style.title">{{day.roomName}}</span>
+                            </el-tooltip>
+                            <span :class="temp.style.add" @click="add(day)">新增</span>
+                            <span :class="temp.style.add" @click="edit(day.roomId,day.dtime)">编辑</span>
+                        </div>
+                        <div :class="temp.style.elscroll">
+                            <el-scrollbar style="height: 100%;">
+                                <div v-if="day.reserveInfos&&day.reserveInfos.length>0">
+                                    <div v-for="item,itemindex in day.reserveInfos" :class="temp.style.reserveInfos">
+                                        {{item.meetingStartTime}} - {{item.meetingEndTime}} {{item.reserveName}}(订)
+                                    </div>
+                                </div>
+                                <div v-else :class="temp.style.kong">空闲</div>
+                                
+                            </el-scrollbar>
+                        </div>
+                        
+                    </span>
+                </div>
+            </div>
+        </el-scrollbar>
+    </div>
+    <!-- <list-table :propdata="propData" @tablecallback="tablecallback" :classname="tableRowClassName"></list-table> -->
+    <!-- <el-dialog :close-on-click-modal="false" :title="dialogOption.titleName" :visible.sync="dialogOption.flag" v-if="dialogOption.flag">
+        <component :is="dialogOption.componentName" :propdata="dialogOption.propsData" @dialogcallback="closeDialogCall"></component>
+    </el-dialog> -->
+</div>

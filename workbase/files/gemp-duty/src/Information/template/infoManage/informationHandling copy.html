@@ -1,0 +1,43 @@
+
+  <!-- 信息处理 -->
+  <el-dialog title="信息处理" :visible.sync="manageDialog" @close="cancel">
+    <div :class="temp.style.manage_box">
+      <div :class="temp.style.manage_box_left">
+        <el-radio v-model="manageType" label="1">信息拟办</el-radio>
+        <el-radio v-model="manageType" label="2">信息审核</el-radio>
+        <el-radio v-model="manageType" label="3">领导批示</el-radio>
+        <el-radio v-model="manageType" label="4" :class="temp.style.manage_radio" v-if="cbflag">呈报上报</el-radio>
+      </div>
+      <div :class="temp.style.manage_box_right">
+        <div>
+            <span>发送给：</span>
+            <span :class="proposeList.find(ele=>{return ele.userId === item.userId}) ?[temp.style.manage_person_box,temp.style.active]:temp.style.manage_person_box" v-for="(item,index) in proposeOption" :key="index" @click="chosePersonnel(1,item)">{{item.userName}}</span>
+        </div>
+        <div>
+          <span>发送给：</span>
+            <span :class="checkList.find(ele=>{return ele.userId === item.userId}) ?[temp.style.manage_person_box,temp.style.active]:temp.style.manage_person_box" v-for="(item,index) in checkOption" :key="index" @click="chosePersonnel(2,item)">{{item.userName}}</span>
+        </div>
+        <div>
+          <span>发送给：</span>
+          <span :class="leaderList.find(ele=>{return ele.userId === item.userId}) ?[temp.style.manage_person_box,temp.style.active]:temp.style.manage_person_box" v-for="(item,index) in leaderOption" :key="index" @click="chosePersonnel(3,item)">{{item.userName}}</span>
+        </div>
+        <div>
+          <span>批阅时间：</span>
+          <el-date-picker type="datetime" :picker-options="pickerOptions" v-model="instructTime" range-separator="至"
+            start-placeholder="开始日期" end-placeholder="结束日期" style="width: 50%;">
+          </el-date-picker>
+        </div>
+      </div>
+    </div>
+    <div :class="temp.style.explain_box" v-if="!cbflag">
+      <span>说明：</span>
+      <div>
+        <el-input type="textarea" placeholder="请输入内容" v-model="approvalContent" maxlength="1000" show-word-limit></el-input>
+      </div>
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="primary" icon="el-icon-switch-button" plain @click="cancel">取消</el-button>
+      <el-button type="primary" icon="el-icon-check" @click="saveFun">提交</el-button>
+    </div>
+  </el-dialog>
+

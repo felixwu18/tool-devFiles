@@ -1,0 +1,22 @@
+<div class="flex-full list-contain">
+    <div class="flex-header" :class="temp.style.header_button">
+        <el-radio-group v-model="checkPage" @change="change">
+            <el-radio-button label="1" :class="temp.style.el_button">接收公文<div :class="temp.style.header_icon" v-if="unreadShow">{{unreadnum}}</div></el-radio-button>
+            <el-radio-button label="2">上报公文</el-radio-button>
+            <el-radio-button label="3">下发公文</el-radio-button>
+            <!-- <el-radio-button label="4">草稿箱</el-radio-button> -->
+            <!-- <div :class="temp.style.header_add">
+                <el-button icon="el-icon-plus" type="primary">上报公文</el-button>
+                <el-button icon="el-icon-plus" type="primary">下发公文</el-button>
+            </div> -->
+        </el-radio-group>
+        <!-- <el-button type="primary" @click="toread" @surechange="surechange">一键已读</el-button> -->
+
+    </div>
+    <div class="flex-full">
+        <receipt-document v-if="checkPage == '1'" :navselectcode="navselectcode"></receipt-document>
+        <report-document v-if="checkPage == '2'"></report-document>
+        <lower-hair-document v-if="checkPage == '3'"></lower-hair-document>
+        <!-- <draft-document v-if="checkPage == '4'"></draft-document> -->
+    </div>
+</div>

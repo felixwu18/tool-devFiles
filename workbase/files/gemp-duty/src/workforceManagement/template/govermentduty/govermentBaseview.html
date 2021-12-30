@@ -1,0 +1,44 @@
+<div class="flex-full govermentdutyTable">
+  <div class="search_filter">
+    <!-- <div class="toolbar_txt"> {{searchlist.date.slice(0,4)}}年{{searchlist.date.slice(5,7)}}月值班表 -->
+      <el-page-header title="" :content="searchlist.date.slice(0,4)+'年'+searchlist.date.slice(5,7)+'月值班表'"></el-page-header>
+    </div>
+    <div class="toolbar_right" :class="temp.style.toolbar_right">
+      <el-date-picker type="month" placeholder="请选择月份" value-format="yyyy-MM" v-model="searchlist.date" @change="updatetable"></el-date-picker>
+      <!-- <el-button style="margin-left:8px" type="primary" icon="el-icon-search" @click.native="loadData">搜索</el-button> -->
+      <el-button type="primary" icon="el-icon-download" @click.native="exporttable">导出</el-button>
+      <el-button type="primary" icon="el-icon-plus" @click.native="submit">保存</el-button>
+
+      
+      <!-- <span :class="temp.style.buttonset" @click="go('/workforceManagement/govermenttable')">
+        <i class="el-icon-picture"></i>
+      </span>
+      <span :class="temp.style.buttonpain">
+        <i class="el-icon-s-operation"></i>
+      </span> -->
+
+      <span :class="switchover? temp.style.buttonpain:temp.style.buttonset" @click="changeType(1)">
+        <i class="el-icon-picture"></i>
+      </span>
+      <span :class="switchover?temp.style.buttonset:temp.style.buttonpain" @click="changeType(0)">
+        <i class="el-icon-s-operation"></i>
+      </span>
+    </div>
+  </div>
+  <!-- 列表 -->
+  <div class="duty-list flex-ful">
+    <div class="duty-list-left">
+      <search-tree listtype="getOrgTree" @change="getOrg" ></search-tree>
+    </div>
+    <div class="duty-list-right flex-ful " style="padding-top: 0.5rem;">
+      <goverment-dutytable v-show="switchover" :tabledata="tableData1" :day1="day1" :day2="day2" :day3="day3" :night1="night1" :night2="night2" :night3="night3" @updatetable="updatetable"
+      :submitflag="submitflag1"></goverment-dutytable>
+      <goverment-dutylist v-show="!switchover" :tabledata="tableData2" :day1="day1" :day2="day2" :day3="day3" :night1="night1" :night2="night2" :night3="night3" @updatetable="updatetable" :submitflag="submitflag2"></goverment-dutylist>
+     
+    </div>
+    <!-- 替换班情况弹框 -->
+    <!-- <el-dialog :title="dialogOption.titleName" :visible.sync="dialogOption.flag">
+      <goverment-detail v-model="dialogOption.formdata" :dutytype="dialogOption.type"></goverment-detail>
+    </el-dialog> -->
+  </div>
+</div>

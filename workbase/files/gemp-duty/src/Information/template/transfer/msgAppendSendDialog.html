@@ -1,0 +1,27 @@
+<div class="transferDialog">
+  <el-form :class="temp.style.infoExam" :model="transferData" label-width="120px" ref="transferDialog" :rules="rules">
+    <el-form-item label="接收单位：" prop="orgCodes">
+      <div>
+        <!-- <iams-combobox :list="false" listtype="getTreeByTenantId" :receive="true" :rootcheck="true" :multiple="true" v-model="transferData.orgCodes" :defaultchecked="defaultchecked"></iams-combobox> -->
+        <el-cascader placeholder="请输入接收单位名称" v-model="transferData.orgCodes" :options="reviceOrgdata"
+          :collapse-tags="transferData.orgCodes.length > 2" :props="optionProps" change-on-select filterable>
+        </el-cascader>
+      </div>
+    </el-form-item>
+    <el-form-item label="接收人：" prop="userids">
+      <div>
+        <el-cascader :disabled="transferData.orgCodes.length === 0" v-model="transferData.userids"
+        :collapse-tags="transferData.userids.length > 2"
+          :options="reviceUserdata" :props="{ multiple: true }">
+        </el-cascader>
+      </div>
+    </el-form-item>
+    <el-form-item label="转办意见：" prop="opinionContent">
+        <el-input resize="none" rows="6" type="textarea" placeholder="请输入转办意见" maxlength='200' show-word-limit v-model="transferData.opinionContent"></el-input>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button type="danger" icon="el-icon-delete" @click.native="closeDialogCall(propdata)">取消</el-button>
+    <el-button type="primary" icon="el-icon-check" @click="saveTransfer">确定</el-button>
+  </div>
+</div>

@@ -1,0 +1,249 @@
+
+.new_text_add{
+     height: 100%;
+    .add_nav{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        .textAdd_left{
+            width: 75%;
+            height: 100%;
+            padding: 1rem 2rem;
+            .first_pane{
+                h4{
+                    display: inline-block;
+                }
+                .input{
+                    overflow: hidden;
+                }
+            }
+            .prompt{
+              line-height: 25px;
+              text-align: right;
+            }
+        }
+        .textAdd_right{
+            .rightHight{
+              position: absolute;
+              right: 0;
+              top: 0;
+              bottom: 8rem;
+              padding: 20px;
+              width: 100%;
+            }
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 25%;
+            height: 100%;
+            border-left: 1px solid #dfdfe3;
+            .box_card{
+                font-size: 14px;
+              margin-top:10px;
+              .card_header{
+               line-height: 1.3rem;
+               font-weight: 500;
+              }
+              .card_title{
+                    height: 30px;
+                    position: absolute;
+                    right: 0;
+                    top: 15px;
+                    span{
+                        float: left;
+                        padding:0 5px;
+                        height: 28px;
+                        background: #4A7DFF;
+                        color: #fff;
+                        line-height: 28px;
+                        max-width: 130px;
+                    }
+              }
+              .card_title::before{
+                    content: "";
+                    float: left;
+                    box-sizing: border-box;
+                    width: 0;
+                    height: 0px;
+                    border-width: 15px;
+                    border-style: solid;
+                    border-color: transparent #4A7DFF transparent transparent;
+                    margin-left: -14px;
+              }
+              .card_title::after{
+                      content: "";
+                        float: left;
+                        height: 28px;
+                        width: 6px;
+                        background: linear-gradient(to right, #4A7DFF, #2853b5);
+                        transform: skewY(40deg);
+                        margin-top:2px;
+              }
+           
+              .card_body{
+                  p{
+                      line-height: 35px;
+                    //   font-size: 12px;
+                      span:first-child{
+                        color:#909399;
+                      }
+                  }
+              }
+              .card_footer{
+                  position: absolute;
+                  left: 0px;
+                  right:0px;
+                  bottom:0px;
+                  text-align: center;
+                  height: 30px;
+                  background: #fafafa;
+                  line-height: 30px;
+                  color: #4A7DFF;
+              }
+             
+            }
+            .box_detail{
+                font-size:14px;
+                .detail_header{
+                height: 30px;
+                color:#4A7DFF;
+                background: #fafafa;
+                line-height: 30px;
+                padding: 0 20px;
+                font-weight: bold;
+                border-bottom:1px solid #dfdfe3;
+              }
+              .detail_body{
+                  padding:0 20px;
+                    p{
+                      line-height: 35px;
+                    //   font-size: 12px;
+                      span:first-child{
+                        color:#909399;
+                      }
+                  }
+              }
+              .detail_content{
+                  margin:0 20px;
+                  border-bottom:1px solid #dfdfe3;
+                  border-top:1px solid #dfdfe3;
+                  >li{
+                      line-height: 30px;
+                  }
+                  >li::before{
+                      content:"";
+                      width: 2px;
+                      height: 2px;
+                      background: #303133;
+                      vertical-align: middle;
+                     margin-right: 5px;
+                  }
+              }
+              .detail_desc{
+                  padding: 0 20px;
+                  >p{
+                      line-height: 30px;
+                      font-weight: bold;
+                  }
+                  >div{
+                    //   text-indent: 2em;
+                      margin-bottom: 15px;
+                      line-height: 25px;
+                  }
+              }
+            }
+            .pager{
+                position: absolute;
+                bottom: -50px; 
+            }
+           
+        }
+    }
+}
+.details_process_tree {
+    width: 100%;
+    height: 100%;
+  
+    .process_tree_ul {
+        padding:0 1rem;
+        font-size: 1rem;
+    }
+  
+    .process_tree_li {
+        position: relative;
+        min-height: 5.125rem;
+        padding-left: 2.625rem;
+    }
+  
+    .process_tree_li::before {
+        content: "";
+        display: inline-block;
+        width: 0.625rem;
+        height: 0.625rem;
+        background-color: #ccc;
+        border-radius: 50%;
+        position: absolute;
+        top: 0.4375rem;
+        left: 0.5rem;
+    }
+  
+    .process_tree_li::after {
+        content: "";
+        display: inline-block;
+        width: 2px;
+        height: 88%;
+        background-color: #ccc;
+        position: absolute;
+        top: 1.25rem;
+        left: 0.75rem;
+    }
+  
+    .process_tree_li:nth-of-type(1)::before {
+        background-color: #4a7dff;
+    }
+  
+    .process_tree_li div {
+        line-height: 1.5rem
+    }
+  
+    .process_tree_name {
+        padding: .5rem 0;
+        line-height: 2rem;
+        color:#8f8c9b;
+    }
+  
+    .process_tree_desc{
+        word-break: break-all;
+        word-wrap:break-word;
+        color:#49445f;
+    }
+  
+    .process_tree_time{
+        color:#aaaabe;
+    }
+  }
+
+  .transfer_list{
+    height:400px;
+    width:100%;
+}
+.transfer_form{
+    padding:0.75rem;
+}
+.instructionList{
+    li{
+        border-bottom:1px solid #999898;
+        line-height:1.875rem;
+        >p:nth-child(1){
+            display: flex;
+            justify-content: space-between;
+            >span:nth-child(1){
+                font-size:0.85rem;
+                font-weight:bold;
+            }
+        }
+        >p:nth-child(2){
+            text-indent:1.2rem;
+        }
+    }
+}

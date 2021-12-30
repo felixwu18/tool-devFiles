@@ -1,0 +1,273 @@
+<!-- <div class="flex-full">
+    <template>
+        <el-table :data="tableData.data" :span-method="objectSpanMethod">
+            <el-table-column aria-colspan="2" label="事件类型" prop="city" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column prop="name" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column label="2020年1月" prop="amount2" header-align="center" align="center">
+                <el-table-column label="合计"  header-align="center" align="center">
+                    <el-table-column label="起数" prop="zip" header-align="center" align="center">
+                    </el-table-column>
+
+                    <el-table-column label="人数" prop="amount3" header-align="center" align="center">
+                    </el-table-column>
+                </el-table-column>
+
+                <el-table-column label="同比" prop="amount2" header-align="center" align="center">
+                    <el-table-column label="起数" prop="amount2" header-align="center" align="center">
+                    </el-table-column>
+                    <el-table-column label="人数" prop="amount2" header-align="center" align="center">
+                    </el-table-column>
+                </el-table-column>
+
+                <el-table-column label="环比" header-align="center" align="center">
+                    <el-table-column label="起数" header-align="center" align="center">
+                    </el-table-column>
+
+                    <el-table-column label="人数" header-align="center" align="center">
+                    </el-table-column>
+                </el-table-column>
+
+            </el-table-column>
+
+            <el-table-column label="2020年1月-3月" header-align="center" align="center">
+                <el-table-column label="合计" header-align="center" align="center">
+                    <el-table-column label="起数" header-align="center" align="center">
+                    </el-table-column>
+                    <el-table-column label="人数" header-align="center" align="center">
+                    </el-table-column>
+                </el-table-column>
+
+                <el-table-column label="同比" header-align="center" align="center">
+                    <el-table-column label="起数" header-align="center" align="center">
+                    </el-table-column>
+                    <el-table-column label="人数" header-align="center" align="center">
+                    </el-table-column>
+                </el-table-column>
+
+            </el-table-column>
+
+        </el-table>
+    </template>
+</div> -->
+
+<div class="flex-full">
+  <!-- 列表 -->
+  <div class="duty-list ">
+    <div :class="['duty-list-left',temp.style.leftTree]">
+      <!-- <search-tree ref="searchtree" :lazyload="false" listtype="getDistrictTree" @change="getOrg"
+                :defaultchecked="searchlist.orgCode"></search-tree> -->
+      <search-tree listtype="getStatementTree" @change="getOrg" ref="searchtree" :configtree="configtree"
+        completetree="completetree" :defaultchecked="defaultchecked" @treecallback="treecallback"></search-tree>
+
+      <!-- <search-tree :lazyload="false" listtype="getDistrictTree" @change="getOrg"
+                ref="searchtree" :defaultchecked="defaultchecked" @treecallback="treecallback"></search-tree> -->
+    </div>
+    <div :class="['duty-list-right',temp.style.listright,'flex-full']">
+      <!-- <div :class="temp.style.onduty">
+                <span>公文类型：</span>
+                <div style="width:200px;margin-left:5px;">
+
+                </div>
+            </div> -->
+      <div :class="['search_filter_title',temp.style.search_filter]">
+        <div :class="[temp.style.titleleft,temp.style.title_special]">
+          <span>报表类型：</span>
+          <el-select :class="[temp.style.special_report]" v-model="selectDocument" @change="changeReport"
+            placeholder=''>
+            <el-option value="0" label="月报"></el-option>
+            <el-option value="1" label="日报"></el-option>
+            <el-option value="2" label="年报"></el-option>
+          </el-select>
+          <!-- <i class='el-icon-arrow-left' @click='searchDate(-1)' style="font-size: 1rem;"></i> -->
+          <!-- <el-date-picker  v-if="mounthtype === '1'" v-model="searchlist.date" type="week" placeholder="选择周" format="yyyy 第 WW 周"   @change="upweektable" :clearable="false"></el-date-picker> -->
+          <el-date-picker v-show="mounthtype === '2'" v-model="searchlist.year" type="year" placeholder="选择年"
+            value-format="yyyy" @change="upyeartable" :clearable="false"></el-date-picker>
+          <el-date-picker v-show="mounthtype === '3'" v-model="searchlist.month" type="month" placeholder="选择月"
+            value-format="yyyy-MM" @change="updatetable" :clearable="false"></el-date-picker>
+          <!-- <el-date-picker  v-if="mounthtype === '1'" v-model="searchlist.day" type="daterange" range-separator="至" start-placeholder="开始日期"  @change="updaytable" :clearable="false"
+                       end-placeholder="结束日期">
+                    </el-date-picker> -->
+          <div v-if="mounthtype === '1'" style="display: inline-block">
+            <el-date-picker v-model="searchlist.day[0]" :picker-options="startPicker" :clearable="false" type="date"
+              placeholder="开始日期" @change="updaytable"></el-date-picker>
+            至
+            <el-date-picker v-model="searchlist.day[1]" :picker-options="endPicker" :clearable="false" type="date"
+              placeholder="结束日期" @change="updaytable"></el-date-picker>
+          </div>
+          <!-- <i class='el-icon-arrow-right' @click='searchDate(1)' style="font-size: 1rem;"></i> -->
+          <!-- <div :class="[temp.style.renovate]">
+                      <el-button type="primary" @click.native="toRenovate">刷新</el-button>
+                    </div> -->
+          <div :class="[temp.style.btncss,temp.style.time_special]">
+            <el-button type="success" icon="el-icon-document-copy" @click.native="exportPDF">打印PDF</el-button>
+            <el-button type="success" icon="el-icon-document-copy" @click.native="exportAll">下载</el-button>
+          </div>
+        </div>
+      </div>
+      <div class="flex-full emergency" style="margin-right: 1rem;height: 100%;" id="print">
+        <el-scrollbar style="width: 100%;" class="statistical_scroll">
+          <h2 :class="temp.style.title_one">一、突发事件报送情况</h2>
+          <div :class="temp.style.content_word">
+            据统计，{{event.startTime}}至{{event.endTime}}{{eventOrgName}}值班室共接到各类突发事件信息{{event.emergencyInformationNum}}起（其中发生人员伤亡突发事件共{{event.emergencyInformationCasualtyNum}}起），死亡{{event.emergencyInformationDeathNum}}人、受伤{{event.emergencyInformationInjuredNum}}人，发生较大突发事件{{event.emergencyInformationLargerNum}}起（死亡{{event.emergencyInformationLargerDeathNum}}人），{{event.emergencyInformationGreatJoint}}，均按相关规定要求及时报告与处理。
+          </div>
+          <ul v-for="(item, index) in dataList">
+            <h3 :class="temp.style.subtitle_one">{{indexList[index].i}}{{item.disasterGreatJoint}}</h3>
+            <li v-for="(jtem, jdex) in item.secondGradeDTOs" :class="temp.style.subtitle_two">
+              {{jtem.disasterGreatJoint}}
+            </li>
+          </ul>
+          <h2 :class="temp.style.title_one" style="margin-top: 2rem; ">二、突发伤亡事件统计表</h2>
+          <el-table :data="lists" :span-method="objectSpanMethod" style="height: 95%;margin-top: 2rem;width: 99.5%; "
+            class="content_style">
+            <el-table-column label="序号" prop="orderNum" height='120px' header-align="center" align="center">
+            </el-table-column>
+            <el-table-column label="类型" prop="primaryClassificationName" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column label="行业" header-align="center" align="center">
+              <el-table-column label="类别" prop="secondaryClassificationName" header-align="center" align="center">
+              </el-table-column>
+            </el-table-column>
+            <el-table-column label="事故/险情概况" width='260' header-align="center" class="cell_text">
+              <template slot-scope="scope">
+                <span v-html="scope.row.informationDetails"></span>
+              </template>
+            </el-table-column>
+            <el-table-column label="受伤人数" prop="injuredNum" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column label="死亡人数" prop="deathNum" header-align="center" align="center">
+            </el-table-column>
+            <el-table-column label="报送单位" header-align="center" align="center">
+              <el-table-column label="部门" prop="orgName" header-align="center" align="center">
+              </el-table-column>
+            </el-table-column>
+          </el-table>
+        </el-scrollbar>
+        <!-- <el-table :data="lists" :span-method="objectSpanMethod" style="height: 95%;">
+                        <el-table-column aria-colspan="2" label="一级事件类型" min-width='120px' sum-text  prop="typeFirst" header-align="center" align="center">
+                        </el-table-column>
+                        <el-table-column prop="typeSec" label="二级事件类型" min-width='120px'  header-align="center" align="center">
+                        </el-table-column>
+                        <el-table-column :label="searchlist.month == '' ? searchlist.year+'年' : searchlist.year+'年'+searchlist.month+'月'" prop="amount2" header-align="center" align="center">
+                            <el-table-column label="合计" header-align="center" align="center">
+                                <el-table-column label="起数" prop="infototalnum" header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.infototalnum }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.infototalnum }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                                <el-table-column label="人数" prop="deadnum" header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.deadnum }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.deadnum }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                            </el-table-column>
+                            <el-table-column label="同比" prop="amount2" header-align="center" align="center">
+                                <el-table-column label="起数" prop="totalYonynum" header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.totalYonynum }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.totalYonynum }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                                <el-table-column label="人数" prop="deadYonynum" header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.deadYonynum }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.deadYonynum }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                            </el-table-column>
+                            <el-table-column label="环比" header-align="center" align="center">
+                                <el-table-column label="起数" prop="totalChainnum" header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.totalChainnum }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.totalChainnum }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                                <el-table-column label="人数" prop='deadChainnum' header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.deadChainnum }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.deadChainnum }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                            </el-table-column>
+                        </el-table-column>
+                        <el-table-column :label="searchlist.month == '' ? searchlist.year-1+'年':searchlist.year+'年1月-'+searchlist.month+'月'" header-align="center" align="center">
+                            <el-table-column label="合计" header-align="center" align="center">
+                                <el-table-column label="起数"  prop='sumInfo' header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.sumInfo }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.sumInfo }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                                <el-table-column label="人数" prop='sumDead' header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.sumDead }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.sumDead }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                            </el-table-column>
+                            <el-table-column label="同比" header-align="center" align="center">
+                                <el-table-column label="起数" prop='sumInfoYony' header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.sumInfoYony }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.sumInfoYony }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                                <el-table-column label="人数" prop='sumDeadYony' header-align="center" align="center">
+                                        <template slot-scope="scope">
+                                                <el-popover trigger="hover" placement="top">
+                                                  <p>{{ scope.row.sumDeadYony }}</p>
+                                                  <div slot="reference" class="name-wrapper">
+                                                    <el-tag size="medium" :class="temp.style.hovercolor">{{ scope.row.sumDeadYony }}</el-tag>
+                                                  </div>
+                                                </el-popover>
+                                        </template>
+                                </el-table-column>
+                            </el-table-column>
+                        </el-table-column>
+                    </el-table> -->
+      </div>
+    </div>
+  </div>
+  <iframe id="printf" style="display: none;" src="" MARGINHEIGHT="1" MARGINWIDTH="1" width="100%" height="312"
+    frameborder="0"></iframe>
+
+</div>

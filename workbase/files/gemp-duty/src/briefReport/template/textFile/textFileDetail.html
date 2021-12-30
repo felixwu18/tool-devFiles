@@ -1,0 +1,74 @@
+<div :class="temp.style.new_text_add">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" content="文本详情页"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="$router.history.go(-1)">返回
+            </el-button>
+            <!-- <el-button size="small" type="primary" class="el-icon-check" plain @click="click('text-preservation','保存')">生成简报</el-button> -->
+            <!-- <el-button size="small" type="primary" class="el-icon-check">另存为</el-button>-->
+            <!-- <el-button size="small" type="primary" class="el-icon-s-check" @click="click('examine-brief','选择领导')">内审</el-button> -->
+            <!-- <el-button size="small" type="primary" class="el-icon-share">分享</el-button> -->
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <div :class="temp.style.textAdd_left">
+            <el-scrollbar>
+                <div :class="[temp.style.first_pane,'textFileDetail']">
+                    <el-input v-model='listParams.reportTitle' placeholder="请输入标题" :class="temp.style.input"
+                        maxlength="50" show-word-limit :disabled="true"></el-input>
+                    <el-input :class="temp.style.reportContent" type="textarea" :rows="27" v-model="listParams.reportContent" style="margin-top:2px;" placeholder="请输入内容" maxlength="10000" show-word-limit :disabled="true">
+                    </el-input>
+                </div>
+            </el-scrollbar>
+            <div :class="temp.style.textAdd_right" class="text_right">
+                <el-tabs v-model="activeNamex" @tab-click="handleClick" :class="temp.style.right_tab">
+                    <el-tab-pane label="处理过程" name="first">
+                        <div :class="temp.style.details_process_tree">
+                            <el-scrollbar style="height:100%">
+                                <ul v-if="handlelist && handlelist.length > 0" :class="temp.style.process_tree_ul">
+                                    <li :class="temp.style.process_tree_li" v-for="item in handlelist">
+                                        <div :class="temp.style.process_tree_div">
+                                            <div :class="temp.style.process_tree_name">
+                                                <div :class="temp.style.process_tree_orgname">
+                                                    {{item.creatorName }}
+                                                    <span :class="temp.style.process_tree_process">{{item.msgTypeName}}</span>
+                                                    <span v-if="item.gempBriefInstructDTOs" v-for="option in  item.gempBriefInstructDTOs">{{option.tousers}}</span>
+                                                    <em :class="temp.style.arrow"></em>
+                                                </div>
+                                                <a v-if="item.attachUrl" icon="el-icon-download" download="" :href="item.attachUrl">
+                                                    <el-button siez="mini" type="text" icon="el-icon-download">
+                                                    </el-button>
+                                                </a>
+                                                <el-button siez="mini" type="text" v-else icon="el-icon-document" @click="textDialog(item.description)">
+                                                </el-button>
+                                            </div>
+                                            <div :class="temp.style.process_tree_desc" v-html="item.comment"></div>
+                                            <div :class="temp.style.process_tree_time">{{item.updateTime}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <el-table v-else :data="[]"></el-table>
+                            </el-scrollbar>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
+            </div>
+        </div>
+
+    </div>
+    <el-dialog title="查看内容" :visible.sync="dialogVisible">
+        <div :class="temp.style.dialog_content">
+            <el-scrollbar>
+                <div :class="temp.style.dialog_content_details" v-html="dialogContent" style="padding: 0px 20px;"></div>
+            </el-scrollbar>
+        </div>
+        <div slot="footer" class="dialog-footer" :class="temp.style.dialog_footer">
+            <el-button type="primary" @click="dialogVisible = false">关 闭</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog :close-on-click-modal="false" :title="tilteName" :visible.sync="flag" :destroy-on-close="true">
+        <component :is="templateName" ref="childrenDialog" :propdata="propsData" :typereport="typereport" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

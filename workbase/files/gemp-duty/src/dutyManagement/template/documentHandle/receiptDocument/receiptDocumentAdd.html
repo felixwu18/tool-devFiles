@@ -1,0 +1,15 @@
+
+<div class="flex-full list-contain">
+        <div class="flex-header">
+            <el-radio-group v-model="checkPage">
+                <el-radio-button label="1">批示下发</el-radio-button>
+                <el-radio-button label="2">下发公文</el-radio-button>
+            </el-radio-group>
+        </div>
+        <div class="flex-full">           
+                <receip-instructs-issue  v-if="checkPage == '1'"></receip-instructs-issue>
+                <receip-issue v-if="checkPage == '2'"></receip-issue>
+            
+        </div>
+    </div>
+    

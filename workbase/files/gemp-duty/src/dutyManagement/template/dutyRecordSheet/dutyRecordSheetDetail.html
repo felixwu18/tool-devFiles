@@ -1,0 +1,16 @@
+
+<div class="flex-full">
+        <div class="search_filter">
+            <div class="toolbar_txt">
+                <el-page-header title="" content="值班记录单详情"></el-page-header>
+            </div>
+            <div class="toolbar_right">
+                <el-button @click="goBack()" icon="el-icon-arrow-left">返回</el-button>
+                <el-button type="primary" icon="el-icon-check" @click.native="submit">保存</el-button>
+            </div>
+        </div>
+        <div class="flex-full  list-contain duty_record_add">
+            <iams-form v-model="formdata" :gisshow="true" :disabled="true" ref="simpleTable"></iams-form>
+        
+        </div>
+</div>

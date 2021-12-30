@@ -1,0 +1,61 @@
+<div class="flex-full" style="height: calc(100% - 3.87rem)">
+    <div :class="temp.style.ntkotool_content">
+        <div :class="temp.style.ntkotool_content_left">
+            <div style="position: absolute;right: 200px;top: 10px;color: #fff;font-size: 14px;cursor: pointer;z-index: 1000;" @click="handleFullScreen">全屏</div>
+            <iframe v-if="this.store.state.SYSTEMOFFICE === 'ONLYOFFICE'" id="docUrl" :src="opendocurl" frameborder="0" width="100%" height="100%"></iframe>
+            <div v-else :class="temp.style.ntkotoolShow" ref="ntkotoolShow">
+                <!-- <iframe width="100%" height="100%" -->
+                <!-- src="http://localhost:8080/#/iamsntkotool?file=http://172.18.7.34:8099/upload/event/2019/8/20/102_2c9287a26cae0172016cae23b0670016.docx"> -->
+                <iams-ntkotool ref="iamsNtkotool" :reporttype="reporttype" :opendocbyurl="opendocurl"></iams-ntkotool>
+                <!-- </iframe> -->
+            </div>
+        </div>
+        <div :class="temp.style.ntkotool_content_right">
+            <el-tabs v-model="activeNamex" @tab-click="handleClick" :class="temp.style.right_tab">
+                <el-tab-pane label="处理过程" name="first">
+                    <div :class="temp.style.details_process_tree">
+                        <el-scrollbar style="height:100%">
+                            <ul v-if="handlelist && handlelist.length > 0" :class="temp.style.process_tree_ul">
+                                <li :class="temp.style.process_tree_li" v-for="(item, index) in handlelist">
+                                    <div :class="temp.style.process_tree_div">
+                                        <div :class="temp.style.process_tree_name">
+                                            <div :class="temp.style.process_tree_orgname">
+                                                {{item.creatorName }}
+                                                <span :class="temp.style.process_tree_process">{{item.msgTypeName}}</span>
+                                                <span v-if="item.gempBriefInstructDTOs" v-for="option in  item.gempBriefInstructDTOs">{{option.tousers}}</span>
+                                                <em :class="temp.style.arrow"></em>
+                                            </div>
+                                            <!-- <a v-if="item.attachUrl" icon="el-icon-download" download="" :href="item.attachUrl"> -->
+                                            <!-- <a v-if="item.attachUrl" icon="el-icon-download" download="" :href="updateURl(opendocbyurl)"> -->
+                                            <a v-if="item.attachUrl && index == 0 " icon="el-icon-download" @click.prevent="downloadFile(item.attachUrl)">
+                                                <el-button siez="mini" type="text" icon="el-icon-download"></el-button>
+                                            </a>
+                                            <a href="javascript:void(0)" v-if="!item.attachUrl">
+                                                <el-button siez="mini" type="text" icon="el-icon-document" @click="textDialog(item.comment)">
+                                                </el-button>
+                                            </a>
+                                        </div>
+                                        <div :class="temp.style.process_tree_desc" v-html="item.comment"></div>
+                                        <div :class="temp.style.process_tree_time">{{item.updateTime}}</div>
+
+                                    </div>
+                                </li>
+                            </ul>
+                            <el-table v-else :data="[]"></el-table>
+                        </el-scrollbar>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+    </div>
+    <el-dialog title="查看内容" :visible.sync="dialogVisible">
+        <div :class="temp.style.dialog_content">
+            <el-scrollbar>
+                <div :class="temp.style.dialog_content_details" v-html="dialogContent" style="padding: 0px 20px;"></div>
+            </el-scrollbar>
+        </div>
+        <div slot="footer" class="dialog-footer" :class="temp.style.dialog_footer">
+            <el-button type="primary" @click="dialogVisible = false">关 闭</el-button>
+        </div>
+    </el-dialog>
+</div>

@@ -1,0 +1,27 @@
+
+    <div class="examineInfoList">
+        <el-form :class="temp.style.infoExam" @submit.native.prevent>
+          <el-form-item>
+            <div>发送给</div>
+            <ul class="imitateLiist">
+              <li v-for="(item,index) in leaderList" :key="index" :class="{active: item.select}" @click="addClass(item)">{{ item.name }}</li>
+            </ul>
+          </el-form-item>
+          <el-form-item>
+            <div>
+              <iams-replybox ref="emoticon" v-model="approvalContent" ></iams-replybox>
+            </div>
+          </el-form-item>
+          <el-form-item>
+            <div :class="temp.style.ordinary" style="display: none">
+              <div>常用:</div>
+              <ul>
+              </ul>
+            </div>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="saveFun">审核</el-button>
+        </div>
+      </div>
+    

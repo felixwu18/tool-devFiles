@@ -1,0 +1,71 @@
+<div class="flex-full accidentList">
+    <div :class="temp.style.tabBox">
+        <div :class="temp.style.listTitle">
+            <div class="left_search">
+                <el-page-header title="" content="调查列表"></el-page-header>
+            </div>
+            <div :class="temp.style.button_group">
+                <el-button icon="el-icon-plus" size="small" type="primary" @click="$router.push('accidentEdit')">添加</el-button>
+                <el-button icon="el-icon-download" size="small" type="primary" @click="exportList">导出</el-button>
+                <el-button @click="showSearch = !showSearch" type="primary"  class="search_showSearch">
+                    精准搜索
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+            </div>
+            <div :class="[temp.style.search_table,'search_form']" v-show="showSearch">
+                <el-row>
+                    <el-form :inline="true" :model="listParams">
+                        <el-col :span="5">
+                            <el-form-item prop="accName">
+                                <el-row>
+                                    <el-col :span="6">
+                                        <span :class="temp.style.search_title">事故名称：</span>
+                                    </el-col>
+                                    <el-col :span="18">
+                                        <el-input v-model="listParams.accName" placeholder="请输入事故名称"></el-input>
+                                        </el-input>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="5" :offset="1">
+                            <el-form-item prop="accTypeCode">
+                                <el-row>
+                                    <el-col :span="6">
+                                        <span :class="temp.style.search_title">事故类型：</span>
+                                    </el-col>
+                                    <el-col :span="18">
+                                        <el-select v-model="listParams.accTypeCode" placeholder="请选择事故类型">
+                                            <el-option v-for="options in accidentType" :label="options.accTypeName" :value="options.accTypeCode" :key="options.value"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="5" :offset="1">
+                            <el-form-item prop="accLevelCode">
+                                <el-row>
+                                    <el-col :span="6">
+                                        <span :class="temp.style.search_title">事故级别：</span>
+                                    </el-col>
+                                    <el-col :span="18">
+                                        <el-select v-model="listParams.accLevelCode" placeholder="请选择事故级别">
+                                            <el-option v-for="options in accidentLevel" :label="options.accLevelName" :value="options.accLevelCode" :key="options.value"></el-option>
+                                        </el-select>
+                                    </el-col>
+                                </el-row>
+                            </el-form-item>
+                        </el-col>
+                        <div :class="temp.style.search_group">
+                            <!-- <el-form-item> -->
+                            <el-button icon="el-icon-search" size="small" type="primary" @click="getListData">查询</el-button>
+                            <el-button icon="el-icon-refresh" size="small" type="primary" @click="reset">重置</el-button>
+                            <!-- </el-form-item> -->
+                        </div>
+                    </el-form>
+                </el-row>
+            </div>
+        </div>
+        <list-table :propdata="propData" @tablecallback="tablecallback"></list-table>
+    </div>
+</div>

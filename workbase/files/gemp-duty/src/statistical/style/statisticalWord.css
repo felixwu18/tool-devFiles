@@ -1,0 +1,144 @@
+@media print {
+  html,
+  body {
+    height: auto;
+  }
+  .word_print {
+    height: inherit !important;
+  }
+  .print {
+    height: inherit !important;
+  }
+  .word {
+    height: inherit;
+  }
+  .main {
+    height: inherit;
+  }
+  .scroll {
+    height: inherit;
+  }
+  .message_charts {
+    width: 100%;
+    height: 500px;
+  }
+  .menu {
+    display: none !important;
+  }
+}
+@page {
+  size: landscape;
+}
+.word {
+  margin: 5rem;
+}
+.rou {
+  font-size: 10px !important;
+}
+.main {
+  padding-bottom: 5rem;
+}
+.main .title {
+  font-size: 2rem;
+  text-align: center;
+}
+.main p {
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  font-size: 1rem;
+  text-align: center;
+}
+.main .bottom_title {
+  font-size: 1.8rem;
+  text-align: center;
+}
+.main .bottom_title1 {
+  margin-top: 1rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+.content {
+  text-align: center;
+}
+.content .content_title {
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+.content .content_mounth {
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+.content .content_word {
+  margin-top: 1rem;
+  text-align: left;
+  text-indent: 2em;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-family: 'FangSong';
+}
+.content .annex_two {
+  margin-top: 10rem;
+  text-align: left;
+  text-indent: 2em;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-family: 'FangSong';
+}
+.content .title_one {
+  margin-top: 1rem;
+  font-size: 1.8rem;
+  line-height: 2rem;
+  text-align: left;
+  font-family: 'SimHei';
+}
+.content .subtitle_one {
+  text-indent: 2em;
+  margin-top: 1rem;
+  font-size: 1.8rem;
+  line-height: 2rem;
+  text-align: left;
+  font-family: 'KaiTi';
+}
+.content .subtitle_two {
+  text-indent: 2em;
+  margin-top: 1rem;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  text-align: left;
+  font-family: 'FangSong';
+}
+.content .content_ul {
+  text-align: left;
+  font-size: 1.8rem;
+  line-height: 2rem;
+  padding: 2rem;
+}
+.div2 {
+  text-align: center;
+}
+.message_charts {
+  width: 100%;
+  height: 500px;
+  visibility: hidden;
+}
+.word_charts {
+  width: 60%;
+  height: 500px;
+  visibility: hidden;
+}
+.map_charts {
+  width: 60%;
+  height: 500px;
+}
+.font_style {
+  font-size: 6px!important;
+  margin-top: 1rem!important;
+  width: 115% !important;
+}
+.table_style {
+  width: 115% !important;
+}
+.derive_botton {
+  margin-top: 2rem;
+  margin-left: 2rem;
+}

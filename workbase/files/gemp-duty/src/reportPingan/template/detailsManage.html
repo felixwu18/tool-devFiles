@@ -1,0 +1,55 @@
+<div :class="temp.style.details_edit">
+    <div class="search_filter">
+      <div class="left_search">
+        <el-page-header title="" content="上报详情"></el-page-header>
+      </div>
+      <div class="right_search">
+        <el-button type="primary" @click.native="getBack" icon="el-icon-arrow-left" plain>返回</el-button>
+        <!-- <el-button type="primary" @click.native="saveDraft">报平安</el-button> -->
+      </div>
+    </div>
+    <div :class="temp.style.matter_content">
+      <div :class="temp.style.matter_content_left_new">
+        <el-scrollbar>
+          <div :class="temp.style.matter_content_left_scroll">
+            <div :class="temp.style.matter_content_form">
+              <el-form label-position="right" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+                <el-form-item label="事件标题:" prop="dailyTitle">
+                 
+                  <el-input disabled='disabled' placeholder="" :maxlength="50" v-model.trim="ruleForm.dailyTitle"></el-input>
+               
+                  <!-- <el-autocomplete v-model.trim="ruleForm.dailyTitle" :fetch-suggestions="querySearch" :trigger-on-focus="false" @select="handleSelect"></el-autocomplete> -->
+                </el-form-item>
+                
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item label="上报日期:" prop="dailyTime" >
+                      <el-col :span="12">
+                        <el-date-picker disabled='disabled' type="datetime" format="yyyy-MM-dd HH:mm" :picker-options="start_Date" v-model.trim="ruleForm.dailyTime" style="width: 100%"></el-date-picker>
+                      </el-col>
+                    </el-form-item>
+                  </el-col>  
+                </el-row>
+  
+                <el-form-item label="内容:" prop="dailyContent">
+                 
+                  <el-input disabled='disabled' placeholder="" resize="none" rows="6" type="textarea" maxlength='2000' show-word-limit v-model.trim="ruleForm.dailyContent"></el-input>
+                  
+                </el-form-item>
+  
+                <!-- <el-form-item label="信息附件" prop="attachmentList">
+                  <iams-upload v-model="ruleForm.attachmentList"></iams-upload>
+                </el-form-item> -->
+                <el-form-item label="附件信息:">
+                  <file-cell :filelist="ruleForm.attachmentList"></file-cell>
+                </el-form-item>
+              </el-form>
+              
+          
+            </div>
+          </div>
+        </el-scrollbar>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,206 @@
+.pager {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 0;
+    padding-right: 28px;
+}
+
+.tagtype {
+    color: #fff;
+    font-size: 1rem;
+    height: 28px;
+    line-height: 28px;
+    position: relative;
+    padding: 0 8px;
+    margin-right: 26px;
+    display: inline-block;
+}
+
+.best {
+    background-color: #ff5b5b;
+
+    &::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 6px;
+        background: linear-gradient(to right, #d73a3a, #d45757);
+        left: -6px;
+        top: 3px;
+        transform: skewY(-40deg)
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: 15px solid transparent;
+        border-right: 12px solid transparent;
+        border-left: 12px solid #ff5b5b;
+        border-bottom: 15px solid transparent;
+        right: -24px;
+        top: 0;
+    }
+}
+
+// 重大
+.better {
+    background-color: #fd6500;
+
+    &::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 6px;
+        background: linear-gradient(to right, #d75600, #fd6500);
+        left: -6px;
+        top: 3px;
+        transform: skewY(-40deg)
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: 15px solid transparent;
+        border-right: 12px solid transparent;
+        border-left: 12px solid #fd6500;
+        border-bottom: 15px solid transparent;
+        right: -24px;
+        top: 0;
+    }
+}
+
+// 较大
+.good {
+    background-color: #fdd000;
+
+    &::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 6px;
+        background: linear-gradient(to right, #d5af00, #fdd000);
+        left: -6px;
+        top: 3px;
+        transform: skewY(-40deg)
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: 15px solid transparent;
+        border-right: 12px solid transparent;
+        border-left: 12px solid #fdd000;
+        border-bottom: 15px solid transparent;
+        right: -24px;
+        top: 0;
+    }
+}
+
+// 一般
+.normal {
+    background-color: #4a7dff;
+
+    &::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 6px;
+        background: linear-gradient(to right, #2553c7, #4a7dff);
+        left: -6px;
+        top: 3px;
+        transform: skewY(-40deg)
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: 15px solid transparent;
+        border-right: 12px solid transparent;
+        border-left: 12px solid #4a7dff;
+        border-bottom: 15px solid transparent;
+        right: -24px;
+        top: 0;
+    }
+}
+
+// 其他
+.other {
+    background-color: #88c274;
+
+    &::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 6px;
+        background: linear-gradient(to right, #439327, #88c274);
+        left: -6px;
+        top: 3px;
+        transform: skewY(-40deg)
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: 15px solid transparent;
+        border-right: 12px solid transparent;
+        border-left: 12px solid #88c274;
+        border-bottom: 15px solid transparent;
+        right: -24px;
+        top: 0;
+    }
+
+}
+
+//未知
+.not {
+    // color: #606266;
+    background-color: #ccc;
+
+    &::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 6px;
+        background: linear-gradient(to right, #fff, #ccc);
+        left: -6px;
+        top: 3px;
+        transform: skewY(-40deg)
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: 15px solid transparent;
+        border-right: 12px solid transparent;
+        border-left: 12px solid #ccc;
+        border-bottom: 15px solid transparent;
+        right: -24px;
+        top: 0;
+    }
+}
+
+.defulat {
+    background-color: #fff;
+
+    &::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 6px;
+        background: linear-gradient(to right, #fff, #fff);
+        left: -6px;
+        top: 3px;
+        transform: skewY(-40deg)
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: 15px solid transparent;
+        border-right: 12px solid transparent;
+        border-left: 12px solid #fff;
+        border-bottom: 15px solid transparent;
+        right: -24px;
+        top: 0;
+    }
+}

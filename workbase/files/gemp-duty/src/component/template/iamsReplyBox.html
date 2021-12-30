@@ -1,0 +1,33 @@
+<div :class="temp.style.area">
+    <div :class="temp.style.emoticon_part">
+        <span v-if="!expressionLabelStatu" @click="showEmoticon = !showEmoticon" style="cursor: pointer;">
+            <icon-cell icon-type="#icon-kaixin" ></icon-cell>
+        </span>
+        <div :class="temp.style.emoticon_list" v-show="showEmoticon">
+            <span v-for="(icon, key) in emoticonList" @click="insertText(key)">
+                <icon-cell :icon-type="icon"></icon-cell>
+            </span>
+        </div>
+    </div>
+    <div :class="temp.style.emoticon_main"> 
+        <!-- <span id="emoticontext"  ref="input" contenteditable="true" @keyup="changeVal" v-html="inputHtml"  @focus="showEmoticon = false">
+        </span> -->
+        <!-- <span id="emoticontext"  ref="input" contenteditable="true" @keyup="changeVal" v-html="inputHtml" @focus="showEmoticon = false">
+        </span> -->
+        <el-input
+            ref="emojiInput"
+            :id="emojiInput"
+            :class="temp.style.emoticon_main_input"
+            type="textarea"
+            :rows="5"
+            :placeholder="placeholder?placeholder:'请输入内容'"
+            v-model="textarea"
+            resize="none"
+            :maxlength="500"
+            show-word-limit
+            >
+        </el-input>
+        <!-- <i :class="temp.style.placeholder" v-show="num === 0">请输入内容</i> -->
+        <!-- <div :class="temp.style.count">{{num}}/1000</div> -->
+    </div>
+</div>

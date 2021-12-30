@@ -1,0 +1,27 @@
+<div>
+    <el-upload ref="elupload" :limit="importconfig.limit" :on-change="beforeFileName" :data="header" :on-progress="uploadProgress" :on-exceed="exceed" :on-preview="handlePictureCardPreview" :file-list="attachmentlist" :action="filesAddress" :auto-upload="importconfig.awayuploadflag" :on-error="showError" :headers="header" list-type="picture-card" :on-remove="fileRemove" :on-success="uploadSuccess">
+        <i class="el-icon-upload"></i>
+        <div class="el-upload--picture-tips-word">限制上传EXCEL文本类文件</div>
+        <div :class="temp.style.slot_img" v-if="!/(.*)\.(jpg|bmp|gif|ico|pcx|jpeg|tif|png|raw|tga)$/.test(scope.file.name)"  slot="file" slot-scope="scope">
+            <!-- <img src="../../../assets/image/file.png" alt="" > -->
+            <img v-if="/(.*)\.(xlsx|xls)$/.test(scope.file.name)" src="../../../assets/image/excel.png" alt="" >
+            <a class="el-upload-list__item-name"><i class="el-icon-document"></i>{{scope.file.name}}
+            </a>
+            <label class="el-upload-list__item-status-label"><i class="el-icon-upload-success el-icon-check"></i></label>
+            <i class="el-icon-close"></i>
+            <span class="el-upload-list__item-actions">
+                <!-- <a :href="scope.file.url" :download="scope.file.name">
+                    <span class="el-upload-list__item-preview">
+                        <i class="el-icon-download"></i>
+                    </span>
+                </a> -->
+                <span @click="handleRemove(scope.file)" class="el-upload-list__item-delete">
+                    <i class="el-icon-delete"></i>
+                </span>
+            </span>
+        </div>
+    </el-upload>
+    <el-dialog title="查看附件" :visible.sync='dialogVisible' >
+        <el-image style="height:30rem;width:100%" fit="scale-down" :src="dialogImageUrl" alt=""></el-image>
+    </el-dialog>
+</div>

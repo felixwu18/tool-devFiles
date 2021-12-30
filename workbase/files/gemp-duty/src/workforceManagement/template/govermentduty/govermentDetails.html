@@ -1,0 +1,95 @@
+<div class="flex-full">
+  <div class="substitute">
+    <!-- <div :class="temp.style.matter_content_form"> -->
+    <!-- 替班详情 -->
+    <div v-if="formdata.swapInsteadType=='1'">
+      <el-form label-position="right" :model="formdata" ref="listparams" label-width="120px" class="demo-listparams" disabled>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="申请人:" prop="applicantName">
+              <el-input v-model="formdata.applicantName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="替班人:" prop="peopleName">
+              <el-input v-model="formdata.peopleName"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="替班时间">
+              <el-date-picker type="date" v-model="formdata.swapInsteadTime"></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="替班类型">
+              <el-select v-model="formdata.exchangeType" disabled>
+                <el-option v-for="item,index in dutyselect" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-form-item label="替班原因:" prop="exchangeReason">
+          <el-input v-model="formdata.exchangeReason" rows="2" type="textarea" show-word-limit></el-input>
+        </el-form-item>
+        <el-form-item label="备注:" prop="remarksInformation">
+          <el-input resize="none" rows="6" type="textarea" v-model="formdata.remarksInformation"></el-input>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <!-- 换班详情 -->
+    <div v-if="formdata.swapInsteadType=='0'">
+      <el-form label-position="right" :model="formdata" ref="listparams" label-width="120px" class="demo-listparams" disabled>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="申请人:" prop="applicantName">
+              <el-input v-model="formdata.applicantName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="换班人:" prop="peopleName">
+              <el-input v-model="formdata.peopleName"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="换班时间:" prop="swapInsteadTime">
+              <el-date-picker type="date" v-model="formdata.swapInsteadTime"></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="换班类型:" prop="exchangeType">
+              <el-select v-model="formdata.exchangeType" disabled>
+                <el-option v-for="item,index in dutyselect" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="还班时间:" prop="returnTime">
+              <el-date-picker type="date" v-model="formdata.returnTime"></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="还班类型:" prop="returnType">
+              <el-select v-model="formdata.returnType" disabled>
+                <el-option v-for="item,index in dutyselect" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="换班原因:" prop="exchangeReason">
+          <el-input v-model="formdata.exchangeReason" rows="2" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="备注:" prop="remarksInformation">
+          <el-input resize="none" rows="6" type="textarea" v-model.trim="formdata.remarksInformation"></el-input>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+.loader {
+    display: flex;
+    justify-content: start;
+    margin-left: 12rem!important;
+    >div {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        white-space: nowrap;
+        .duty_name{
+            padding:8px 15px;
+            // border:1px solid #4a7dff;
+            border-radius:4px;
+            color:#4a7dff;
+        }
+    }
+
+    .loader_title {
+        margin-left: 2rem;
+        font-weight: 700
+    }
+
+    .loader_name {
+        padding: 0.25rem;
+        color: #4A7DFF;
+    }
+}
+
+.duty_record_sheetList_right {
+    padding:1.44rem;
+    padding-top: 0.5rem;
+    .box{
+        .box_header{
+            background-color:#fafafa;
+            >li{
+                width:25%;
+                text-align:center;
+            }
+        }
+    }
+    .content{
+        width: 100%;
+        height: calc(100% - 93px);
+        .flex_content{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            padding:20px 0;
+        }
+        .book{
+            // width: 22rem;
+            width: 31%;
+            height: 9.75rem;
+            margin-right:2.22rem;
+            border:1px solid #dddde1;
+            border-radius:4px;
+            margin-bottom:20px;
+            cursor:pointer;
+            transition: all .5s;
+            &:nth-child(3n){
+                margin-right:0;
+            }
+            &:hover{
+                box-shadow: 2px 1px 16px #dcdcdc;
+            }
+        }
+        .ul{
+            width:100%;
+            height:100%;
+            overflow: hidden;
+            font-size:0.5rem;
+            li{
+                border-bottom: 1px solid #dddde1
+            }
+            li:nth-child(1){
+                height:2.5rem;
+                color:#49445f;
+                font-size:1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-left:1.375rem;
+                position: relative;
+                background:#fafafa;
+                >b{
+                    margin-right:102px;
+                }
+            }
+            li:nth-child(2){
+                color:#49445f;
+                display: flex;
+                height:calc(100% - 4.2rem);
+                padding:8px 8px 8px 1.375rem;
+                font-size:16px;
+                box-sizing: border-box;
+                >span{
+                    line-height:1.2;
+                    overflow: hidden;
+                    display: block;
+                }
+            }
+            li:nth-child(3){
+                color: #747474;
+                height: 2rem;
+                background: #fafafa;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .pager {
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
+        bottom: 14px;
+        right: 13px;
+    }
+
+}

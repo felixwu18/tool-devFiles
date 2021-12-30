@@ -1,0 +1,57 @@
+<div :class="temp.style.details_edit">
+    <div class="search_filter">
+      <div class="left_search">
+        <el-page-header title="" content="添加会议室"></el-page-header>
+      </div>
+      <div class="right_search">
+        <el-button type="primary" @click.native="getBack" icon="el-icon-arrow-left" plain>返回</el-button>
+        <el-button type="success" @click.native="saveDraft" icon="el-icon-check">保存</el-button>
+      </div>
+    </div>
+    <div :class="temp.style.matter_content">
+      <div :class="temp.style.matter_content_left_new">
+        <el-scrollbar>
+          <div :class="temp.style.matter_content_left_scroll">
+            <div :class="temp.style.matter_content_form">
+              <el-form label-position="right" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+                <el-form-item label="会议室名称:" prop="roomName">
+                    <el-col :span="12">
+                    <el-input placeholder="请输入会议室名称" :maxlength="50" v-model.trim="ruleForm.roomName"></el-input>
+                    </el-col>
+                </el-form-item>
+                
+                <el-form-item label="可容纳总数:" prop="totalNum">
+                  <el-col :span="12">
+                    <el-input placeholder="" :maxlength="4" v-model.number="ruleForm.totalNum"></el-input>
+                    </el-col>
+                </el-form-item>
+                   
+                <el-form-item label="主席台坐席数:" prop="chairmanNum">
+                    <el-col :span="12">
+                    <el-input placeholder="" maxlength='4' v-model.number="ruleForm.chairmanNum"></el-input>
+                    </el-col>
+                </el-form-item>
+
+                <el-form-item label="周围坐席数:" prop="surroundingNum">
+                  <el-col :span="12">
+                  <el-input placeholder="" maxlength='4' v-model.number="ruleForm.surroundingNum"></el-input>
+                  </el-col>
+              </el-form-item>
+
+                <el-form-item label="是否有多媒体:">
+                  <el-radio v-model="ruleForm.multimediaFlag" label="0">是</el-radio>
+                  <el-radio v-model="ruleForm.multimediaFlag" label="1">否</el-radio>
+                </el-form-item>
+
+                <el-form-item label="是否启用:">
+                  <el-radio v-model="ruleForm.enabledFlag" label="1">是</el-radio>
+                  <el-radio v-model="ruleForm.enabledFlag" label="0">否</el-radio>
+                </el-form-item>
+              </el-form>
+            </div>
+          </div>
+        </el-scrollbar>
+      </div>
+    </div>
+  </div>
+  

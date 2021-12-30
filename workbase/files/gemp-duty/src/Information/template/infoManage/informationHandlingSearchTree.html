@@ -1,0 +1,69 @@
+<!--
+ * @Descripttion:
+ * @Author: chengyun
+ * @Date: 2020-03-03 01:19:44
+ * @LastEditors: chengyun
+ * @LastEditTime: 2020-03-10 11:35:01
+ -->
+<div :class="temp.style.search_tree" class="el-search-tree">
+    <div :class="temp.style.search_slide_input">
+        <div :class="temp.style.search_slide_searchKey">
+            <!-- 与严雨露商议暂时隐藏搜索图标 Modify-程云 2019-12-2 -->
+            <!-- <el-input @focus="searchKey = false" @input="changeSearchStatus" ref="input" v-model.trim="slideValue" type="text" suffix-icon="el-icon--right el-icon-search" placeholder="请输入机构名称"> -->
+            <el-input @focus="searchKey = false" @input="changeSearchStatus" ref="input" v-model.trim="slideValue"
+                type="text" placeholder="请输入需要查询的机构名称">
+            </el-input>
+            <div id="out_contain" :class="temp.style.tabs_list" v-show="searchKey">
+                <el-scrollbar>
+                    <ul id="filter_list" :class="temp.style.filter_list">
+                        <div v-if="searchList.length == 0" style="text-align:center;height:100%;padding:12px 0">
+                            <span>
+                                未搜索到数据
+                            </span>
+                        </div>
+                        <li v-for="(item,index) in searchList" @click.stop="handleSelect(item,index)">
+                            <span :class="temp.style.filter_list_content">{{item.fullOrgName}}</span>
+                        </li>
+                    </ul>
+                </el-scrollbar>
+            </div>
+            <div :class="temp.style.popper__arrow" v-show="searchKey" style="left: 35px;"></div>
+        </div>
+        <div :class="temp.style.search_slide" :style="searchKey?'opacity:0.15':'opacity:1'">
+            <div v-if="configtree ? configtree.buttonShow || false : false" :class="temp.style.controllab">
+                <el-button v-if="buttonItem.expression" size="mini" :title="buttonItem.title" :icon="buttonItem.icon"
+                    :type="buttonItem.type || text" v-for="buttonItem,btnInd in configtree.buttonConfig"
+                    @click="operateFun(buttonItem.emit,buttonItem)" :key="btnInd" plain>{{buttonItem.name}}</el-button>
+            </div>
+
+            <el-scrollbar id="mainheight" style="padding-left: 5px; padding-right: 5px;">
+                <!-- <div id="mainheight" style="overflow: auto;"> -->
+                    <!-- 具名插槽 组件header -->
+                    <div :class="temp.style.headertitle">
+                        <slot name="header"></slot>
+                    </div>
+                    <div :class="temp.style.navtitle">
+                        <slot name="nav"></slot>
+                    </div>
+                    <el-tree :class="!!lazyload?'lazy_tree':''" :empty-text="placeholderText" ref="tree" :data="treeData"
+                        highlight-current node-key="id" :default-expanded-keys="[defaultcheckeds]"
+                        :show-checkbox="!!configtree.checkbox" :check-strictly="!!configtree.checkStrictly"
+                        @check='checkTree' @check-change="handleCheckChange" :current-node-key="defaultcheckeds"
+                        @node-expand="treeLoad" :expand-on-click-node="false" :props="getDefaultProps"
+                        @node-click="handleNodeClick">
+                        <span :title="scope.node.label" v-if="!!lazyload" slot-scope="scope">
+                            <i v-if="scope.data.leaf" class="header-drops-i"
+                                :class="[temp.style.headerdrops, {'has-checkbox': !!configtree.checkbox}]"></i>
+                            <i v-if="!scope.data.leaf" @click.stop="treeLoad(scope.data,scope.node)"
+                                :class="[!!scope.node.expanded && scope.data.children.length >0 ?'el-icon-caret-bottom':'el-icon-caret-right',temp.style.tree_icon,{'has-checkbox': !!configtree.checkbox}]"></i>
+                            <span>{{scope.node.label}}</span>
+                        </span>
+                        <span v-else>
+                            <span>{{scope.node.label}}</span>
+                        </span>
+                    </el-tree>
+                <!-- </div> -->
+            </el-scrollbar>
+        </div>
+    </div>
+</div>

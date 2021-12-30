@@ -1,0 +1,129 @@
+<div class="flex-full">
+	<div class="search_filter">
+		<div class="left_search">
+			<el-page-header title="" content="通讯录"></el-page-header>
+			<div :class="temp.style.loader">
+				<div>
+					<span class="fz18" :class="temp.style.loader_title">值班电话：</span>
+					<el-button size="small" type="text" v-for="(item,index) in dutyPhone" :key="index" @click="">
+						{{ item.val }}</el-button>
+				</div>
+				<div>
+					<span class="fz18" :class="temp.style.loader_title">传真：</span>
+					<el-button size="small" type="text" v-for="(item,index) in dutyFax" :key="index" @click="">
+						{{ item.val }}</el-button>
+				</div>
+			</div>
+		</div>
+		<div class="right_filter">
+			<el-button icon="el-icon-plus" type="success" @click="peopleAdd">新增人员</el-button>
+			<!-- <el-button type="primary" icon="el-icon-download" @click="dutyUpload">导入</el-button> -->
+			<el-button type="primary" icon="el-icon-upload" @click="dutyDownload">导出</el-button>
+			<!-- <el-button type="primary" icon="el-icon-date" @click="dutyShowTable">统计表</el-button> -->
+			<el-input placeholder="可按姓名、职务、电话过滤" v-model="searchData.keyWord" class="search_input"
+				@keyup.enter.native="getListData">
+				<el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
+			</el-input>
+		</div>
+	</div>
+	<div :class="temp.style.list_contain">
+		<div :class="temp.style.list_top">
+			<div class="duty-list-left">
+				<search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+			</div>
+			<div class="duty-list-right">
+				<div :class="temp.style.list_left" class="flex-full">
+					<list-table :propdata="propData" @tablecallback="tablecallback" :classname="tableRowClassName"
+						unsortable="true"></list-table>
+				</div>
+			</div>
+		</div>
+		<div :class="temp.style.list_bottom_box">
+			<div :class="temp.style.bottom_list">
+				<div :class="temp.style.bottom_left">
+					<div :class="temp.style.bottom_title">
+						分组
+						<i class="el-icon-plus" :class="temp.style.bottom_title_add_button" v-popover:addGroup></i>
+					</div>
+					<div :class="temp.style.bottom_contain">
+						<el-scrollbar>
+							<ul :class="temp.style.bottom_group_list">
+								<li @mouseleave="item.showHandle = false" @mouseover="item.showHandle = true"
+									v-for="item,index in groupList">
+									<!-- {{ item.label }}
+									<span v-show="item.showHandle">
+										<i class="el-icon-edit" @click="editGroup"></i>
+										<i class="el-icon-delete" @click="delGroup"></i
+									></span> -->
+									<div v-show="!item.showInput" :class="temp.style.bottom_group_list_item">
+										<span>{{item.label}}</span>
+										<span v-show="item.showHandle">
+											<i class="el-icon-edit" @click="groupEdit(item)"></i>
+											<i class="el-icon-delete" v-show="item.showHandle"></i>
+										</span>
+									</div>
+									<div v-show="item.showInput" :class="temp.style.bottom_group_list_item">
+										<el-input type="text" v-model="item.label" @blur="item.showInput=false"
+											@focus="focus" ref="a"></el-input>
+										<span>
+											<i class="el-icon-delete"></i>
+										</span>
+									</div>
+								</li>
+							</ul>
+						</el-scrollbar>
+					</div>
+				</div>
+				<div :class="temp.style.bottom_right">
+					<div :class="temp.style.bottom_title">
+						已选择联系人
+					</div>
+					<div :class="temp.style.bottom_concant_list">
+						<el-scrollbar>
+							<div :class="temp.style.bottom_flex_group">
+								<div>
+									<div :class="temp.style.concat_inner">
+										<img src="../../../../assets/image/person-icon.png" alt="">
+										<div :class="temp.style.cancat_info">
+											<div :class="temp.style.person_title">杨斌</div>
+											<div :class="temp.style.person_info">市应急管理 主任</div>
+										</div>
+									</div>
+									<i class="el-icon-close"></i>
+								</div>
+							</div>
+						</el-scrollbar>
+					</div>
+				</div>
+			</div>
+			<div :class="temp.style.bottom_btn_group">
+				<div>
+					<i class="el-icon-message"></i> 短信群发</div>
+				<div>
+					<i class="el-icon-user-solid"></i> 电话会议</div>
+				<div>
+					<i class="el-icon-phone"></i> 电话拨打</div>
+			</div>
+		</div>
+	</div>
+	<el-dialog width="60%" :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog"
+		:destroy-on-close="true">
+		<component :is="dialogConfig.templateName" :propdata="propsData" @dialogcallback="closeDialogCall"></component>
+	</el-dialog>
+	<el-dialog :title="sendMessageConfig.tilteName" :visible.sync="sendMessageConfig.viewDialog"
+		:destroy-on-close="true">
+		<!-- 发送短信 -->
+		<component :is="sendMessageConfig.templateName" :sendMessageProp="sendMessageProp"
+			@dialogcallback="closeSendDialog"></component>
+	</el-dialog>
+	<el-dialog title="拨打电话" width="388px" :visible.sync="phonePanelVisible" :destroy-on-close="true">
+		<phone-panel :callnumber="callnumber"></phone-panel>
+	</el-dialog>
+	<el-popover placement="top" title="添加分组" width="200" trigger="click" ref="addGroup" v-model="addGroupVisiable">
+		<el-input v-model="newGroup" placeholder="请输入名称"></el-input>
+		<div style="text-align:right;margin:0">
+			<el-button size="mini" type="text" @click="addGroup">确定</el-button>
+			<el-button type="primary" size="mini" @click="addGroupVisiable = false">取消</el-button>
+		</div>
+	</el-popover>
+</div>

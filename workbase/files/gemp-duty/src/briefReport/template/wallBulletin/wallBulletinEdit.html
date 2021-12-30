@@ -1,0 +1,21 @@
+<div :class="temp.style.new_text_add">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" content="编辑快报"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="$router.push({path:'/briefReport/wallBulletin'})">返回</el-button>
+            <el-button size="small" type="primary" :disabled="!officeShow" icon="el-icon-check"  @click="examine('preservation','保存信息')">保存</el-button>
+            <el-button v-if="store.state.SYSTEMOFFICE != 'ONLYOFFICE'" type="primary" @click="SaveToLocal">另存为</el-button>
+            <el-button v-if="store.state.SYSTEMOFFICE != 'ONLYOFFICE'" type="primary" @click="TANGER_OCX_Printview">预览</el-button>
+            <!-- <el-button size="small" type="primary" class="el-icon-check" plain>另存为</el-button> -->
+            <!-- <el-button size="small" type="primary" icon="el-icon-s-check" @click="examine('examine-brief','内审')">内审</el-button> -->
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <document-processedcom ref="processedcom" :opendocbyurl="openDocByurl" :reporttype="type" :handlelist="handlelist" :dialogflag="dialogOption.flag"></document-processedcom>
+    </div>
+    <el-dialog :close-on-click-modal="false" :title="dialogOption.titleName" :visible.sync="dialogOption.flag" >
+        <component :is="dialogOption.templateName" ref="childrenDialog" :propdata="dialogOption.propsData" @dialogcallback="closeDialogCall" @reportsid="savePreservation"></component>
+    </el-dialog>
+</div>

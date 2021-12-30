@@ -1,0 +1,38 @@
+<div class="search_filter" @click="isSupperBtnClicked = false">
+    <div class="left_search">
+        <i class="el_icon" v-if="notogglebtn == 'true' ? false : true" v-bind:class="{'el-icon-caret-left': !isLeftMapShow, 'el-icon-caret-right': isLeftMapShow}"
+            @click="toggleShowMap"></i>
+        <!-- <div class="filter-set" id="selected_condition">检索条件：</div>
+        <div class="tags_wrap">
+            <el-tag v-for="tag,index in tags" :key="tag.id" @close="handleClose(tag)" closable :type="tag.type">
+                {{tag.name}}
+            </el-tag>
+        </div> -->
+    </div>
+    <div class="right_search">
+        <!-- <el-button icon="el-icon-upload2" type="primary" @click="exporttable" v-if="noexportbtn == 'true' ? false: true">导出</el-button> -->
+        <el-input placeholder="请输入名称或地址" v-model="searchKey" @keyup="searchKeyUp($event,searchKey)" class="search_input">
+            <el-button slot="append" @click.native="searchKeyUp($event,searchKey)" icon="el-icon-search"></el-button>
+        </el-input>
+        <i class="el_icon el-icon-search" style="font-size: 1.2em;" @click="searchKeyUp($event,searchKey)"></i>
+        <div class="search_slot">
+            <el-button @click="showMoreSearch($event)">
+                高级搜索
+                <i class="el-icon-right" :class="{'el-icon-caret-bottom': !isSupperBtnClicked, 'el-icon-caret-top': isSupperBtnClicked}"></i>
+            </el-button>
+            <div class="supper_search_wrap" v-show="isSupperBtnClicked">
+                <dl v-for="item,index in searchtypes" class="flex">
+                    <dt @click="showSearchWrap($event)">{{item.name}}</dt>
+                    <dd @click="showSearchWrap($event)">
+                        <ul class="flex" data-id="item.id">
+                            <li v-if="!item.all" data-value="all" class="all searchItem">全部</li>
+                            <li v-for="radioBtn,idx in item.data" data-value="radioBtn.id" class="searchItem" :class="{active: radioBtn.isActive}">
+                                <span @click="changeSerach($event,item.id,index,radioBtn.id,idx)">{{radioBtn.name}}</span>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

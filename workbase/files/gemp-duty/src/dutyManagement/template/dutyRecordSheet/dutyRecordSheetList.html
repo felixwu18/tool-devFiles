@@ -1,0 +1,96 @@
+<div class="flex-full">
+  <div class="search_filter">
+    <div class="left_search">
+      <el-page-header title="" content="值班记录列表"></el-page-header>
+      <div :class="temp.style.loader">
+        <div>
+          <span class="fz18" :class="temp.style.loader_title">带班领导：</span>
+          <div :class="temp.style.duty_name"><span
+              v-if="leaderHead.length>0">{{leaderHead[0].dutyPeopleName}}
+            </span>
+            <span v-else>暂无人员</span>
+          </div>
+        </div>
+        <div>
+          <span class="fz18" :class="temp.style.loader_title">值班人员：</span>
+          <div :class="temp.style.duty_name" >
+            <span v-if="leaderBody.length>0"
+              style="cursor: pointer ;margin-left: 10px" v-for="item in leaderBody" @click="searchDutySheet(item)">{{item.dutyPeopleName}}</span>
+              <span v-show="leaderBody.length==0">暂无人员</span>
+            </div>
+        </div>
+        <!-- <div v-for="item in dutyMan">
+          <span class="fz18" :class="temp.style.loader_title">{{item.leaderFlag == 0?'值班人员：':'带班领导：'}}</span>
+          <div :class="temp.style.duty_name"><span>{{item.dutyPeopleName}} </span></div>
+        </div> -->
+        <!-- <div>
+          <span class="fz18" :class="temp.style.loader_title">值班人员：</span>
+          <div :class="temp.style.duty_name"><span v-for="item in dutyName">{{item.name}} </span></div>
+        </div> -->
+      </div>
+
+    </div>
+    <div class="right_search">
+      <el-checkbox v-model="workStatus" label="我的工作" v-if="btnConfig.mywork"></el-checkbox>
+      <el-button type="success" icon="el-icon-plus"
+        @click.native="go('/dutyManagement/dutyRecordSheetAdd',{orgCode:orgCode,handlingPeople:handlingPeople})" v-if="btnConfig.add">
+        添加事项
+      </el-button>
+      <el-input placeholder="请输入搜索关键字" v-model="searchData.keyWord" class="search_input"
+        @keyup.enter.native="getListData" v-if="btnConfig.search">
+        <el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
+      </el-input>
+    </div>
+  </div>
+  <div class="duty-list">
+    <div class="duty-list-left">
+      <search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+    </div>
+    <div class="duty-list-right" :class="temp.style.duty_record_sheetList_right">
+      <div :class="temp.style.box">
+        <!-- <el-checkbox-group v-model="checkList">
+                    <el-checkbox label="已办">已办<b :class="temp.style.bgcolor_red"></b></el-checkbox>
+                    <el-checkbox label="待办">待办<b :class="temp.style.bgcolor_blue"></b></el-checkbox>
+                    <el-checkbox label="关注">关注<b :class="temp.style.bgcolor_green"></b></el-checkbox>
+                </el-checkbox-group> -->
+        <el-menu default-active="1" mode="horizontal" :class="temp.style.box_header">
+          <el-menu-item index="1" @click="selectType()">所有事项</el-menu-item>
+          <el-menu-item index="2" @click="selectType('done')">已办事项</el-menu-item>
+          <el-menu-item index="3" @click="selectType('todo')">待办事项</el-menu-item>
+          <el-menu-item index="4" @click="selectType('subscribe')">关注事项</el-menu-item>
+        </el-menu>
+      </div>
+      <div :class="temp.style.content">
+        <el-scrollbar>
+          <div :class="temp.style.flex_content">
+            <div v-for='item in dutyDatas.list' :class="temp.style.book"
+              @click="getDetailById(item)">
+              <!-- go('/dutyManagement/dutyRecordSheetDetail',item)  -->
+              <ul :class="temp.style.ul">
+                <li>
+                  <span>{{item.handlingPeople}}</span> <b :class='temp.style.fr' v-if='item.recoredType!=0'><i
+                      class='el-icon-edit-outline' @click.stop="go('/dutyManagement/dutyRecordSheetEdit',item)"></i><i
+                      class='el-icon-delete' @click.stop="delectSheet(item)" style="margin-left: 10px;"></i></b>
+                  <span
+                    :class="addclass(item.recoredType)">{{item.recoredType == 0?'已办事项':item.recoredType == 1?'待办事项':'关注事项'}}</span>
+                </li>
+                <li>
+                  <span :title="item.workContent">{{item.workContent}}</span>
+                </li>
+                <li>
+                  <span>办理时限:{{item.handlingTime|formatDate}}</span>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </el-scrollbar>
+      </div>
+      <div :class="temp.style.pager">
+        <el-pagination background @current-change="handleCurrentChange" :current-page.sync="dutyDatas.nowPage"
+          :page-size="dutyDatas.pageSize" layout='total, prev, pager, next,jumper' :total="dutyDatas.total">
+        </el-pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <el-page-header title="" content="活动列表"></el-page-header>
+        <el-form :inline="true" class='click_report'>
+            <!-- <div > -->
+            <el-form-item label="时间：">
+                <!-- <el-date-picker v-model="search_time" :clearable="false" :unlink-panels="true" type="datetimerange"
+                    range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期">
+                </el-date-picker> -->
+                <el-date-picker v-model="value1" :clearable="false" type="date" placeholder="开始日期"> </el-date-picker>
+                至 
+                <el-date-picker v-model="value2" :picker-options="pickerOptions"  :clearable="false" type="date" placeholder="结束日期"> </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+                <div>关键字：</div> 
+            </el-form-item>           
+            <el-form-item>
+                <el-input v-model="content" placeholder="请输入关键字"></el-input>
+            </el-form-item>   
+            <el-form-item>
+                <el-button type="primary" @click.native="inquire">
+                    查询</el-button>
+            </el-form-item>
+            <!-- </div> -->
+            
+        </el-form>
+    </div>
+    <list-table :propdata="propData":unsortable="true" @tablecallback="tablecallback"></list-table>
+    <!-- 预览值班信息页面 -->
+    <el-dialog :visible.sync="viewDialogPreview" v-if="viewDialogPreview" class="viewDialogPreview">
+        <component :is="templateName" :propdata="propsData1" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

@@ -1,0 +1,21 @@
+<div class="flex-full">
+  <div class="search_filter">
+    <div class="toolbar_txt">
+      <el-page-header title="" content="领导重要时段带班表详情"></el-page-header>
+    </div>
+    <div class="toolbar_right">
+      <el-button size="small" type="primary" icon="el-icon-edit" @click="goRoute('edit')">编辑</el-button>
+      <el-button type="primary" icon="el-icon-download" @click.native="exporttable">导出</el-button>
+      <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="goRoute('')">返回</el-button>
+    </div>
+  </div>
+  <!-- 列表 -->
+  <div class="duty-list flex-ful">
+    <div class="duty-list-left">
+        <search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+    </div>
+    <div class="duty-list-right" style="padding-top: 0.5rem;">
+      <list-table :propdata="propData" @tablecallback="tablecallback" :unsortable="true"></list-table>
+    </div>
+  </div>
+</div>

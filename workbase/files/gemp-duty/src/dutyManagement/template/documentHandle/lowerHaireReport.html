@@ -1,0 +1,38 @@
+<div class="transferDialog">
+    <div :class="temp.style.transferInner">
+        <!-- 下发弹出框 -->
+        <el-form :class="temp.style.infoExam" :model="transferData" label-width="120px" ref="documentReported"
+            :rules="rules">
+            <!-- <div>发送给3</div> 陈宇修改 按测试 需要需求 先隐藏-->
+            <el-form-item label="接收单位：" prop="receiveUnitCode" :rules="[
+            { required: true, message: '请选择接收单位', trigger: 'blur' },
+          ]">
+                <el-tooltip :disabled="checkedOrgs == ''" effect="dark" placement="top" :content="checkedOrgs">
+                    <el-cascader ref="cascader" :placeholder="reviceOrgdata.length > 0 ?'请选择接收单位名称': '请在通讯录中新建接收单位分组'"
+                        v-model="transferData.receiveUnitCode" :options="reviceOrgdata"
+                        :collapse-tags="transferData.receiveUnitCode.length > 2" :props="optionProps" change-on-select
+                        @change="setCheckedOrgs"
+                        filterable :disabled="reviceOrgdata.length == 0 ">
+                    </el-cascader>
+                </el-tooltip>
+            </el-form-item>
+            <el-form-item label="内容：">
+                <!-- <div>
+                    <iams-replybox ref="emoticon" v-model.trim="approvalContent"></iams-replybox>
+                </div> -->
+                <el-input type="textarea" maxlength="500" rows="4" show-word-limit v-model.trim="approvalContent"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <div :class="temp.style.ordinary">
+                    <ul>
+                        <li @click='getDomData'>相关单位按文件要求落实办理</li>
+                        <li @click='getDomData'>接收单位向下贯彻落实措施要求。</li>
+                    </ul>
+                </div>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button icon="el-icon-s-promotion" type="primary" @click.native="saveFun">发送</el-button>
+        </div>
+    </div>
+</div>

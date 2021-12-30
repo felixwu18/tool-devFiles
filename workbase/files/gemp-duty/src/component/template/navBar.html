@@ -1,0 +1,13 @@
+<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+    <el-menu-item @handlechange="handlechange(item)" v-for="(item,index) in childrenlist" :index="(index + 1).toString()" :key="index" @click="barChange(item)">
+        <el-badge v-if="item.unread" :value="item.unread">
+            {{item.name}}
+        </el-badge>
+        <span v-else>
+            {{item.name}}
+        </span>
+    </el-menu-item>
+    <!-- <div :class="temp.style.theme_check">
+        主题切换: <theme-picker></theme-picker>
+    </div> -->
+ </el-menu>

@@ -1,0 +1,83 @@
+<div class="flex-full">
+    <div class="substitute">
+        <div :class="temp.style.matter_content_form">
+            <el-form label-position="right" :model="listparams" :rules="rules" ref="listparams" label-width="120px" class="demo-listparams">
+                <el-row>
+                    <el-col :span="12">
+                        <el-row>
+                            <el-form-item label="申请人:" prop="applicantId">
+                                <el-select v-model="listparams.applicantId" @change="select(listparams.applicantId,'applicantName')">
+                                    <el-option :value="item.userId" v-for="(item,index) in scaleList" :label="item.userName" :key="item.index"  >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-row>
+                            <el-form-item label="换班人:" prop="peopleid">
+                                <el-select v-model.trim="listparams.peopleid" @change="select(listparams.peopleid,'peopleName')">
+                                    <el-option :value="item.userId" v-for="(item,index) in scaleList" :label="item.userName" :key="item.index" >
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-row>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-row>
+                            <el-form-item label="换班时间:"  prop="swapInsteadTime">
+                                <el-date-picker type="date" v-model.trim="listparams.swapInsteadTime" style="width: 100%"></el-date-picker>
+                            </el-form-item>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-row>
+                            <el-form-item label="换班类型:" prop="exchangeType">
+                                <el-select v-model="listparams.exchangeType">
+                                    <el-option label="白班带班领导" value="0"></el-option>
+                                    <el-option label="白班主班" value="1"></el-option>
+                                    <el-option label="白班副班" value="2"></el-option>
+                                    <el-option label="夜班带班领导" value="3"></el-option>
+                                    <el-option label="夜班主班" value="4"></el-option>
+                                    <el-option label="夜班副班" value="5"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-row>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="还班时间:" required prop="returnTime">
+                            <el-date-picker type="date" v-model.trim="listparams.returnTime" style="width: 100%"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="还班类型:" required prop="returnType">
+                            <el-select v-model="listparams.returnType">
+                                <el-option label="白班带班领导" value="0"></el-option>
+                                <el-option label="白班主班" value="1"></el-option>
+                                <el-option label="白班副班" value="2"></el-option>
+                                <el-option label="夜班带班领导" value="3"></el-option>
+                                <el-option label="夜班主班" value="4"></el-option>
+                                <el-option label="夜班副班" value="5"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-form-item label="换班原因:" prop="exchangeReason">
+                    <el-input v-model="listparams.exchangeReason" rows="2" type="textarea" maxlength='300' show-word-limit></el-input>
+                    <!-- <el-autocomplete :maxlength="50" v-model.trim="listparams.information" :fetch-suggestions="searchAddress" :trigger-on-focus="false"
+                                @select="">
+                            </el-autocomplete> -->
+                </el-form-item>
+                <el-form-item label="备注:" prop="remarksInformation">
+                    <el-input resize="none" rows="6" type="textarea" maxlength='500' show-word-limit v-model.trim="listparams.remarksInformation"></el-input>
+                </el-form-item>
+                <el-button type="primary" @click="addReportInfo" style="position: relative;left: 49%;">
+                    <i class="el-icon-check"></i>保存</el-button>
+            </el-form>
+        </div>
+    </div>
+</div>

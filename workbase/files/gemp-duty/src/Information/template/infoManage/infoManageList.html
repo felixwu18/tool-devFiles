@@ -1,0 +1,237 @@
+<div class="flex-full">
+  <div :class="temp.style.serach_filter">
+      <div class="left_search" :class="temp.style.left_search">
+              <el-radio-group v-model="dayType" size="medium" @change="changeDayType">
+                <el-radio-button label="1">最新</el-radio-button>
+                <el-radio-button label="2">近三天</el-radio-button>
+                <el-radio-button label="3">近一周</el-radio-button>
+                <el-radio-button label="4">全部</el-radio-button>
+              </el-radio-group>
+      </div>
+      <div class="right_search">
+            <el-input @keyup.enter.native="quikSearch" placeholder="可按标题搜索" v-model="searchData.keyWord"
+              :class="temp.style.search_input" v-if="btnConfig.search">
+              <i slot="suffix" @click="quikSearch"  class="el-input__icon el-icon-search"></i>
+            </el-input>
+              <div :class="temp.style.search_slot" v-show="dayType === '4'">
+                <el-button @click="showSearch = !showSearch" class="search_showSearch" v-if="btnConfig.accurateSearch">
+                  精准搜索 <i :class="showSearch?'el-icon-arrow-up':'el-icon-arrow-down'"></i>
+                </el-button>
+              
+              </div>
+          <el-button icon="el-icon-plus" @click.native="enteringMsg()" type="success" size="medium"
+              v-if="btnConfig.report">
+              <!-- <span v-if="roleLevel">
+                  信息录入
+              </span> -->
+              <span>
+                信息录入
+              </span>
+              <!-- <span v-else>
+                  上报
+              </span> -->
+          </el-button>
+          <el-button icon="el-icon-plus" type="primary" @click.native="reportAdd2" size="medium"
+          v-if="btnConfig.text">生成简报
+          </el-button>
+      </div>
+  </div>
+  <div :class="[temp.style.search_form,'search_form']" v-show="showSearch">
+    <el-form :inline="true">
+      <el-form-item label="接报时间">
+        <el-date-picker v-model="search_time" type="datetimerange" range-separator="至" start-placeholder="开始日期"
+          end-placeholder="结束日期" style="width: 20rem;">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="事件类型">
+        <!-- 组件v-model -->
+        <iams-combobox listtype="getInfoTypeTree" v-model="searchData.eventType" ref="eventType">
+        </iams-combobox>
+      </el-form-item>
+      <el-form-item label="报送单位">
+        <!-- <iams-combobox islazy="true" lazymethod="provincetoorg" listtype="getOrgCurrentTree"
+                                                    v-model="searchData.orgCode" ref="orgCode"></iams-combobox> -->
+        <iams-combobox listtype="getFordutyTree" v-model="searchData.orgCode" ref="orgCode" :rootcheck="true">
+        </iams-combobox>
+  
+      </el-form-item>
+      <el-form-item>
+        <el-button icon="el-icon-check" type="primary" @click="quikSearch">
+          确定
+        </el-button>
+        <el-button icon="el-icon-refresh" type="primary" @click="deleteSearch" plain>
+          重置
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+  <el-scrollbar>
+      <div  v-if="dayType !== '4'" :class="temp.style.event_list_box">
+        <div v-for="(item,index) in propData.data" :key="index" :class="!item.isDetails?temp.style.event_list_item_box:temp.style.event_details_box">
+          <!-- 列表卡片内容 -->
+          <div :class="item.isActive?[temp.style.event_list_item,temp.style.event_list_item_active]:temp.style.event_list_item" v-if="!item.isDetails" @click="showDetails(item,index)">
+            <p :class="temp.style.event_title">{{item.infoTitle}}</p>
+            <div :class="temp.style.event_msg_box">
+                  <div :class="temp.style.event_msg">
+                    <ul>
+                      <li>接报时间：{{item.reportDate}}</li>
+                      <li :class="temp.style.event_msg_infoAddress">
+                        <span :title="item.infoAddress">事发地点：{{item.infoAddress}}</span>
+                        <img :src="imgSrc" alt=" " @click.stop="showMap(item)">
+      
+                      </li>
+                      <li>事件类型：{{item.eventTypeName}}</li>
+                      <li :class="temp.style.event_msg_infoAddress">
+                        <span :title="item.infoAddress">事件等级：{{item.eventLevelName}}</span>
+                          <img :src="shareImg" alt=" " @click.stop="shareTo(item.infoId)" title="共享至..." v-if="role['shareStatus'] && item.pushStatus !== '1'">
+                      </li>
+                      <li v-if="item.casualty !== 2">伤亡人数：{{item.casualty === 0 ?'待定':'无人员伤亡'}}</li>
+                      <li v-else>伤亡人数：
+                        <span v-if="item.deathNum !== null">死亡{{item.deathNum || 0}}人;</span>
+                        <span v-if="item.seriousInjureNum !== null">重伤{{item.seriousInjureNum || 0}}人;</span>
+                        <span v-if="item.minorInjureNum !== null">轻伤{{item.minorInjureNum || 0}}人;</span>
+                        <span v-if="item.woundNum !== null">受伤{{item.woundNum || 0}}人;</span>
+                        <span v-if="item.lossNum !== null">失踪{{item.lossNum || 0}}人;</span>
+                        <span v-if="item.trappedNum !== null">受困{{item.trappedNum || 0}}人;</span>
+                        </li>
+                    </ul>
+                    <div :class="temp.style.event_btn">
+                      <div :class="temp.style.btn">
+                        <el-button type="primary" plain icon="el-icon-edit-outline" @click.stop="handle(item.infoId)">办理</el-button>
+                      </div>
+                      <div>
+                        <el-button type="danger" plain icon="el-icon-delete" v-if="item.infoStatus === '0'" @click.stop="draftDelect(item.infoId)">删除</el-button>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        
+            <div  :class="temp.style.event_describe">
+              <span>详情描述：</span>
+              <div :class="temp.style.event_describe_main">
+                <el-scrollbar>
+                    <div>
+                      {{item.infoDescription}}
+                    </div>
+                </el-scrollbar>
+              </div>
+            </div>
+          </div>
+          <!-- 列表详情内容 -->
+          <div :class="temp.style.details_box" v-if="item.isDetails && item.isShow">
+            <div :class="temp.style.details_type">
+              <span :class="dataType === 1 ? temp.style.details_type_active :''" @click="changeDataType(1)">时间排序</span>
+              <span :class="dataType === 2 ? temp.style.details_type_active :''" @click="changeDataType(2)">信息来源</span>
+            </div>
+            <!-- 时间排序 -->
+            <div :class="temp.style.time_order" v-if="dataType === 1">
+              <span :class="temp.style.icon_left" v-if="reportLength>6">
+                <i class="el-icon-arrow-left "   @click="changePage(1)" :style="{color:currentTimePage > 1? '#4A7DFF':'#49445f'} "></i>
+              </span>
+              <span :class="temp.style.icon_right" v-if="reportLength>6">
+                <i class="el-icon-arrow-right"   @click="changePage(2)" :style="{color:currentTimePage <= (reportLength - 6)? '#4A7DFF':'#49445f'} "></i>
+              </span>
+                <div :class="temp.style.time_order_up" :style="{transform:'translateX('+timeLeft+'rem)'}">
+                    <div :class="ele.id === lastId ? [temp.style.time_order_item,temp.style.time_order_item_active]:temp.style.time_order_item" v-for="ele in item.reportUpList" :key="ele.id">
+                      <p :class="[temp.style.time_title_yellow,temp.style.time_title]" v-if="ele.typeName === '调度指令'">{{ele.typeName}} <span>{{ele.time}}</span></p>
+                      <p :class="[temp.style.time_title_green,temp.style.time_title]" v-else-if="ele.typeName === '专家意见'">{{ele.typeName}} <span>{{ele.time}}</span></p>
+                      <p :class="[temp.style.time_title_red,temp.style.time_title]" v-else-if="ele.typeName === '现场汇报'">{{ele.typeName}} <span>{{ele.time}}</span></p>
+                      <p :class="temp.style.time_title" v-else>{{ele.typeName}} <span>{{ele.time}}</span></p>
+                      <div :class="temp.style.time_order_main">
+                        <el-scrollbar>
+                          <div>
+                            {{ele.content}}
+                          </div>
+                        </el-scrollbar>
+                      </div>
+                    </div>
+                </div>
+                <div :class="temp.style.time_order_down" :style="{transform:'translateX('+timeLeft+'rem)'}">
+                  <div :class="ele.id === lastId ? [temp.style.time_order_item,temp.style.time_order_item_active]:temp.style.time_order_item"v-for="ele in item.reportDownList" :key="ele.id">
+                    <p :class="[temp.style.time_title_yellow,temp.style.time_title]" v-if="ele.typeName === '调度指令'">{{ele.typeName}}
+                      <span>{{ele.time}}</span></p>
+                    <p :class="[temp.style.time_title_green,temp.style.time_title]" v-else-if="ele.typeName === '专家意见'">{{ele.typeName}}
+                      <span>{{ele.time}}</span></p>
+                    <p :class="[temp.style.time_title_red,temp.style.time_title]" v-else-if="ele.typeName === '现场汇报'">{{ele.typeName}}
+                      <span>{{ele.time}}</span></p>
+                    <p :class="temp.style.time_title" v-else>{{ele.typeName}} <span>{{ele.time}}</span></p>
+                    <div :class="temp.style.time_order_main">
+                      <el-scrollbar>
+                        <div>
+                          {{ele.content}}
+                        </div>
+                      </el-scrollbar>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+            <!-- 信息来源 -->
+            <div v-if="dataType === 2">
+              <div :class="temp.style.message_source_box"  v-for="value in item.reportTypeList">
+                <span :class="temp.style.icon_left" v-if="value.length >2">
+                  <i class="el-icon-arrow-left " @click="changeTypePage(1)"
+                    :style="{color:currentTypePage > 1? '#4A7DFF':'#49445f'} "></i>
+                </span>
+                <span :class="temp.style.icon_right"  v-if="value.length >2">
+                  <i class="el-icon-arrow-right" @click="changeTypePage(2)"
+                    :style="{color:currentTypePage < (value.length -1)? '#4A7DFF':'#49445f'} "></i>
+                </span>
+                <div :class="temp.style.message_source" :style="{left:typeLeft + '%'}">
+              
+                  <div :class="temp.style.message_source_item" v-for="ele in value">
+              
+                    <p :class="temp.style.message_source_title">
+                      <span :class="temp.style.message_source_title_yellow" v-if="ele.typeName === '调度指令'">{{ele.typeName}} </span>
+                      <span :class="temp.style.message_source_title_green" v-else-if="ele.typeName === '专家意见'">{{ele.typeName}}</span>
+                      <span :class="temp.style.message_source_title_red" v-else-if="ele.typeName === '现场汇报'">{{ele.typeName}}</span>
+                      <span v-else>{{ele.typeName}}</span>
+                      <span >{{ele.time}}</span>
+                    </p>
+                    <div :class="temp.style.message_source_main" :title="ele.content">
+                      {{ele.content}}
+                    </div>
+              
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+        </div>          
+      </div>
+      <list-table v-show="dayType === '4'" ref="infoManage" :propdata="propData" @tablecallback="tablecallback" @handleselection="handleselection"
+       >
+      </list-table>
+  </el-scrollbar>
+
+        <!-- 信息录入询问弹框 -->
+    <el-dialog title="地图查看" :visible.sync="viewMapDialog" width="50%" :destroy-on-close="true">
+            <div :class="temp.style.map_box" v-if="viewMapDialog">
+                <egis-map :isdetail="true" @maprenderfinish="mapRenderFinish" :postflag="true" :mapinfo="mapInfo" :islistener="true"
+                  ref="detailMap"></egis-map>
+            </div>
+      </el-dialog>
+    <!-- 信息录入询问弹框 -->
+    <el-dialog title="信息录入" :visible.sync="viewDialog" width="30%" :destroy-on-close="true">
+        <div>
+          <div :class="temp.style.radio_box">
+            <span>请确定:</span>
+            <el-radio v-model="addType" label="1">初报</el-radio>
+          </div>
+          <div :class="temp.style.radio_box">
+            <span></span>
+              <el-radio v-model="addType" label="2">续报</el-radio>
+              <el-select v-model="eventId" placeholder="请选择续报的事件" style="width: 65%;margin-left:-20px;" >
+                <el-option v-for="item in eventOptions" :key="item.infoId" :label="item.infoTitle" :value="item.infoId">
+                </el-option>
+              </el-select>
+          </div>
+          <div :class="temp.style.btn_box">
+            <el-button type="primary" plain icon="el-icon-close" size="medium" @click.native="closePop">取消</el-button>
+            <el-button type="primary" icon="el-icon-check" size="medium" @click="submit">确定</el-button>
+          </div>
+        </div>
+    </el-dialog>
+</div>
+

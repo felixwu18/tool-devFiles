@@ -1,0 +1,28 @@
+<div :class="temp.style.img" >
+        <div v-if="filelist && filelist.length">
+            <div v-for="item in filelist" >
+                <span @click="viewImageCheck(item.url)" v-if="/(.*)\.(jpg|bmp|gif|ico|pcx|jpeg|png|raw|tga)$/.test(item.name)" style="display:inline-block;width:100px;height:47px;text-align:center;line-height: 47px">
+                    <img :src="item.url" :alt="item.name">
+                </span>
+                <span @click="viewVideoCheck(item)" v-else-if="/(.*)\.(mp4|avi|mp3|wav|mov|rmvb|rm|3gp|flv)$/.test(item.name)">
+                    <img src="../../../assets/image/video.png" alt="">
+                </span>
+                <span v-else @click="download(item)">
+                    <img v-if="/(.*)\.(ppt|pptx)$/.test(item.name)" src="../../../assets/image/ppt.png" alt="" >
+                    <img v-else-if="/(.*)\.(doc|docx)$/.test(item.name)" src="../../../assets/image/word.png" alt="" >
+                    <img v-else-if="/(.*)\.(xlsx|xls)$/.test(item.name)" src="../../../assets/image/excel.png" alt="" >
+                    <img v-else-if="/(.*)\.(txt)$/.test(item.name)" src="../../../assets/image/txt.png" alt="" >
+                    <img v-else-if="/(.*)\.(pdf)$/.test(item.name)" src="../../../assets/image/PDF.png" alt="" >
+                    <img v-else src="../../../assets/image/file.png" alt="" >
+                </span>
+                <p :class="temp.style.img_name" :title="item.name">{{item.name}}</p>
+            </div>
+        </div>
+        <span v-else>暂无附件信息</span>
+        <el-dialog title="查看附件" :visible.async="showImage" style="text-align: left" width="70%" height="70%" @close="closeDialog" :destroy-on-close="true">
+                <div class="flex-full" style="align-items: center;justify-content: center;max-height:31rem;position:relative;height:60vh">
+                    <img v-if="isImage" :src="checkSource" max-width="100%" width='100%' max-height="100%"  v-drag></img>
+                    <video style="max-height:100%;width: 100%;" v-else autoplay="autoplay" controls="controls" :src="checkSource"></video>
+                </div>
+        </el-dialog>
+    </div>

@@ -1,0 +1,387 @@
+@charset "utf-8";
+/* CSS Document */
+
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	/*兼容低版本的浏览器*/
+	-webkit-box-sizing: border-box;
+	/*为了兼容低版本的web*/
+}
+
+body {
+	font-size: 0.875rem !important;
+	font-family: "Helvetica Neue", Helvetical, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+	line-height: 100%;
+	background: #fff;
+	margin: 0;
+	overflow-x: hidden;
+	/*溢出隐藏，去掉水平方向的，直接剪裁*/
+	-webkit-font-smoothing: antialiased;
+	color: #49445f;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+dl,
+li,
+form,
+table,pre {
+	margin: 0;
+	padding: 0;
+}
+
+a,
+img {
+	border: none;
+	/*兼容ie浏览器*/
+}
+
+img {
+	vertical-align: middle;
+	border: 0;
+}
+
+li {
+	list-style: none;
+}
+
+i,
+em {
+	font-style: normal;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+	border: 0;
+}
+
+a:link {
+	text-decoration: none;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+
+}
+
+a:active {
+	text-decoration: none;
+}
+
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	content: "";
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+textarea {
+	resize: none !important;
+	white-space:pre-wrap;
+}
+
+/*兼容ie浏览器*/
+table {
+	border-collapse: collapse;
+	table-layout: fixed;
+	width: 100% !important;
+}
+
+table>tr>td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis
+}
+[v-cloak] {
+	display: none;
+}
+.fz12 {
+	font-size: 12px;
+}
+.fz14 {
+	font-size: 14px;
+}
+.fz16 {
+	font-size: 16px;
+}
+.fz18 {
+	font-size: 18px;
+}
+.fz20 {
+	font-size: 20px;
+}
+.mt5 {
+	margin-bottom: 0.5rem;
+}
+
+.flex-full {
+	display: flex;
+	flex-direction: column !important;
+	height: 100%;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.list-contain {
+	padding: 0.75rem 1.4rem;
+}
+
+.flex-header {
+	display: flex;
+	justify-content: space-between;
+	margin: 0.25rem 0;
+	align-items: center;
+	/* border-top: 1px solid #d7d7d7; */
+	border-bottom: 1px solid #d7d7d7;
+}
+
+.from-main {
+	margin-top: 4px;
+}
+
+.simple-table {
+	padding-right: 0.1rem;
+}
+
+.simple-table .el-select {
+	width: 100%;
+}
+
+
+.imitateLiist.clearfix {
+	padding: 0.625rem 0;
+	border-bottom: 1px solid #DCDFE6;
+}
+
+.imitateLiist li {
+	float: left;
+	border: 1px solid #03A9F4;
+	color: #03A9f4;
+	padding: 0 10px;
+	margin: 5px 10px;
+	border-radius: 4px;
+	line-height: 28px;
+	cursor: pointer;
+}
+
+.imitateLiist li.active {
+	color: #fff;
+	background: #03A9f4;
+}
+
+.dialog-footer {
+	margin-top: 1.5rem;
+	text-align: center;
+}
+
+.spliterSty {
+	position: relative;
+	padding: 0 0 0 1.875rem;
+	height: 3.875rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-weight: 700;
+	color: #000;
+	font-size: 1rem;
+	background-color: #fff;
+	border-bottom: 1px solid #dfdfe3;
+}
+.details_edit .spliterSty{
+	height: 40px;
+}
+.spliterSty.inner{
+	padding: 0;
+	border-bottom: none;
+}
+
+/* .toolbar_txt {
+	float: left;
+	padding-left: 0.5rem;
+	font-size: 1.25rem;
+	font-weight: normal;
+	color: #49445f
+}
+
+.toolbar_txt:before {
+	content: '';
+	position: absolute;
+	left: 1.875rem;
+	top: calc(50% - 0.625rem);
+	width: 0.25rem;
+	height: 1.25rem;
+	background-color: #49445f;
+} */
+
+.spliterSty.inner .toolbar_txt:before{
+	left:0
+}
+
+/* .toolbar_right {
+	float: right;
+	padding-right: 0.3125rem;
+	margin-top: 0.25rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+} */
+
+.details-leadership .el-page-header__content {
+	color: red
+}
+
+/* 信息详情的相关信息,拟办意见等title的竖线 */
+.details-matter .el-collapse-item__header {
+	position: relative;
+	padding-left: 0.625rem;
+	font-size:1rem;
+}
+.details-matter .el-collapse-item__header{
+	color: #000!important;
+}
+
+.details-matter .el-collapse-item__header::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: calc(50% - 0.5rem);
+	width: 0.2rem;
+	height: 1rem;
+	background-color: #534c6b;
+}
+
+
+.details_content_left {
+	/* width: 75.5rem; */
+	width: 57.5rem;
+	height: 100%;
+}
+
+.details_content_left.width100 {
+	width: 100%;
+}
+
+.details_content_right {
+	/* width: calc(100% - 75.5rem); */
+	width: calc(100% - 57.5rem);
+	height: 100%;
+	position: relative;
+	border-left: 1px solid #ccc;
+
+}
+.details_content_right .controlBtn{
+	position: absolute;
+	width:20px;
+	height:80px;
+	left:-20px;
+	top:calc(50% - 40px);
+	border:2px solid #4a7dff;
+	border-right:1px solid #dfdfe3;
+	line-height: 80px;
+	font-size:18px;
+	color:#D9DADD;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	font-weight:bold;
+	z-index:999;
+	cursor:pointer;
+	color: #4a7dff;
+	font-weight: bold;
+}
+
+.details_content_right.width00 {
+	width: 0%;
+}
+
+.details_content_left,
+.details_content_right {
+	transition: all 1.5s;
+}
+
+.icon{
+	width:1rem;
+	height:1rem;
+	vertical-align: -0.15rem;
+	fill:currentColor;
+	overflow: hidden;
+}
+.hide{
+	display: none
+}
+
+/* //ff5555 */
+.outbox-org-conut {
+    overflow: hidden;
+    color: #000;
+    font-size: 14px;
+    line-height: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 136px;
+    height: 53px;
+    padding: 0.5rem 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: 1.375rem;
+    margin-top: 15px;
+    float: left;
+}
+.informationHandling .outbox-org-conut {
+    overflow: hidden;
+    color: #409eff;
+    font-size: 14px;
+    line-height: 18px;
+    background: #ecf5ff;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 136px;
+    height: 53px;
+    padding: 0.5rem 0.3rem;
+    border: 1px solid #d9ecff;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: 1.375rem;
+    margin-top: 15px;
+    float: left;
+}
+
+.outbox-org-conut.active {
+    background: #f5c4c4;
+}
+
+.outbox-org-conut p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.informationHandling .dialog-footer {
+	margin-top: 0;
+}
+.informationHandling .el-dialog {
+	width: 900px;
+}

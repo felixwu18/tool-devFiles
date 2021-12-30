@@ -1,0 +1,89 @@
+<div class="flex-full addPeople">
+
+    <div :class="temp.style.selectbox">
+        <div :class="temp.style.search_filter">
+            <div :class="temp.style.search_filter_left">
+                <search-tree :lazyload="true" listtype="getOrgTree" @change="getOrg" @treecallback="treecallback"
+                    :defaultchecked="defaultchecked" style="height: 100%;"></search-tree>
+            </div>
+        </div>
+        <div :class="temp.style.search_filter">
+            <div :class="temp.style.search_filter_top">
+                <el-page-header title="" content="人员信息"></el-page-header>
+                <el-input @keyup.enter.native="getData" placeholder="输入人员姓名或职务查询" v-model.trim="searchData.keyWord"
+                    :class="temp.style.search_input">
+                    <el-button slot="append" @click="getData" icon="el-icon-search"></el-button>
+                </el-input>
+                <el-button type="success" icon="el-icon-plus" @click.native="join">加入</el-button>
+            </div>
+            <div :class="temp.style.search_filter_bottom">
+                <el-scrollbar>
+                    <el-table ref="mutipleTable" :data="propData" tooltip-effect="dark" style="width: 100%;"
+                        @select="handleSelectionChange" @select-all="handleAllSelection">
+                        <el-table-column type="selection" width="100"></el-table-column>
+                        <el-table-column prop="personName" label="姓名">
+                            <template slot-scope="scope">
+                                <span :title="scope.row.personName">
+                                    {{scope.row.personName}}
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="personJob" label="职务">
+                            <template slot-scope="scope">
+                                <span :title="scope.row.personJob">
+                                    {{scope.row.personJob}}
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="dutyNumber" label="办公电话">
+                            <template slot-scope="scope">
+                                <span :title="scope.row.dutyNumber">
+                                    {{scope.row.dutyNumber}}
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="telNumber" label="移动电话">
+                            <template slot-scope="scope">
+                                <span :title="scope.row.telNumber">
+                                    {{scope.row.telNumber}}
+                                </span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-scrollbar>
+                <!-- <div :class="[temp.style.pager,'pager']">
+                    <el-pagination background @current-change="handlePageChange" current-page.sync="1" :page-size="propdata.pageSize" layout='total, prev, pager, next,jumper'
+                        :total="propdata.total">
+                    </el-pagination>
+                </div> -->
+            </div>
+        </div>
+        <div :class="temp.style.search_filter">
+            <div :class="temp.style.search_filter_tops">
+                <el-page-header title="" content="选中人员"></el-page-header>
+                <!-- <el-button type="primary" @click.native="cleanAll">全部删除</el-button> -->
+
+            </div>
+            <div :class="temp.style.search_filter_bottoms">
+                <div :class="temp.style.ordinary">
+                    <!-- <el-tag size="small" v-for="(item,index) in allleader" :key="index" v-show="item" closable @close="deletstaff(scope.row,item.userId)"
+                        :class="temp.style.tag">{{item.name}}</el-tag> -->
+                    <el-scrollbar>
+                        <ul>
+                            <li v-for="(options,index) in allleader" :key="options.userId">
+                                <span>{{ options.personName }}</span>
+                                <i class="el-icon-error" @click='getDomData(options,index)'></i>
+                            </li>
+                        </ul>
+                    </el-scrollbar>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div :class="temp.style.search_table">
+        <el-button icon="el-icon-error" @click.native="closeDialog" plain type="primary">取消</el-button>
+        <el-button icon="el-icon-check" @click.native="choosePeople" type="primary">保存</el-button>
+    </div>
+</div>

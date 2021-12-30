@@ -1,0 +1,193 @@
+<div class="flex-full">
+    <div class="duty-list ">
+        <div :class="['duty-list-left',temp.style.leftTree]">
+
+            <search-tree listtype="getStatementTree" @change="getOrg" ref="searchtree" :configtree="configtree"
+                :defaultchecked="defaultchecked" @treecallback="treecallback"></search-tree>
+
+        </div>
+        <div :class="['duty-list-right',temp.style.listright,'flex-full']">
+            <div :class="['search_filter_title',temp.style.search_filter]">
+                <div :class="[temp.style.titleleft,temp.style.title_special]">
+                    <span>报表类型：</span>
+                    <el-select :class="[temp.style.special_report]" v-model="selectDocument" @change="changeReport"
+                        placeholder=''>
+                        <el-option value="0" label="月报"></el-option>
+                        <el-option value="1" label="年报"></el-option>
+                        <el-option value="2" label="日报"></el-option>
+                    </el-select>
+
+                    <el-date-picker v-show="selectDocument === '0'" v-model="searchlist.monthTime" type="month"
+                        @change="getData" placeholder="选择月" value-format="yyyy-MM" :clearable="false"></el-date-picker>
+                    <el-date-picker v-show="selectDocument === '1'" v-model="searchlist.yearTime" type="year"
+                        @change="getData" placeholder="选择年" value-format="yyyy" :clearable="false"></el-date-picker>
+                    <div v-if="selectDocument === '2'" style="display: inline-block">
+                        <el-date-picker v-model="searchlist.startTime" :picker-options="startPicker" :clearable="false"
+                            type="date" placeholder="开始日期" @change="getData"></el-date-picker>
+                        至
+                        <el-date-picker v-model="searchlist.endTime" :picker-options="endPicker" :clearable="false"
+                            type="date" placeholder="结束日期" @change="getData"></el-date-picker>
+                    </div>
+                    <div :class="[temp.style.btncss,temp.style.time_special]">
+                        <el-button type="success" @click="derive" icon="el-icon-document-copy">打印PDF</el-button>
+                    </div>
+                </div>
+            </div>
+            <!-- <list-table :propdata="propData" @tablecallback="tablecallback" :unsortable="true"></list-table> -->
+            <div class="flex-full emergency" :class="temp.style.word_print">
+                <el-scrollbar :class="temp.style.scroll">
+                    <div :class="temp.style.word" id="print">
+                        <div :class="temp.style.main">
+                            <h1 :class="temp.style.title">值班信息汇总</h1>
+                            <p :class="temp.style.bottom_title">（{{wordData.startTime}}-{{wordData.endTime}}）</p>
+                        </div>
+                        <div :class="temp.style.content">
+                            <div :class="temp.style.title_one">1、统计综述</div>
+                            <div :class="temp.style.content_word">
+                                据统计，{{wordData.startTime}}至{{wordData.endTime}}{{searchlist.label}}共接到各类突发事件信息<span
+                                    :class="temp.style.color_red">{{wordData.emergencyInformationNum}}</span>起
+                                （其中发生人员伤亡突发事件共<span
+                                    :class="temp.style.color_red">{{wordData.emergencyInformationCasualtyNum}}</span>起），
+                                死亡<span
+                                    :class="temp.style.color_red">{{wordData.emergencyInformationDeathNum}}</span>人、受伤<span
+                                    :class="temp.style.color_red">{{wordData.emergencyInformationInjuredNum}}</span>人，
+                                发生较大突发事件<span
+                                    :class="temp.style.color_red">{{wordData.emergencyInformationLargerNum}}</span>起（死亡<span
+                                    :class="temp.style.color_red">{{wordData.emergencyInformationLargerDeathNum}}</span>人），{{wordData.emergencyInformationGreatJoint}}。
+                                <br />
+                                均按相关规定要求及时报告与处理。具体如下：
+                                <ul :class="temp.style.list">
+                                    <li v-for="(item,key) in wordData.gempMonthInfoReportInfoFirstGradeDTOs" :key="key">
+                                        <p v-html="indexList[key] + changeStr(item.disasterGreatJoint)"></p>
+                                        <ul>
+                                            <li v-for="(ctem,c) in item.secondGradeDTOs" :key="c"
+                                                v-html="(c+1)+'.'+changeStr(ctem.disasterGreatJoint.substr(2))"></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div ref="mapChart" style="width: 50%;height: 25rem;margin: 0 auto;"></div>
+                            <div ref="zhuzhuangtu" style="width: 100%;height: 30rem;"></div>
+                            <!-- <div :class="temp.style.three_chart">
+                                <div>
+                                    
+                                </div>
+                                
+                            </div> -->
+                            <div :class="temp.style.title_one">2、统计分析</div>
+                            <div :class="temp.style.content_word">
+                                报送事件方面：共接收到报送事件<span style="color:red">{{wordData.emergencyInfoTotalNum}}</span>起，<span
+                                    v-html="changeStr(wordData.emergencyInfoTopThreeJoint || '')"></span><br />
+                                分析图如下：</div>
+                            <div :class="temp.style.three_chart">
+                                <div :class="temp.style.zhuzhuangtu" style="height: 20rem;" ref="zhuzhuangtu2"></div>
+                            </div>
+                            <div :class="temp.style.content_word">
+                                报送事件类型方面：共接收到报送事件<span
+                                    style="color:red">{{wordData.emergencyInfoTotalNum}}</span>起，<span
+                                    v-html="changeStr(wordData.infoTypeV1Joint || '')"></span><br />
+                                分析图如下：</div>
+                            <div ref="bingtu" style="width: 50%;height: 15rem;margin: 0 auto;"></div>
+                            <div ref="zhuzhuangtu3" style="width: 100%;height: 30rem;"></div>
+                            <!-- <div :class="temp.style.three_chart">
+                                <div>
+                                   
+                                   
+                                </div>
+                            </div> -->
+                            <div :class="temp.style.title_one">3、各行业领域突发事件统计表</div>
+                            <el-table :data="getTableData" :span-method="objectSpanMethod" class="content_style"
+                                style="margin-top: 2rem; ">
+                                <el-table-column :label="'值班信息汇总表（'+wordData.startTime+'-'+wordData.endTime+'）'"
+                                    header-align="center" align="center">
+                                    <el-table-column label="行业领域" min-width='120px' header-align="center"
+                                        align="center">
+                                        <el-table-column min-width='60' prop="oneLevelName" header-align="center"
+                                            align="center">
+                                        </el-table-column>
+                                        <el-table-column min-width='60' prop="eventTypeName" header-align="center"
+                                            align="center">
+                                        </el-table-column>
+                                    </el-table-column>
+                                    <el-table-column label="合计" min-width='80px' header-align="center" align="center">
+                                        <el-table-column label="起数" min-width='40px' prop="totalNum"
+                                            header-align="center" align="center">
+
+                                        </el-table-column>
+                                        <el-table-column label="人数" min-width='40px' prop="totalPersonNum"
+                                            header-align="center" align="center">
+
+                                        </el-table-column>
+                                    </el-table-column>
+                                    <el-table-column v-if="+selectDocument !== 1" label="同比" min-width='120px'
+                                        header-align="center" align="center">
+                                        <el-table-column label="起数" min-width='40px' prop="yearOnYearNum"
+                                            header-align="center" align="center">
+
+                                        </el-table-column>
+                                        <el-table-column label="人数" min-width='40px' prop="yearOnYearPersonNum"
+                                            header-align="center" align="center">
+
+                                        </el-table-column>
+                                        <el-table-column label="增长率" min-width='40px' prop="yearOnYearGrowthRate"
+                                            header-align="center" align="center">
+
+                                        </el-table-column>
+                                    </el-table-column>
+                                    <el-table-column label="环比" v-if="+selectDocument !== 2" min-width='120px'
+                                        header-align="center" align="center">
+                                        <el-table-column label="起数" min-width='40px' prop="linkRelativeRatioNum"
+                                            header-align="center" align="center">
+
+                                        </el-table-column>
+                                        <el-table-column label="人数" min-width='40px' prop="linkRelativeRatioPersonNum"
+                                            header-align="center" align="center">
+
+                                        </el-table-column>
+                                        <el-table-column label="增长率" min-width='40px' prop="linkRelativeRatioGrowthRate"
+                                            header-align="center" align="center">
+
+                                        </el-table-column>
+                                    </el-table-column>
+                                </el-table-column>
+
+                            </el-table>
+                            <div :class="temp.style.title_one">4、突发伤亡事件统计表</div>
+                            <el-table :data="wordData.statementInfoDTOs || []" style="margin-top: 2rem; "
+                                :span-method="objectSpanMethod2" class="content_style">
+                                <el-table-column label="序号" width='60px' prop="orderNum" header-align="center"
+                                    align="center"></el-table-column>
+                                <el-table-column label="类型" prop="primaryClassificationName" header-align="center"
+                                    align="center">
+                                </el-table-column>
+                                <el-table-column label="行业" header-align="center" align="center">
+                                    <el-table-column label="类别" header-align="center" align="center"
+                                        prop="secondaryClassificationName">
+                                    </el-table-column>
+                                </el-table-column>
+                                <el-table-column label="事故/险情概况" prop="informationDetails" width='250'
+                                    header-align="center" class="cell_text">
+                                    <template slot-scope="scope">
+                                        <span v-html="scope.row.informationDetails"></span>
+                                    </template>
+
+                                </el-table-column>
+                                <el-table-column label="受伤人数" header-align="center" align="center" prop="injuredNum">
+                                </el-table-column>
+                                <el-table-column label="死亡人数" header-align="center" align="center" prop="deathNum">
+                                </el-table-column>
+                                <el-table-column label="报送单位" width='100' header-align="center" align="center">
+                                    <el-table-column label="部门" width='100' header-align="center" align="center"
+                                        prop="orgName"></el-table-column>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </div>
+                </el-scrollbar>
+
+            </div>
+        </div>
+    </div>
+    <iframe id="printf" style="display: none;" src="" MARGINHEIGHT="1" MARGINWIDTH="1" width="100%" height="312"
+        frameborder="0"></iframe>
+</div>

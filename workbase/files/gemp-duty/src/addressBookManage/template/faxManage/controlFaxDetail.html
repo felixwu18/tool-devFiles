@@ -1,0 +1,21 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="传真详情"></el-page-header>
+        </div>
+        <div class="right_search">
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="$router.history.go(-1)">返回</el-button>
+        </div>
+    </div>
+    <div class="list-contain flex-full">
+        <div :class="temp.style.deliver_simple">
+            <iams-form v-model="formdata" ref="simpleTable" :disabled="true"></iams-form>
+        </div>
+        <div :class="temp.style.outbox_send_files">
+            <span :class="temp.style.outbox_send_name">发送附件: </span>
+            <div :class="temp.style.outbox_send_updata">
+                <a class="fz16" style="color:blue" id="uploadexample"   href="" download="" @click="downloadFiles" title="附件名称">附件名称</a>
+            </div>
+        </div>
+    </div>
+</div>

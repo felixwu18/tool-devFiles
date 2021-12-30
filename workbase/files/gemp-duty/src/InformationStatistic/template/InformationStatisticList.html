@@ -1,0 +1,86 @@
+<div :class="temp.style.container">
+    <el-scrollbar>
+        <div :class="temp.style.search_container">
+            <div class="search_filter">
+                <div class="left_search">
+                    <el-page-header title="" content="信息统计"></el-page-header>
+                </div>
+                <div class="right_search administration_container">
+                        <el-form :inline="true" >
+                            <!--<el-form-item label="行政区划" style="display: flex;margin-bottom: 0">-->
+                                <!--<el-select v-model="selectArea" multiple placeholder="请选择行政区划" collapse-tags-->
+                                        <!--@remove-tag='removeTag' @change='selectAll'>-->
+                                    <!--<el-option v-for="item in areaData" :label="item.label" :value="item.value"-->
+                                            <!--:key="item.id"></el-option>-->
+                                <!--</el-select>-->
+                            <!--</el-form-item>-->
+                            <el-form-item label="行政区划" >
+                                <el-select v-model="selectArea" placeholder="请选择行政区划">
+                                    <el-option v-for="item in areaData" :label="item.label" :value="item.id"
+                                            :key="item.id"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="事件等级" >
+                                <el-select v-model="selectEvenLevel" placeholder="请选择事件等级">
+                                    <el-option v-for="item in evenLevelData" :label="item.label" :value="item.id"
+                                            :key="item.id"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-form>
+                    <span :class="temp.style.administration_title" class="time_type_label">时间范围</span>
+                        <el-radio-group v-model="tabTime" @change="toggleTab($event)" class="time_type_radio">
+                            <el-radio-button label="0">本年</el-radio-button>
+                            <el-radio-button label="1">本季</el-radio-button>
+                            <el-radio-button label="2">本月</el-radio-button>
+                            <el-radio-button label="3">本周</el-radio-button>
+                        </el-radio-group>
+                    <!-- <template :class="temp.style.administration_title"> -->
+                        <!-- <el-date-picker
+                                v-model="search_time"
+                                type="datetimerange"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                        >
+                        </el-date-picker> -->
+                    <!-- </template> -->
+                    <el-button icon="el-icon-refresh" type="primary" @click="reset"> 重置 </el-button>
+                    <el-button class="el-icon-search" type="primary" @click="search"> 查询 </el-button>
+                </div>
+            </div>
+        </div>
+        <div :class="temp.style.message_charts" ref="messageChart"></div>
+        <div class="search_filter">
+            <div class="left_search">
+                <el-page-header title="" content="操作"></el-page-header>
+            </div>
+        </div>
+        <div :class="temp.style.table_container">
+            <el-table
+                    :data="tableData"
+                    style="width: 100%">
+                <el-table-column
+                        prop="date"
+                        label=""
+                        width="180"
+                        height="50"
+                >
+                </el-table-column>
+
+                <el-table-column
+                        v-for="(val,i) in echartData.xAxis"
+                        :prop="val"
+                        :label="val"
+                        :key="val">
+                        <template slot-scope="scope" slot="header">
+                            <div :title="val" style="padding: 0;width: 100%;">{{val}}</div>
+                        </template>
+                </el-table-column>
+                <el-table-column
+                        prop="合计"
+                        label="合计">
+                </el-table-column>
+            </el-table>
+        </div>
+    </el-scrollbar>
+</div>

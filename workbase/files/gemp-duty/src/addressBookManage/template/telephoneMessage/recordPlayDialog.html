@@ -1,0 +1,9 @@
+<div class="flex-full">
+    <div :class="temp.style.record_play">
+        <!-- <audio style="width: 100%" src="../../../../assets/video/my.mp3" @play="ready" @pause="pause" controls></audio> -->
+        <audio style="width: 100%" :src="audioSrc" @play="ready" @pause="pause" controls></audio>
+    </div>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" icon="el-icon-switch-button" plain @click="cancelOpen">关 闭</el-button>
+    </div>
+</div>

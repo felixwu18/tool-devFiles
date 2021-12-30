@@ -1,0 +1,36 @@
+<div class="flex-full">
+    <div :class="temp.style.bt_center">
+        <el-button v-if="roleLevel && signforflag && expectDraft"  @click="click('add-relevance','新增关联')" type='success' icon="el-icon-plus">新增关联</el-button>
+    </div>
+    <div :class="temp.style.bt_list">
+        <!-- <list-table :unsortable="true" :propdata="propData" @tablecallback="tablecallback"></list-table> -->
+        <el-scrollbar>
+            <ul >
+                <li v-for="item in propData">
+                    <div :class="temp.style.relevanceTitle">
+                        <div :title="item.infoTitle" :class="temp.style.info_title" :style="{ width: `calc(100% - ${item.infoTypeName.length} * 1rem + 1.8rem)`, minWidth: '20%', maxWidth: '80%' }">
+                            {{item.infoTitle}}
+                        </div>
+                        <div :title="item.infoTypeName" :class="temp.style.relevanceType" :style="{ width: `calc(${item.infoTypeName.length} * 1rem + 1.8rem)`, textAlign: 'center', maxWidth: '80%', minWidth: '20%', justifyContent: 'center'}">
+                            {{item.infoTypeName}}
+                        </div>
+                    </div>
+                    <div :class="temp.style.relevanceCon">
+                        <div><i :class="temp.style.icon_org"></i> 报送单位: <span>{{item.orgName}}</span></div>
+                        <div><i :class="temp.style.icon_time"></i> 接报时间: <span>{{item.reportDate}}</span></div>
+                    </div>
+                    <div v-if="roleLevel" :class="temp.style.relevanceBtns">
+                        <div @click="cancel(item)"><i class="el-icon-link"></i> 取消关联</div>
+                        <div @click="main(item)"><i class="el-icon-star-off"></i> 设为主信息</div>
+                    </div>
+                </li>
+            </ul>
+            <!-- <div v-else>
+                <el-table :data="[]"></el-table>
+            </div> -->
+        </el-scrollbar>
+    </div>
+    <el-dialog append-to-body :title="tilteName" :visible="flag" width="900px" :destroy-on-close="true" @close="flag = false">
+        <component ref="addRelevance" :is="templateName"  @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

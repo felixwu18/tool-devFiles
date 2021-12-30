@@ -1,0 +1,38 @@
+<div class="transferDialog">
+    <!-- 上报弹出框 -->
+    <div :class="temp.style.transferInner">
+        <el-form :class="temp.style.infoExam" :model="transferData" label-width="180px" ref="documentReported"
+            :rules="rules">
+            <div>发送给</div>
+            <el-form-item label="接收单位：" prop="orgCodes">
+                <el-select v-model="transferData.orgCodes" @change="getOrgName">
+                    <el-option v-for="options in getOrgList" :label="options.fullOrgName" :value="options.orgCode"
+                        :key="options.orgCode"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="接收人：" prop="userids">
+                <el-select filterable v-model="transferData.userids" no-data-text='请选择接收单位' @change="selectpeople">
+                    <el-option v-for="options in getOrgPeopleList" :label="options.name" :value="options.userId"
+                        :key="options.userId"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="内容：">
+                <div>
+                    <iams-replybox ref="emoticon" v-model="approvalContent"></iams-replybox>
+                </div>
+            </el-form-item>
+            <el-form-item>
+                <div :class="temp.style.ordinary">
+                    <!-- <div style="position: absolute;left: -49px;line-height: 37px;">常用:</div> -->
+                    <ul>
+                        <li @click='getDomData'>请XX阅示</li>
+                        <!-- <li @click='getDomData'>拟报分管市长、秘书长、及分管秘书长，请赵处长阅示</li> -->
+                    </ul>
+                </div>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click.native="saveFun">发送</el-button>
+        </div>
+    </div>
+</div>

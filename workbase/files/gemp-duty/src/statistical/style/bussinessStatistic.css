@@ -1,0 +1,22 @@
+@media print {
+  .leftTree {
+    display: none;
+  }
+  .search_filter {
+    display: none;
+    padding: 0 !important;
+  }
+  .listright {
+    width: 100% !important;
+    overflow: auto;
+  }
+}
+.renovate {
+  display: inline-block !important;
+  line-height: 3rem;
+  padding-right: 22.9rem;
+}
+.derive {
+  display: inline-block !important;
+  line-height: 3rem;
+}

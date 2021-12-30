@@ -1,0 +1,21 @@
+<div>
+  <div :class="temp.style.infoExam">
+    <el-scrollbar>
+      <div :class="temp.style.inner_content">
+        <el-form>
+          <el-form-item label="情况描述">
+            <el-input class="infoExamTextarea" type="textarea" v-model="continueReportData.infoDescription" :rows="6"
+              maxlength='500' show-word-limit></el-input>
+          </el-form-item>
+          <el-form-item label="信息附件">
+            <iams-upload :limit="5" ref="upload" v-model="continueReportData.attachmentList"></iams-upload>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-scrollbar>
+  </div>
+  <div slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="saveFun">上报</el-button>
+    <el-button  @click="cancleFun" type="primary"  plain>取消</el-button>
+  </div>
+</div>

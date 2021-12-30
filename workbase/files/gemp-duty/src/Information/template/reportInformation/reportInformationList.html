@@ -1,0 +1,45 @@
+<div class="flex-full">
+    <div :class="temp.style.serach_filter">
+        <div class="left_search">
+            <el-page-header title="" content="信息管理列表"></el-page-header>
+        </div>
+        <div class="right_search">
+            <el-input @keyup.enter.native="quickSearch" placeholder="可按标题搜索" v-model="searchData.keyWord"
+                :class="temp.style.search_input">
+                <el-button slot="append" @click="quickSearch" icon="el-icon-search"></el-button>
+            </el-input>
+            <div :class="temp.style.search_slot">
+                <el-button @click="showSearch = !showSearch" class="search_showSearch">
+                    精准搜索<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <div :class="[temp.style.search_form,'search_form']" v-show="showSearch">
+                    <el-form :inline="true">
+                        <el-form-item label="上报时间">
+                            <el-date-picker v-model="search_time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" style="width: 20rem;">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="事件类型">
+                            <!-- 组件v-model -->
+                            <iams-combobox listtype="getInfoTypeTree" v-model="searchData.eventType" ref="eventType">
+                            </iams-combobox>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button icon="el-icon-check" type="primary" @click="quickSearch">
+                                确定
+                            </el-button>
+                            <el-button icon="el-icon-refresh" type="primary" @click="deleteSearch">
+                                重置
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <list-table ref="infoManage" :propdata="propData" @tablecallback="tablecallback" @handleselection="handleselection">
+    </list-table>
+    <!-- 预览值班信息页面 -->
+    <el-dialog :visible.sync="viewDialogPreview" v-if="viewDialogPreview" class="viewDialogPreview">
+        <component :is="templateName" :propdata="propsData" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

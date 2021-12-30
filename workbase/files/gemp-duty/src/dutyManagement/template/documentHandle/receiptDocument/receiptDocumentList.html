@@ -1,0 +1,73 @@
+<div class="flex-full">
+    <div class="search_filter padding_0">
+        <div class="left_search">
+            <el-page-header title="" content="接收公文"></el-page-header>
+            <!-- v-if="btnConfig.type" -->
+
+        </div>
+        <div class="right_search">
+            <div :class="temp.style.onduty">
+                <span style="display: inline-block;width: 200px;text-align: right;">公文类型：</span>
+                <div style="width:200px;margin-left:5px;">
+                    <el-select v-model="selectDocument" @change="changeDuty" placeholder=''>
+                        <el-option value="0" label="全部"></el-option>
+                        <el-option value="1" label="下级上报公文"></el-option>
+                        <el-option value="2" label="上级下发公文"></el-option>
+                    </el-select>
+                </div>
+            </div>
+            <!-- <el-button icon="el-icon-plus" type="success" @click="receiptAdd">新增</el-button> -->
+            <!-- <el-button icon="el-icon-share" type="primary" @click.native="searchUnread">{{readSign}}</el-button> -->
+
+            <!-- <el-button size="small" type="primary" icon="el-icon-top-right">下发公文</el-button>
+            <el-button size="small" type="primary" icon="el-icon-bottom-right" @click="">上报公文</el-button> -->
+            <!-- <el-button icon="el-icon-star-on" type="primary" @click.native="signReaded">标记已读</el-button> -->
+            <!-- <el-input @keyup.enter.native="getListData" placeholder="可按标题搜索" v-model="searchData.documentTitle" class="search_input" v-if="btnConfig.search"> -->
+            <el-input @keyup.enter.native="query" placeholder="可按标题搜索" v-model.trim="searchData.documentTitle" class="search_input">
+                <el-button slot="append" @click="query" icon="el-icon-search"></el-button>
+            </el-input>
+            <div class="search_slot">
+                <el-button @click="showSearch = !showSearch" type="primary" plain v-if="btnConfig.accurate">
+                    高级搜索
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <div class="search_form" v-show="showSearch">
+                    <div :class="temp.style.search_box">
+                        <el-form :inline="true">
+                            <el-row>
+                                <el-col :span="9">
+                                    <el-form-item label="上报时间">
+                                        <el-row>
+                                            <el-col :span="4">
+                                                <el-button>
+                                                    全部
+                                                </el-button>
+                                            </el-col>
+                                            <el-col :span="20">
+                                                <el-date-picker v-model="search_time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                                                </el-date-picker>
+                                            </el-col>
+                                        </el-row>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="2">
+                                    <el-form-item>
+                                        <el-button icon="el-icon-check" type="primary" @click="getListData">
+                                            确定
+                                        </el-button>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-full">
+        <list-table :propdata="propData" @tablecallback="tablecallback" :unsortable="true"></list-table>
+    </div>
+    <el-dialog :title="dialogConfig.titleName" :visible.sync="dialogConfig.flag" :destroy-on-close="true">
+        <component :is="dialogConfig.componentName" ref="childrenDialog" :propdata="dialogConfig.propsData" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

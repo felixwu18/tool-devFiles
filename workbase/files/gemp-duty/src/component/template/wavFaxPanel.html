@@ -1,0 +1,24 @@
+<div>
+    <div :class="style.select_type">
+        <el-radio-group v-model="selectType">
+            <el-radio-button label="record">录音</el-radio-button>
+            <el-radio-button label="fax">传真</el-radio-button>
+        </el-radio-group>
+    </div>
+    
+    <div :class="style.right_filter">
+        <el-input placeholder="可按文件名称过滤" v-model="params.keyWord" class="search_input" @keyup.enter.native="search">
+            <el-button slot="append" @click="search" icon="el-icon-search"></el-button>
+        </el-input>
+    </div>
+    <list-table v-if="selectType === 'record'" ref="listTable" unsortable="true" :propdata="propRecordData" @tablecallback="tablecallback"></list-table>
+    <list-table v-if="selectType === 'fax'" ref="listTable" unsortable="true" :propdata="propFaxData" @tablecallback="tablecallback"></list-table>
+    <div style="text-align:center;margin-top: 10px;">
+        <el-button type="primary" size="medium" @click="submit">确定</el-button>
+        <el-button size="medium" @click="$emit('close')">取消</el-button>
+    </div>
+
+    <video autoplay name="media" v-if="isPlaying" style="display:none;">
+        <source :src="playingPath" type="audio/wav">
+    </video>
+</div>

@@ -1,0 +1,18 @@
+<div class="flex-full">
+    <div :class="temp.style.search_table">
+        <el-row :class="temp.style.search_table_content">
+            <el-col :span="15">
+                <el-date-picker v-model="search_time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                    style="float: left;width: 80%;">
+                </el-date-picker>
+                <el-button @click.native="search" type="primary">
+                    <i class="el-icon-search"></i> 查询</el-button>
+            </el-col>
+            <el-col :span="9">
+                <el-button @click.native="uploadInfo" type="primary">
+                    <i class="el-icon-upload2"></i>导入</el-button>
+            </el-col>
+        </el-row>
+    </div>
+    <list-table :propdata="propData" @tablecallback="tablecallback" @handleselection="handleselection" :unsortable="true"></list-table>
+</div>

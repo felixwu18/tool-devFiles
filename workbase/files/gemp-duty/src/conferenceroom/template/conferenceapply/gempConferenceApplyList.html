@@ -1,0 +1,9 @@
+<div class="flex-full">
+    <div class="spliterSty">
+        <div class="toolbar_txt">会议室预定申请列表</div>
+        <div class="toolbar_right">
+            <el-button icon="el-icon-plus" @click.native="go('/conferenceroom/applyAdd')" type="success">新增</el-button>
+        </div>
+    </div>
+    <list-table ref="listtable" :propdata="propData" @tablecallback="tablecallback"></list-table>
+</div>

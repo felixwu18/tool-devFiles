@@ -1,0 +1,26 @@
+<div class="transferDialog">
+
+    <el-form :model="transferData" ref="transferDialog" :rules="rules">
+        <el-form-item>
+            <el-menu :default-active='activeIndex' mode='horizontal' @select='handleSelect'>
+                <el-menu-item index='1'> <img src="../../../assets/image/qq.png" alt="">qq</el-menu-item>
+                <el-menu-item index='2'> <img src="../../../assets/image/weixin.png" alt="">微信</el-menu-item>
+                <el-menu-item index='3'> <img src="../../../assets/image/message.png" alt="">信息</el-menu-item>
+            </el-menu>
+        </el-form-item>
+        <el-form-item>
+            <div>
+                <iams-replybox ref="emoticon" v-model="approvalContent" ></iams-replybox>
+            </div>
+        </el-form-item>
+        <el-form-item :class='temp.style.title'>
+            <div>分享内容已拷贝，请打开微信电脑端粘贴发送</div>
+        </el-form-item>
+    </el-form>
+
+    <div slot="footer" class="dialog-footer">
+
+        <el-button type="primary" @click.native="saveFun">确定</el-button>
+    </div>
+
+</div>

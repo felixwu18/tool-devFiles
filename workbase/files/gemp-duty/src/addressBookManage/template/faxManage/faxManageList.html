@@ -1,0 +1,12 @@
+<div class="flex-full">
+  <div class="flex-header">
+    <el-radio-group v-model="checkPage">
+      <el-radio-button label="1">已发传真</el-radio-button>
+      <el-radio-button label="2">已收传真</el-radio-button>
+    </el-radio-group>
+  </div>
+  <div class="flex-full">
+      <faxed-list v-if="checkPage == '1'"></faxed-list>
+      <faxed-received-list v-if="checkPage == '2'"></faxed-received-list>
+  </div>
+</div>

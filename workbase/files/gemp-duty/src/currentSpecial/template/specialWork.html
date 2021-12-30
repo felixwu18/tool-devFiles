@@ -1,0 +1,57 @@
+<div class="flex-full" :class="temp.style.work_content">
+    <div class='search_filter'>
+        <el-page-header title="" content="专项工作组分组"></el-page-header>
+    </div>
+    <div :class="temp.style.group_title">
+        <el-input placeholder='名称' style="width: 20%;" v-model="workName"></el-input>
+        <div style="width: 20%; display: inline-block;">
+            <el-cascader
+                placeholder='请选择成员'
+                :options="orgtree"
+                :props="{ multiple: false }"
+                clearable></el-cascader>
+        </div>
+        <div style="width: 20%; display: inline-block;">
+            <el-cascader
+                placeholder='请选择地市列表'
+                clearable
+                :options="institution"
+                :props="optionProps"
+            ></el-cascader>
+        </div>
+        <el-input placeholder='填写工作备注' style="width: 30%;" v-model.trim="workNote"></el-input>
+    </div>
+    <div class="flex-full" >
+        <div class="right_search">
+            <el-button type="primary" @click.native="addObject" :class="temp.style.add_object">新增督查对象</el-button>
+        </div>
+        <div v-for="(d,index) in counterNum" :key="index">
+            <div class='search_filter'>
+                    <el-page-header title="" content="督查对象"></el-page-header>
+            </div>
+            <div :class="temp.style.object_title">
+                对象名称：
+                <el-input placeholder='填入督查对象名称' style="width: 20%;" v-model.trim="objectName"></el-input>
+                行业类别：
+                <el-input placeholder='填入行业类别' style="width: 30%;" v-model.trim="industry"></el-input>
+                行政区划：
+                <div style="width: 20%; display: inline-block;">
+                    <el-cascader
+                        placeholder='请选择地市列表'
+                        clearable
+                        :options="institution"
+                        :props="optionProps"
+                    ></el-cascader>
+                </div>
+            </div>
+            <div class="flex-full" >
+                <div class="left_search">
+                    <el-button type="primary" @click.native="addProblem" :class="temp.style.add_problem">新增问题</el-button>
+                </div>
+                <div v-for="(d,index) in problemNum" :key="index">
+                    <el-input placeholder='录入企业问题' style="width: 80%;" :class="temp.style.enterprise_problem" v-model.trim="problemNum[index].industry1"></el-input>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

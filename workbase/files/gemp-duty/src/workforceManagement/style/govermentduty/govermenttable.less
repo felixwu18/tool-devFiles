@@ -1,0 +1,187 @@
+.table_head{
+    background-color:#fa9c94 !important;
+}
+
+.borderlog{
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+}
+
+.buttonset{
+    height: 2.25rem;
+    width: 2.25rem;
+    line-height: 2.25rem;
+    border: 1px solid #4A7DFF;
+    text-align: center;
+    margin-left: 5px;
+    font-size: 2rem;
+    border-radius: 4px;
+    color:#4A7DFF;
+}
+
+.buttonpain{
+    height: 2.25rem;
+    width: 2.25rem;
+    line-height: 2.25rem;
+    border: 1px solid #4A7DFF;
+    text-align: center;
+    margin-left: 5px;
+    font-size: 2rem;
+    border-radius: 4px;
+    color:#fff;
+    background: #4A7DFF;
+}
+
+.calendar{
+  border-right: 1px solid #EBEEF5;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size:1rem;
+  padding:0 28px;
+  padding-left:16px;
+  .calendar_header{
+    height:60px;
+    display: flex;
+    justify-content: space-between;
+    border:1px solid #dfdfe3;
+    background-color:#f3f3f5;
+    width:100%;
+    >div{
+      text-align:center;
+      flex:1;      
+      color:#49445f;
+      line-height:60px;
+    }
+  }
+  .calendar_body{
+    display: flex;
+    justify-content: space-between;
+    width:100%;
+    margin-top:10px;
+    >div{
+      flex:1;
+      height:248px;
+      background:#f3f7fe;
+      position: relative;
+      padding:42px 12px;
+      box-sizing: border-box;
+      overflow:hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      &:not(:last-child) {
+        margin-right:6px;
+      }
+      &:first-child,&:last-child{
+        background:#fff3f3;
+        .date_tips{
+         background:#ffb16e;
+        }
+      }
+     
+      .date_tips{
+        position: absolute;
+        width:90px;
+        height:90px;
+        background:#4a7dff;
+        top:-45px;
+        left:-45px;
+        transform: rotate(45deg);
+        .date_number{
+          position: absolute;
+          transform: rotate(-45deg);
+          color: #fff;
+          font-size: 20px;
+          bottom: 40px;
+          right: 10px;
+        }
+        // .date_number1{
+        //   position: absolute;
+        //   transform: rotate(-45deg);
+        //   color: #312c47;
+        //   font-size: 20px;
+        //   bottom: 40px;
+        //   right: 10px;
+        // }
+      }
+      >div{
+        flex:1;
+        >div{
+          img{
+            margin-right:5px;
+            float: left;
+            margin-top: 0.9rem;
+          }
+          >div{
+            // display: inline-block;
+            margin-left: 38px;
+            vertical-align: middle;
+            line-height: 1.2;
+            text-align: left;
+            color:#49445f;
+            i{
+              color:#9999b0;
+            }
+            p{
+              position: relative;
+              .displace{
+                position: absolute;
+                right: -10px;
+                top:3px;
+                bottom: 1px;
+                padding:0 5px;
+                color:#4A7DFF;
+                border: 1px solid #4A7DFF;
+                border-radius: 4px;
+                font-size: 14px;
+                height:1rem;
+                line-height: 1rem;
+                cursor: pointer;
+              }
+              .displace:hover{
+                color:#fff;
+                background: #4A7DFF;
+              }
+            }
+          }
+        }
+        &:nth-child(2){
+          padding-bottom:18px;
+          border-bottom:1px solid #dfdfe3;
+        }
+        &:nth-child(3){
+          padding-top:18px;
+        }
+      }
+    }
+    > .daybackground{
+        background-color:#f5f5f6;
+       &:first-child,&:last-child{
+        background:#f5f5f6; 
+          .date_tips{
+            background:#e0e2e4;
+        }
+        }
+        .date_tips{
+            background:#e0e2e4;
+        }
+      }
+  }
+}
+
+.toolbar_right{
+  >*{
+    margin-right:8px;
+  }
+}
+.hrduty{
+  border: none;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 18px;
+}
+
+.weekshow{
+  padding:10px;
+  color:#4A7DFF;
+}

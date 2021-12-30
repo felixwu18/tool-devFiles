@@ -1,0 +1,106 @@
+.group_title,
+.object_title {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+.work_content {
+  margin-bottom: 3rem;
+}
+.add_object {
+  float: right;
+  margin: 1rem;
+}
+.add_problem {
+  margin-left: 1rem;
+  margin-top: 2rem;
+}
+.enterprise_problem {
+  margin-top: 2rem;
+  margin-left: 2rem;
+}
+.search_table {
+  text-align: center;
+  padding: 5px;
+}
+.selectbox {
+  display: flex;
+  width: 100%;
+  height: calc(100% - 2.8rem);
+}
+.selectbox .search_filter {
+  width: 25%;
+  margin-left: 5px;
+}
+.selectbox .search_filter:nth-of-type(1) {
+  width: 25%;
+}
+.selectbox .search_filter:nth-of-type(2) {
+  width: 65%;
+}
+.selectbox .search_filter .search_filter_top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none;
+  padding: 3px 1px;
+  height: 2.65rem;
+}
+.selectbox .search_filter .search_filter_tops {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none;
+  padding: 4px 1px;
+  height: 2.65rem;
+}
+.selectbox .search_filter .search_filter_bottom {
+  position: relative;
+  height: 88.5%;
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.selectbox .search_filter .search_filter_left {
+  position: relative;
+  height: 88.5%;
+  width: 100%;
+  box-sizing: border-box;
+}
+.selectbox .search_filter .search_filter_bottoms {
+  border: 1px solid #DCDFE6;
+  height: 88.5%;
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.ordinary {
+  width: 100%;
+  height: 100%;
+}
+.ordinary ul {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.ordinary ul > li {
+  margin-right: 0.75rem;
+  margin-top: 5px;
+  border: 1px dashed #a3a3b9;
+  padding: 0.56rem;
+  background: #fafafa;
+  color: #a3a3b9;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: default;
+}
+.ordinary ul > li > i {
+  cursor: pointer;
+  color: #a3a3b9;
+}
+.addPeople .el-dialog__body {
+  height: 35rem !important;
+}

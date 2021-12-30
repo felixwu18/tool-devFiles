@@ -1,0 +1,45 @@
+<div class="flex-full accidentList substituteList">
+  <div :class="[temp.style.tabBox,'flex-full']">
+    <div :class="temp.style.listTitle">
+      <div class="left_search">
+        <el-button-group>
+          <el-button type="primary">换班</el-button>
+          <el-button @click.native="go('/workforceManagement/replacement')">替班</el-button>
+        </el-button-group>
+      </div>
+      <div :class="temp.style.right_search">
+        <div :class="temp.style.button_group">
+          <el-button icon="el-icon-plus" size="small" type="success" @click="addchangeduty">新增</el-button>
+          <el-input @keyup.enter.native="getListData" placeholder="可按申请人/换班人过滤" v-model.trim="listParams.applicantName" :class="temp.style.search_input">
+            <el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
+          </el-input>
+          <el-button @click="showSearch = !showSearch" type="primary" plain>
+            高级搜索
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+        </div>
+        <div :class="temp.style.search_table" v-show="showSearch">
+            <span :class="temp.style.search_table_title">换班时间：</span>
+            <el-button @click="getAllDataBytime">全部</el-button>
+            <el-date-picker :class="temp.style.datepicker" v-model="search_time" type="daterange" range-separator="至" start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+            <el-button icon="el-icon-search" size="small" type="primary" @click="getdata">确定</el-button>
+        </div>
+      </div>
+    </div>
+    <div class="duty-list flex-ful">
+      <!-- 机构树 -->
+      <div class="duty-list-left">
+        <search-tree listtype="getOrgTree" @change="getOrg"></search-tree>
+      </div>
+      <div class="duty-list-right" style="padding-top: 0.5rem;">
+        <list-table :propdata="propData" @tablecallback="tablecallback" :unsortable="true"></list-table>
+      </div>
+    </div>
+    <!-- 对话框 -->
+    <el-dialog :title="dialogOption.titleName" :visible.sync="dialogOption.flag" :destroy-on-close="true">
+      <component :is="dialogOption.componentName" :propdata="dialogOption.propsData" @dialogcallback="closeDialogCall" :orgcode="orgCode"></component>
+    </el-dialog>
+  </div>
+</div>

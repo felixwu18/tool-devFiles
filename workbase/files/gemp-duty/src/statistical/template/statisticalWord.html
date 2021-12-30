@@ -1,0 +1,135 @@
+<div class="flex-full" :class="temp.style.word_print">
+    <el-scrollbar :class="temp.style.scroll">
+        <div :class="temp.style.word" id="print">
+            <div :class="temp.style.main">
+                <h1 :class="temp.style.title">每月值班信息汇总</h1>
+                <p :class="temp.style.bottom_title">（{{wordData.startTime}}-{{wordData.endTime}}）</p>
+            </div>
+            <div :class="temp.style.content">
+                <div :class="temp.style.title_one">1、统计综述</div>
+                <div :class="temp.style.content_word">
+                    据统计，{{wordData.startTime}}至{{wordData.endTime}}省厅值班室共接到各类突发事件信息{{wordData.emergencyInformationNum}}起
+                    （其中发生人员伤亡突发事件共{{wordData.emergencyInformationCasualtyNum}}起），
+                    死亡{{wordData.emergencyInformationDeathNum}}人、伤{{wordData.emergencyInformationInjuredNum}}人，
+                    发生较大突发事件{{wordData.emergencyInformationLargerNum}}起（死亡{{wordData.emergencyInformationLargerDeathNum}}人），{{wordData.emergencyInformationGreatJoint}}。
+                    <br />
+                    均按相关规定要求及时报告与处理。具体如下：
+                    <ul :class="temp.style.list">
+                        <li v-for="(item,key) in wordData.gempMonthInfoReportInfoFirstGradeDTOs" :key="key">
+                            <p>{{indexList[key]}}{{item.disasterGreatJoint}}</p>
+                            <ul>
+                                <li v-for="(ctem,c) in item.secondGradeDTOs" :key="key">{{ctem.disasterGreatJoint}}</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div :class="temp.style.map_charts" ref="mapChart"></div>
+                <div :class="temp.style.zhuzhuangtu" ref="zhuzhuangtu"></div>
+                <div :class="temp.style.three_chart">
+                    <div>
+                        <div ref="bingtu"></div>
+                        <div ref="zhuzhuangtu2"></div>
+                    </div>
+                    <div :class="temp.style.zhuzhuangtu" ref="zhuzhuangtu3"></div>
+                </div>
+                <div :class="temp.style.title_one">3、各行业领域突发事件统计表</div>
+                <el-table :data="disasterList" :span-method="objectSpanMethod" class="content_style">
+                    <el-table-column label="每日值班信息汇总（2020年06月01日-2020年06-20日）" header-align="center" align="center">
+                        <el-table-column label="行业领域" min-width='120px' header-align="center" align="center">
+                            <el-table-column min-width='60' prop="title" header-align="center" align="center">
+                            </el-table-column>
+                            <el-table-column min-width='60' prop="grandsonTitle" header-align="center" align="center">
+                            </el-table-column>
+                        </el-table-column>
+                        <el-table-column label="合计" min-width='80px' header-align="center" align="center">
+                            <el-table-column label="起数" min-width='40px' prop="total" header-align="center"
+                                align="center">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>{{ scope.row.total.start }}</p>
+                                        <div slot="reference" class="name-wrapper">{{ scope.row.total.start }}</div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="人数" min-width='40px' prop="total" header-align="center"
+                                align="center">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>{{ scope.row.total.personal }}</p>
+                                        <div slot="reference" class="name-wrapper">{{ scope.row.total.personal }}</div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                        </el-table-column>
+                        <el-table-column label="同比" min-width='120px' header-align="center" align="center">
+                            <el-table-column label="起数" min-width='40px' prop="proportion" header-align="center"
+                                align="center">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>{{ scope.row.proportion.start }}</p>
+                                        <div slot="reference" class="name-wrapper">{{ scope.row.proportion.start }}
+                                        </div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="人数" min-width='40px' prop="proportion" header-align="center"
+                                align="center">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>{{ scope.row.proportion.personal }}</p>
+                                        <div slot="reference" class="name-wrapper">{{ scope.row.proportion.personal }}
+                                        </div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="增长率" min-width='40px' prop="proportion" header-align="center"
+                                align="center">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>{{ scope.row.proportion.growthRate }}</p>
+                                        <div slot="reference" class="name-wrapper">{{ scope.row.proportion.growthRate }}
+                                        </div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                        </el-table-column>
+                        <el-table-column label="环比" min-width='120px' header-align="center" align="center">
+                            <el-table-column label="起数" min-width='40px' prop="linkRatio" header-align="center"
+                                align="center">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>{{ scope.row.linkRatio.start }}</p>
+                                        <div slot="reference" class="name-wrapper">{{ scope.row.linkRatio.start }}</div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="人数" min-width='40px' prop="linkRatio" header-align="center"
+                                align="center">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>{{ scope.row.linkRatio.personal }}</p>
+                                        <div slot="reference" class="name-wrapper">{{ scope.row.linkRatio.personal }}
+                                        </div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="增长率" min-width='40px' prop="linkRatio" header-align="center"
+                                align="center">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>{{ scope.row.linkRatio.growthRate }}</p>
+                                        <div slot="reference" class="name-wrapper">{{ scope.row.linkRatio.growthRate }}
+                                        </div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                        </el-table-column>
+                    </el-table-column>
+
+                </el-table>
+            </div>
+        </div>
+    </el-scrollbar>
+    <iframe id="printf" style="display: none;" src="" MARGINHEIGHT="1" MARGINWIDTH="1" width="100%" height="312"
+        frameborder="0"></iframe>
+</div>

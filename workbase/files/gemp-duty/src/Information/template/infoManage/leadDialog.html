@@ -1,0 +1,57 @@
+<div class="leadDialog">
+  <el-form :class="temp.style.infoExam">
+    <el-form-item label="批阅时间">
+      <!-- datetime -->
+      <el-date-picker type="datetime" :picker-options="pickerOptions" v-model="instructTime" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+      </el-date-picker>
+    </el-form-item>
+    <el-form-item>
+      <div>选择领导</div>
+      <!-- <ul class="imitateLiist clearfix">
+          <li v-for="(item,index) in leaderList" :key="index" :class="{active: activeLeader.reportId === item.reportId}" @click="addClass($event,item)">{{ item.reportName }}</li>
+      </ul> -->
+      <ul class="imitateLiist clearfix">
+        <li v-for="(item,index) in leaderList" :key="index" :class="{active: activeLeader.userId == item.userId}" @click="addClass($event,item)">{{ item.userName }}</li>
+    </ul>
+      <!-- <ul class="imitateLiist clearfix" v-if="leaderList.shi && leaderList.shi.length > 0">
+          <li v-for="(item,index) in leaderList.shi" :key="index" :class="{active: activeLeader.reportId == item.reportId}" @click="addClass($event,item)">{{ item.reportName }}</li>
+        </ul>
+        <ul class="imitateLiist clearfix" v-if="leaderList.xian && leaderList.xian.length > 0">
+          <li v-for="(item,index) in leaderList.xian" :key="index" :class="{active: activeLeader.reportId == item.reportId}" @click="addClass($event,item)">{{ item.reportName }}</li>
+        </ul> -->
+    </el-form-item>
+    <el-form-item>
+      <div>
+        <!-- <div :class="temp.style.content">
+            <span :class="temp.style.smile" href="" @click="feelings = !feelings"></span>
+            <ul :class="temp.style.feellings" v-show="feelings">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div> -->
+        <el-input maxlength='500' ref="leaderoption" show-word-limit type="textarea" v-model="instructInfo" :rows="4" placeholder="输入批阅信息"></el-input>
+      </div>
+    </el-form-item>
+    <el-form-item>
+      <div :class="temp.style.ordinary" style="margin-top: 12px">
+        <ul>
+          <li v-for="(item, index) in commonLanguageData" :key="index" @click='getDomData'>{{item.words}}</li>
+          <!-- <li @click='getDomData'>如拟。</li>
+          <li @click='getDomData'>可发。</li>
+          <li @click='getDomData'>可报省委省政府。</li>
+          <li @click='getDomData'>可报应急部。</li>
+          <li @click='getDomData'>可报应急部、省委、省政府。</li>
+          <li @click='getDomData'>呈XXX（主要领导）阅示。</li>
+          <li @click='getDomData'>呈XXX（领导）阅。</li>
+          <li @click='getDomData'>送XXX领导阅。</li> -->
+        </ul>
+      </div>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button type="primary" icon="el-icon-close" @click="cancleFun">取消</el-button>
+    <el-button type="primary" icon="el-icon-check" @click="saveFun">确定</el-button>
+  </div>
+</div>

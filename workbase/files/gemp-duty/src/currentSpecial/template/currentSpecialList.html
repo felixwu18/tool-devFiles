@@ -1,0 +1,122 @@
+<div class="flex-full current">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="当前专项"></el-page-header>
+        </div>
+        <div class="right_search">
+            <el-button type="primary" @click.native="saveDraft">保存</el-button>
+        </div>
+    </div>
+    <el-scrollbar>
+        <div :class="temp.style.time_title">
+            <el-form :inline="true">
+                <el-form-item label="当前专项：">
+                    <el-select v-model="activityName" placeholder="请选择当前专项" @change="getCurrent">
+                        <el-option v-for="(item, index) in options" :label="item.activityName" :value="index"
+                            :key="item.majorActivityId"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="当前日期：" prop="currentTime">
+                    <el-date-picker type="datetime" format="yyyy-MM-dd" v-model.trim="initTime" style="width: 100%">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="开始时间：" prop="startTime">
+                    <el-date-picker type="datetime" format="yyyy-MM-dd" v-model.trim="ruleForm.startTime"
+                        style="width: 100%" disabled>
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="结束时间：" prop="endTime">
+                    <el-date-picker type="datetime" format="yyyy-MM-dd" v-model.trim="ruleForm.endTime"
+                        style="width: 100%" disabled>
+                    </el-date-picker>
+                </el-form-item>
+            </el-form>
+        </div>
+        <!-- <el-button type="primary">新增工作组</el-button> -->
+
+        <div class="flex-full">
+            <div class="right_search" :class="temp.style.add_work">
+                <el-button type="primary" @click.native="addNewWork">新增工作组</el-button>
+                <el-button type="danger" @click.native="detailNewWork">删除工作组</el-button>
+            </div>
+            <div v-for="(d,index) in counter.workGroupAddDTOs" :key="index">
+                <div class='search_filter'>
+                    <el-page-header title="" content="专项工作组分组"></el-page-header>
+                </div>
+                <div :class="temp.style.group_title">
+                    <el-input placeholder='名称' style="width: 20%;" v-model="counter.workGroupAddDTOs[index].groupName">
+                    </el-input>
+                    <div style="width: 20%; display: inline-block;">
+                        <div @click="selectPeople(index)" :class="temp.style.add_person">
+                            {{person[index].personName}}
+                        </div>
+                    </div>
+
+                    <div style="width: 20%; display: inline-block;">
+                        <el-cascader v-model="counter.workGroupAddDTOs[index].districtCode" placeholder='请选择地市列表'
+                            clearable :options="institution1" :props="optionProps" :show-all-levels=false
+                            @change="changeplace(index)"></el-cascader>
+                    </div>
+                    <el-input placeholder='填写工作备注' style="width: 30%;"
+                        v-model="counter.workGroupAddDTOs[index].groupRemarks"></el-input>
+                </div>
+                <div class="flex-full">
+                    <div class="right_search" :class="temp.style.add_object">
+                        <el-button type="primary" @click.native="addObject(index)">新增督查对象</el-button>
+                        <el-button type="danger" @click.native="detailObject(index)">删除督查对象</el-button>
+                    </div>
+                    <div v-for="(d,jndex) in counter.workGroupAddDTOs[index].inspectObjectAddDTOS" :key="jndex">
+                        <div class='search_filter'>
+                            <el-page-header title="" content="督查对象"></el-page-header>
+                        </div>
+                        <div :class="temp.style.object_title">
+                            <div :class="temp.style.title_name" style="margin-left: 0px;">对象名称：</div>
+                            <!-- <el-input placeholder='填入督查对象名称' style="width: 20%;" v-model="counter.workGroupAddDTOs[index].inspectObjectAddDTOS[jndex].objectName"></el-input> -->
+                            <el-autocomplete style="width: 20%;" class="inline-input"
+                                v-model="counter.workGroupAddDTOs[index].inspectObjectAddDTOS[jndex].objectName"
+                                :fetch-suggestions="querySearch" placeholder="请输入内容" :trigger-on-focus="false"
+                                @select="handleSelect"></el-autocomplete>
+                            <div :class="temp.style.title_name">
+                                行业类别：
+                            </div>
+                            <!-- <el-input placeholder='填入行业类别' style="width: 30%;" v-model="counter.workGroupAddDTOs[index].inspectObjectAddDTOS[jndex].industryName"></el-input> -->
+                            <el-autocomplete style="width: 20%;" class="inline-input"
+                                v-model="counter.workGroupAddDTOs[index].inspectObjectAddDTOS[jndex].industryName"
+                                :fetch-suggestions="querySearch1" placeholder="请输入内容" :trigger-on-focus="false"
+                                @select="handleSelect1"></el-autocomplete>
+                            <div :class="temp.style.title_name">
+                                行政区划：
+                            </div>
+                            <div style="width: 20%; display: inline-block;">
+                                <el-cascader
+                                    v-model="counter.workGroupAddDTOs[index].inspectObjectAddDTOS[jndex].districtCode"
+                                    placeholder='请选择行政区划' clearable :options="institution" :props="optionProps"
+                                    :show-all-levels=false @change="changeplace1(index, jndex)"></el-cascader>
+                            </div>
+                        </div>
+                        <div class="flex-full">
+                            <div class="right_search" :class="temp.style.problem_button">
+                                <el-button type="primary" @click.native="addProblem(index, jndex)">新增问题</el-button>
+                                <el-button type="danger" @click.native="detailProblem(index, jndex)">删除问题</el-button>
+                            </div>
+                            <div v-for="(d,i) in counter.workGroupAddDTOs[index].inspectObjectAddDTOS[jndex].objectProblemAddDTOs"
+                                :key="i">
+                                <el-input placeholder='录入企业问题' style="width: 80%;"
+                                    :class="temp.style.enterprise_problem"
+                                    v-model.trim="counter.workGroupAddDTOs[index].inspectObjectAddDTOS[jndex].objectProblemAddDTOs[i].problemContent">
+                                </el-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </el-scrollbar>
+    <el-dialog top="4vh" :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog"
+        :destroy-on-close="true" v-if='dialogConfig.viewDialog'>
+        <component :is="dialogConfig.templateName" ref="childrenDialog" :propdata="dialogConfig.propsData"
+            @dialogcallback="closeDialogCall" @proplenum="proplenum"></component>
+    </el-dialog>
+
+
+</div>

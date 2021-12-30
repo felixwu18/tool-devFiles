@@ -1,0 +1,130 @@
+<div :class="temp.style.new_text_add">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" content="批示下发详情"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <!-- <el-button size="small" type="primary" class="el-icon-share" @click="shareInformatiom('share-mask','分享')">分享</el-button> -->
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="goback">返回
+            </el-button>
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <div :class="temp.style.textAdd_left">
+            <div :class="temp.style.first_pane">
+                <div class="textAdd lowerInstructsDetail">
+                    <el-form label-position="right" :disabled="true" :model="listparams" ref="listparams"
+                        label-width="120px" class="demo-listparams">
+                        <el-row>
+                            <el-form-item label="批示标题:" prop="documentTitle">
+                                <el-input type="text" maxlength="50" v-model.trim="listparams.documentTitle"
+                                    :title="listparams.documentTitle"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="8">
+                                <el-row>
+                                    <el-form-item label="批示领导:" prop="reviewLeaderName">
+                                        <el-input type="text" v-model.trim="listparams.reviewLeaderName"
+                                            @focus="getLeaderInfo('select-leader','选择外出人员')"></el-input>
+                                    </el-form-item>
+                                </el-row>
+                            </el-col>
+                            <el-col :span="8">
+                                <el-row>
+                                    <el-form-item label="接收单位:" prop="receiveUnitName">
+                                        <el-input type="text" v-model.trim="listparams.receiveUnitName"
+                                            :disabled="true"></el-input>
+                                    </el-form-item>
+                                </el-row>
+                            </el-col>
+                            <el-col :span="8">
+                                <el-row>
+                                    <el-form-item label="批示日期:">
+                                        <el-input type="text" v-model.trim="listparams.reviewDate" :disabled="true">
+                                        </el-input>
+                                    </el-form-item>
+                                </el-row>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="批示事件:" prop="reviewEventName">
+                                <el-input v-model.trim="listparams.reviewEventName" type="text"></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="批示内容:" prop="content">
+                                <el-input v-model.trim="listparams.content" rows="2" type="textarea" maxlength='300'
+                                    show-word-limit></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="备注:" prop="remarks">
+                                <el-input v-model.trim="listparams.remarks" rows="2" type="textarea" maxlength='300'
+                                    show-word-limit></el-input>
+                            </el-form-item>
+                        </el-row>
+                        <el-row>
+                            <el-form-item label="批示附件:">
+                                <file-cell :filelist="listparams.attachmentList"></file-cell>
+                            </el-form-item>
+                        </el-row>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+        <div :class="temp.style.textAdd_right" class="text_right">
+            <el-tabs v-model="activeNamex" @tab-click="handleClick" :class="temp.style.right_tab">
+                <el-tab-pane label="处理过程" name="first">
+                    <div :class="temp.style.details_process_tree">
+                        <el-scrollbar style="height:100%">
+                            <ul v-if="handlelist.length>0" :class="temp.style.process_tree_ul">
+                                <li :class="temp.style.process_tree_li">
+                                    <div :class="temp.style.process_tree_name">
+                                        {{handlelist[0].senderName +' '+'发送至'+' '+ handlelist[0].receiveUnitName +''}}
+                                    </div>
+                                    <div :class="temp.style.process_tree_name"
+                                        v-if="handlelist[0].receivecontent&&handlelist[0].receivecontent!==''">内容：<span
+                                            v-html="handlelist[0].receivecontent">{{handlelist[0].receivecontent}}</span>
+                                    </div>
+                                    <div :class="temp.style.process_tree_time">{{' 发送时间 '+handlelist[0].createTime}}
+                                    </div>
+                                </li>
+                                <li :class="temp.style.process_tree_li"
+                                    v-if="handlelist[0].documentProgressStatus != '5'">
+                                    <div :class="temp.style.process_tree_name"
+                                        v-if="handlelist[0].documentProgressStatus!='1'">
+                                        {{handlelist[0].receiveUnitName + ' ' + ' ：'+handlelist[0].documentProgressStatusName}}
+                                    </div>
+                                    <div :class="temp.style.process_tree_time"
+                                        v-if="handlelist[0].documentProgressStatus!='1'">
+                                        {{' 处理时间：'+' '+handlelist[0].updateTime}}</div>
+                                    <div :class="temp.style.process_tree_time"
+                                        v-if="handlelist[0].documentProgressStatus=='1'">
+                                        {{'当前状态为：' + handlelist[0].documentProgressStatusName}}</div>
+                                    <div :class="temp.style.process_tree_name"
+                                        v-if="handlelist[0].regression&&handlelist[0].regression!==''">
+                                        {{'退回原因：' + handlelist[0].regression}}</div>
+                                </li>
+                                <li :class="temp.style.process_tree_li" v-else>
+                                    <div :class="temp.style.process_tree_name">
+                                        {{handlelist[0].senderName + ' ' + ' ：'+handlelist[0].documentProgressStatusName}}
+                                    </div>
+                                    <div :class="temp.style.process_tree_time">{{' 处理时间：'+' '+handlelist[0].updateTime}}
+                                    </div>
+                                    <div :class="temp.style.process_tree_time">
+                                        {{'当前状态为：' + handlelist[0].documentProgressStatusName}}</div>
+                                </li>
+                            </ul>
+                            <el-table v-else :data="[]"></el-table>
+                        </el-scrollbar>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+    </div>
+    <el-dialog :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog" :destroy-on-close="true">
+        <component :is="dialogConfig.templateName" ref="childrenDialog" :propdata="propsData"
+            @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

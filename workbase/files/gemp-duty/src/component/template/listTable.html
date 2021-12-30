@@ -1,0 +1,134 @@
+<div class="flex-full">
+  <div class="sortWrap" v-if="propdata.sortData">
+    <el-button @click="sortBntClick(propdata.sortData.handle, item,index)" v-for="item,index in propdata.sortData.data"
+      :key="index">
+      {{item.name}}<i class="el-icon--right"
+        :class="{'el-icon-arrow-down': item.sortType && item.sortType == 'desc' ? true : false, 'el-icon-arrow-up': item.sortType && item.sortType== 'asc' ? true : false}"></i>
+    </el-button>
+    <div class="fr" v-if="propdata.resultMsg && propdata.resultMsg.length > 0">
+      <dl class="flex">
+        <dt>检索结果中：</dt>
+        <dd v-for="item,index in propdata.resultMsg" data-id="item.id">
+          {{item.name}}共<em>{{item.value}}</em>{{item.unit}}<span v-if="index !== propdata.resultMsg.length -1">,
+          </span></dd>
+      </dl>
+    </div>
+  </div>
+  <el-scrollbar>
+    <el-table :class="{'single-select-table': propdata.isSingleSelect}" ref="table" @sort-change="tableSortChange" :stripe="false" :data="propdata.data"
+      @selection-change="handleSelectionChange" :row-class-name="classname"
+      :highlight-current-row="propdata.isSingleSelect" :empty-text="propdata.emptyText||'暂无数据'">
+      <el-table-column :autoFix='true' v-if="propdata.isCheck" type="selection" width="90"></el-table-column :autoFix='true'>
+      <el-table-column :autoFix='true' v-if="item.showbutton ? item.type != 'button':true" :sort-orders="['ascending','descending']"
+        :prop="item.prop"
+        :sortable="item.unsortable || unsortable || item.type == 'button'||item.type == 'tag' || item.type == 'tagtype'?false:'custom'"
+        v-for="item,index in propdata.config" :label="item.label" :width="item.width" :key="index">
+        <template slot-scope="scope">
+          <el-tag v-if="item.type == 'tag' && scope.row[item.prop] != '' && propdata.tagArray[scope.row[item.prop]]"
+            :type="propdata.tagArray[scope.row[item.prop]].type">{{propdata.tagArray[scope.row[item.prop]].name}}
+          </el-tag>
+          <span v-if="item.type=='tagtype' && scope.row[item.prop].trim()"
+            :class="[scope.row[item.prop].trim() ? temp.style[item.tagArray[scope.row[item.prop].trim()].color] : temp.style.defulat, temp.style.tagtype]">{{scope.row[item.prop].trim() ? item.tagArray[scope.row[item.prop].trim()].name : ''}}</span>
+          <router-link :title="scope.row[item.prop]" :to="{path:item.basehref,query:{id:scope.row[item.passProp]}}"
+            style="color:#66b1ff;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
+            v-if="item.type == 'link' && (!scope.row['deleteFlag'] || !Number(scope.row['deleteFlag']))">
+            <!-- 信息处理没有这个字段，转办督办的deleFlag=0-->
+            <el-badge v-if="item.badge && scope.row['unReadStatus'] != '0'" :style="item.styles ? item.styles : { width: '100%' }" :value="scope.row['unReadCount']">
+              <div style="overflow: hidden;text-overflow: ellipsis;width: 100%;">
+                {{scope.row[item.prop]}}
+              </div>
+            </el-badge>
+            <span v-else>
+              {{scope.row[item.prop]}}
+            </span>
+          </router-link>
+          <span v-if="item.type == 'link' && scope.row['deleteFlag'] == 1 "
+            @click="colClick(item.emit, scope.row, null)">
+            {{scope.row[item.prop]}}
+          </span>
+          <!-- 点击弹框 -->
+          <span :title="scope.row[item.prop]" v-if="item.type =='dialog'" @click="viewDialogOpen(scope.row)"
+            style="cursor: pointer;">
+            {{scope.row[item.prop]}}
+          </span>
+          <!-- string类型展示 -->
+          <span :title="scope.row[item.prop]" v-if="item.type =='string'"
+            :class="item.specialStyle && item.specialStyleShow ? item.specialStyle : '' " 
+            @click="item.emit?operatBtnClick(item.emit,scope.row):null" :style="{cursor:(item.emit?'pointer':''),color:(item.color?item.color:'')}">
+            {{scope.row[item.prop]}}
+          </span>
+          <!-- boolean类型展示 -->
+          <span :title="scope.row[item.prop]"
+            @click="item.emit?operatBtnClick(item.emit,scope.row):null"
+             v-if="item.type == 'boolean'  && !scope.row['deleteFlag']" :style="{cursor:(item.emit?'pointer':''),color:(item.color?item.color:'')}">
+            <!-- 信息处理没有这个字段，转办督办的deleFlag=0-->
+            <el-badge v-if="item.badge && scope.row['unReadStatus'] != '0'" :style="item.styles ? item.styles : { width: '100%' }" :value="scope.row['unReadCount']">
+              <div style="overflow: hidden;text-overflow: ellipsis;width: 100%;" >
+                {{scope.row[item.prop]}}
+              </div>
+            </el-badge>
+            <span v-else>
+              {{scope.row[item.prop]}}
+            </span>
+          </span>
+          <!-- 格式化-->
+          <span v-if="item.type=='stringform'">
+            {{item.desc[scope.row[item.prop]]}}
+          </span>
+          <!-- switch -->
+          <el-switch v-if="item.type=='switch'" v-model="scope.row[item.prop]" :active-value="item.values[0]"
+            :inactive-value="item.values[1]" @change="operateFun(item.emit,scope.row,item)">
+          </el-switch>
+           <!--  操作按钮 -->
+          <span v-if="item.type =='button'">
+            <template v-for="(buttonItems,btnInd) in scope.row[item.prop]">
+              <template v-if="buttonItems.expression && buttonItems instanceof Object">
+                <el-button
+                    onfocus="this.blur()"
+                    :title="buttonItems.name"
+                    :icon="buttonItems.icon"
+                    :type="buttonItems.type"
+                    :disabled="buttonItems.disabled"
+                    @click="operateFun(buttonItems.emit,scope.row,buttonItems)"
+                    style="padding: 0px .3rem !important;"
+                    :key="btnInd">
+                    {{buttonItems.name}}
+                </el-button>
+              </template>
+              <!-- 一键上报新增数组展示功能 -->
+              <template v-if=" buttonItem && buttonItem.expression && buttonItems instanceof Array" v-for="(buttonItem,btnInd) in buttonItems">
+                <el-button
+                    onfocus="this.blur()"
+                    :title="buttonItem.name"
+                    :icon="buttonItem.icon"
+                    :type="buttonItem.type"
+                    :disabled="buttonItem.disabled"
+                    @click="operateFun(buttonItem.emit,scope.row,buttonItem)"
+                    style="padding: 0px .3rem !important;" 
+                    :key="btnInd">
+                    <span :title="buttonItem.name" style="display: inline-block;width: 100%;height: 100%;">
+                      {{buttonItem.dicname}}
+                    </span>
+                </el-button>
+              </template>
+            </template>
+          </span>
+          <span v-if="item.type =='directive'">
+            <el-button onfocus="this.blur()" type="text" :title="scope.row[item.prop]" @click="scope.row[item.prop]?operateFun(item.emit,scope.row,scope.row[item.prop]):''">{{scope.row[item.prop]}}  <i :class="scope.row[item.prop]?item.icona:''"></i> <i :class="scope.row[item.prop]?item.iconb:''"></i></el-button>
+          </span>
+        </template>
+      </el-table-column :autoFix='true'>
+    </el-table>
+  </el-scrollbar>
+  <div :class="temp.style.pager" v-show="!propdata.nopagination">
+    <el-pagination background @current-change="handlePageChange" :current-page.sync="propdata.nowPage + 1" :page-size="propdata.pageSize"
+      layout='total, prev, pager, next,jumper' :total="propdata.total">
+    </el-pagination>
+  </div>
+  <el-dialog v-if="propdata.viewDialog" :title='propdata.viewDialog.title' :visible='dialogvisible'
+    @close='dialogvisible = false' @closed='dialogvisible = false' :destroy-on-close="true"
+    :width="propdata.viewDialog.width">
+    <component :is="propdata.viewDialog.compName" :dialogprop="dialogprop"
+      :style="{height: propdata.viewDialog.height || '600px'}" @dialogcallback="closeCurDialogCall"></component>
+  </el-dialog>
+</div>

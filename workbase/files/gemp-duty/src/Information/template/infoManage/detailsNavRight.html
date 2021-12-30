@@ -1,0 +1,26 @@
+<div class="flex-full">
+    <div :class="[temp.style.details_nav,'details_nav_right']">
+        <template>
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane label="处理过程" name="first">
+                    <details-process></details-process>
+                </el-tab-pane>
+                <el-tab-pane label="信息关联" name="second">
+                    <details-relevance ref="detailRelecvance"  :signforflag="signforflag" ></details-relevance>
+                </el-tab-pane>
+                <el-tab-pane label="相关公文" name="six" v-if="navbtnFlag">
+                    <details-official :detailsoffical="detailsright" ref="detailsofficial"></details-official>
+                </el-tab-pane>
+                <!-- <el-tab-pane label="应急预案" name="third"  v-if="navbtnFlag">
+                    <details-plan :plandata="detailsright" ref="detailsplan"></details-plan>
+                </el-tab-pane>
+                <el-tab-pane label="法律法规" name="fourth" v-if="navbtnFlag">
+                    <details-law :lawdata="detailsright" ref="detailslaw"></details-law>
+                </el-tab-pane> -->
+                <el-tab-pane label="相关知识" name="five" v-if="navbtnFlag && !relatedKnowledgeTabStatu">
+                    <details-knowledge :knowledgedata="detailsright" ref="detailsknowledge"></details-knowledge>
+                </el-tab-pane>
+            </el-tabs>
+        </template>
+    </div>
+</div>

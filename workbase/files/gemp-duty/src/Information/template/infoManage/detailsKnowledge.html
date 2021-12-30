@@ -1,0 +1,24 @@
+<div :class="temp.style.details_knowledge" class="flex-full">
+    <div :class="temp.style.details_knowledge_search">
+        <el-input placeholder="请输入查询关键字" :max="50" type="string" v-model="list.keyWord" @keyup.enter.native="searchHandle">
+            <el-button slot="append" icon="el-icon-search" type="primary" @click.native="searchHandle"></el-button>
+        </el-input>
+    </div>
+    <div :class="temp.style.details_scrollBox" v-show="showscroll">
+        <el-scrollbar style="height:100%">
+            <ul :class="temp.style.details_knowledge_ul">
+                <li v-for="item in datalist">
+                    <div :class="temp.style.details_knowledge_title">
+                        <a href="javascript:;">{{item.knotitle}}</a>
+                        <span>{{item.updatetime}}</span>
+                    </div>
+                    <div :class="temp.style.details_knowledge_content">{{item.content}}</div>
+                </li>
+            </ul>
+            <div :class="temp.style.details_extraBox"></div>
+        </el-scrollbar>
+    </div>
+   <div class="listtable" v-show="showtable" :class="temp.style.bt_list">
+        <list-table :unsortable="true" :propdata="propData" @tablecallback="tablecallback"></list-table>
+   </div>
+</div>

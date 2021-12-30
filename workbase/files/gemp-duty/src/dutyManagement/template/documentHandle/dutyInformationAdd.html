@@ -1,0 +1,60 @@
+<div :class="temp.style.new_text_add">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" :content="titleData"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-upload2" @click="importDutyData('choose-duty','选择值班要情')">导入值班要情</el-button>
+            <el-button size="small" type="primary" icon="el-icon-check" @click="addReportInfo">保存</el-button>
+            <el-button size="small" type="primary" icon="el-icon-top-right" @click="addReport">上报
+            </el-button>
+            </el-button>
+            <!-- <el-button size="small" type="primary" class="el-icon-share" @click="shareInformatiom('share-mask','分享')">分享</el-button> -->
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="goback">返回
+            </el-button>
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <div class="dutyInformation">
+            <el-form label-position="right" :model="listparams" :rules="rules" ref="listparams" label-width="120px" class="demo-listparams"
+                :disabled="isdisabled">
+                <el-row>
+                    <el-form-item label="标题:" prop="documentTitle">
+                        <el-input v-model="listparams.documentTitle" type="text"></el-input>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item label="值班人员:" prop="dutyPeopleId">
+                        <!-- <el-input v-model="listparams.dutyPeopleName" type="text" @focus="importDutyData"></el-input> -->
+                        <el-select v-model="listparams.dutyPeopleId" placeholder="请选择值班人员" @change="select(listparams.dutyPeopleId,'dutyPeopleName')">
+                            <el-option v-for="options in orgPeopleList" :label="options.name" :value="options.userId" :key="options.userId"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item label="值班开始时间:" prop="startTime">
+                        <el-date-picker type="datetime" v-model.trim="listparams.startTime" style="width: 100%"></el-date-picker>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item label="值班结束时间:" prop="endTime">
+                        <el-date-picker type="datetime" v-model.trim="listparams.endTime" style="width: 100%"></el-date-picker>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item label="工作事项:" prop="content">
+                        <el-input v-model="listparams.content" rows="2" type="textarea" maxlength='300' show-word-limit></el-input>
+                    </el-form-item>
+                </el-row>
+                <el-row>
+                    <el-form-item label="交办事项:" prop="handover">
+                        <el-input v-model="listparams.handover" rows="2" type="textarea" maxlength='300' show-word-limit></el-input>
+                    </el-form-item>
+                </el-row>
+            </el-form>
+        </div>
+    </div>
+    <el-dialog :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog" :destroy-on-close="true">
+        <component :is="dialogConfig.templateName" ref="childrenDialog" :propdata="dialogConfig.propsData" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

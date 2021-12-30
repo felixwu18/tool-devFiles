@@ -1,0 +1,155 @@
+<div class="flex-full">
+  <!-- <div class="spliterSty">
+    <div class="toolbar_txt">2019年09月值班表</div>
+    <div class="toolbar_right">
+      <el-date-picker type="month" placeholder="请选择月份" value-format="yyyy-MM" v-model="searchlist.date"></el-date-picker>
+      <el-button style="margin-left:8px" type="primary" icon="el-icon-search" @click.native="loadData">搜索</el-button>
+        <el-button type="primary" icon="el-icon-download" @click.native="exporttable">导出</el-button>
+        <el-button type="primary" icon="el-icon-plus" @click.native="submit">保存</el-button>
+      <span :class="temp.style.buttonpain">
+        <i class="el-icon-picture"></i>
+      </span>
+      <span :class="temp.style.buttonset" @click="go('/workforceManagement/govermentduty')">
+        <i class="el-icon-s-operation"></i>
+      </span>
+    </div>
+  </div> -->
+  <!-- 列表 -->
+  <!-- <div class="duty-list flex-ful">
+    <div class="duty-list-left">
+      <search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+    </div>
+    <div class="duty-list-right flex-ful"> -->
+  <el-scrollbar>
+    <div :class="temp.style.calendar">
+      <!-- 班次分组 -->
+      <div :class="temp.style.calendar_header">
+        <div>周日</div>
+        <div>周一</div>
+        <div>周二</div>
+        <div>周三</div>
+        <div>周四</div>
+        <div>周五</div>
+        <div>周六</div>
+      </div>
+      <!-- 每周 -->
+      <div :class="temp.style.calendar_body" v-for="week,index in tabledata">
+        <!-- 每天 -->
+        <div v-for="days,dayindex in week.dayList" @click.stop="dutySet(days,index,dayindex)" :class="days.dateFlag=='0'?temp.style.daybackground:''">
+          <span :class="temp.style.date_tips">
+            <i :class="temp.style.date_number">
+              {{days.date.slice(8,10)}}
+            </i>
+          </span>
+          <!-- 白班 -->
+          <div>
+            <!-- <div> -->
+            <div>
+              <img src="../../../../assets/image/day.png" alt="">
+              <div>
+                <p v-show="days.dutyList[0].personId">
+                  <i>带班:</i> {{days.dutyList[0].personName}}
+                  <span :class="temp.style.displace" v-show="days.dutyList[0].personStatus&&days.dutyList[0].personStatus!='2'" @click.stop="displaceDetail(days.dutyList[0])">{{days.dutyList[0].personStatus=='1'?'替':'换'}}</span>
+                </p>
+                <p v-show="days.dutyList[1].personId">
+                  <i>主班:</i> {{days.dutyList[1].personName}}
+                  <span :class="temp.style.displace" v-show="days.dutyList[1].personStatus&&days.dutyList[1].personStatus!='2'" @click.stop="displaceDetail(days.dutyList[1])">{{days.dutyList[1].personStatus=='1'?'替':'换'}}</span>
+                </p>
+                <p v-show="days.dutyList[2].personId">
+                  <i>副班:</i> {{days.dutyList[2].personName}}
+                  <span :class="temp.style.displace" v-show="days.dutyList[2].personStatus&&days.dutyList[2].personStatus!='2'" @click="displaceDetail(days.dutyList[2])">{{days.dutyList[2].personStatus=='1'?'替':'换'}}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- 夜班 -->
+          <div>
+            <!-- <div> -->
+            <div>
+              <img src="../../../../assets/image/night.png" alt="">
+              <div>
+                <p v-show="days.dutyList[3].personId">
+                  <i>带班:</i> {{days.dutyList[3].personName}}
+                  <span :class="temp.style.displace" v-show="days.dutyList[3].personStatus&&days.dutyList[3].personStatus!='2'" @click="displaceDetail(days.dutyList[3])">{{days.dutyList[3].personStatus=='1'?'替':'换'}}</span>
+                </p>
+                <p v-show="days.dutyList[4].personId">
+                  <i>主班:</i> {{days.dutyList[4].personName}}
+                  <span :class="temp.style.displace" v-show="days.dutyList[4].personStatus&&days.dutyList[4].personStatus!='2'" @click="displaceDetail(days.dutyList[4])">{{days.dutyList[4].personStatus=='1'?'替':'换'}}</span>
+                </p>
+                <p v-show="days.dutyList[5].personId">
+                  <i>副班:</i> {{days.dutyList[5].personName}}
+                  <span :class="temp.style.displace" v-show="days.dutyList[5].personStatus&&days.dutyList[5].personStatus!='2'" @click="displaceDetail(days.dutyList[5])">{{days.dutyList[5].personStatus=='1'?'替':'换'}}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- <div v-if="isEdit == '2'">
+          <goverment-duty></goverment-duty>
+        </div> -->
+  </el-scrollbar>
+  <!-- </div>
+  </div> -->
+  <!-- 替换班情况弹框 -->
+  <el-dialog :title="dialogOption.titleName" :visible.sync="dialogOption.flag">
+    <goverment-detail v-model="dialogOption.formdata"></goverment-detail>
+  </el-dialog>
+
+  <!-- 修改值班人员弹框 -->
+  <el-dialog title="选择人员" :visible.sync="viewlog" width="400px">
+    <div :class="temp.style.weekshow">
+      <i class="el-icon-date"></i>{{dayform.date}} &nbsp;&nbsp;{{dayform.week}}</div>
+    <el-form label-width="120px">
+      <el-form-item label="带班:">
+        <el-select placeholder="请选择" v-model="dayform['dutyList'][0].personId" clearable filterable @change="selectpeople(dayform['dutyList'][0],day1)">
+          <el-option v-for="item,index in day1" :key="index" :label="item.peopleName" :value="item.peopleId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <span slot="label">
+          <img src="../../../../assets/image/day.png" alt="白班" style="margin-right: 30px">主班
+        </span>
+        <el-select placeholder="请选择" v-model="dayform['dutyList'][1].personId" clearable filterable @change="selectpeople(dayform['dutyList'][1],day2)">
+          <el-option v-for="item,index in day2" :key="index" :label="item.peopleName" :value="item.peopleId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="副班:">
+        <el-select placeholder="请选择" v-model="dayform['dutyList'][2].personId" clearable filterable @change="selectpeople(dayform['dutyList'][2],day3)">
+          <el-option v-for="item,index in day3" :key="index" :label="item.peopleName" :value="item.peopleId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <hr :class="temp.style.hrduty">
+      <el-form-item label="带班:">
+        <el-select placeholder="请选择" clearable filterable v-model="dayform.dutyList[3].personId" @change="selectpeople(dayform['dutyList'][3],night1)">
+          <el-option v-for="item,index in night1" :key="index" :label="item.peopleName" :value="item.peopleId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <span slot="label">
+          <img src="../../../../assets/image/night.png" alt="夜班" style="margin-right: 30px">主班
+        </span>
+        <el-select placeholder="请选择" clearable filterable v-model="dayform['dutyList'][4].personId" @change="selectpeople(dayform['dutyList'][4],night2)">
+          <el-option v-for="item,index in night2" :key="index" :label="item.peopleName" :value="item.peopleId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="副班:">
+        <el-select placeholder="请选择" clearable filterable v-model="dayform['dutyList'][5].personId" @change="selectpeople(dayform['dutyList'][5],night3)">
+          <el-option v-for="item,index in night3" :key="index" :label="item.peopleName" :value="item.peopleId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div style="text-align:center">
+      <el-button type="primary" @click.native="clonepeople">
+        <i class="el-icon-check"></i>保存</el-button>
+    </div>
+  </el-dialog>
+</div>

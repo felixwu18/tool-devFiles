@@ -1,0 +1,57 @@
+<div :class="[temp.style.new_text_add,'lowerHair']">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" :content="titleData"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-check" @click="addReportInfo">保存</el-button>
+            <el-button size="small" type="primary" icon="el-icon-plus" @click="addLower('view-mask','下发')">下发
+            </el-button>
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="goback">返回
+            </el-button>
+            <!-- <el-button size="small" type="primary" icon="el-icon-document-delete" @click="recall">撤回</el-button> -->
+            <!-- <el-button size="small" type="primary" class="el-icon-share" @click="shareInformatiom('share-mask','分享')">分享</el-button> -->
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <el-scrollbar>
+            <div class="lowerHairIssue">
+                <el-form ref="simpleTable" :model="formdata" label-width="180px" :rules="rules">
+                    <el-form-item label="公文标题" prop="documentTitle">
+                        <el-input v-model.trim="formdata.documentTitle" maxlength="50"></el-input>
+                    </el-form-item>
+                    <el-form-item label="内容" prop="content">
+                        <el-input v-model.trim="formdata.content" type="textarea" :rows="4" show-word-limit
+                            maxlength="500"></el-input>
+                    </el-form-item>
+                    <el-form-item label="备注" prop="remarks">
+                        <el-input v-model.trim="formdata.remarks" type="textarea" :rows="4" show-word-limit
+                            maxlength="500"></el-input>
+                    </el-form-item>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="联系人" prop="contactPeopleName">
+                                <el-select v-model.trim="formdata.contactPeopleName" @change="changePhone">
+                                    <el-option v-for="item in concatPersonList" :label="item.personName"
+                                        :value="item.personName"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="联系电话" prop="contactPhone">
+                                <el-input :disabled="true" v-model.trim="formdata.contactPhone"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-form-item label="附件" prop="attachmentList">
+                        <iams-upload ref="upload" v-model="formdata.attachmentList"></iams-upload>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </el-scrollbar>
+    </div>
+    <el-dialog :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog" :destroy-on-close="true">
+        <component :is="dialogConfig.templateName" ref="childrenDialog" :propdata="dialogConfig.propsData"
+            @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

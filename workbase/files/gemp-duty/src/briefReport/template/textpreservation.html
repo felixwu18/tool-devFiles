@@ -1,0 +1,17 @@
+<!-- 保存弹出框 -->
+<!-- <el-dialog title="保存" :> -->
+<div class="preservation">
+    <el-form :class="temp.style.infoExam" :model="formData" @submit.native.prevent>
+        <el-form-item>
+            <span>生成简报类型：</span>
+            <el-radio v-model="type" label="1">专报</el-radio>
+            <el-radio v-model="type" label="2">快报</el-radio>
+            <el-radio v-model="type" label="3">报告</el-radio>
+        </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" icon="el-icon-check" @click="saveFun">保存</el-button>
+        <el-button type="primary" icon="el-icon-switch-button" plain @click="cancelOpen">取消</el-button>
+    </div>
+</div>
+<!-- </el-dialog> -->

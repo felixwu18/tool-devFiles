@@ -1,0 +1,294 @@
+<div :class="temp.style.details_Matter" class="flex-full details-matter">
+    <el-scrollbar>
+        <div class="flex-full">
+            <div :class="temp.style.details_add">
+                <div :class="temp.style.details_title">
+                    <span v-if="tabtype === '1'">{{isAdd ? '新增':'编辑'}}续报</span>
+                    <span v-if="tabtype === '2'">{{isAdd ? '新增':'编辑'}}现场汇报</span>
+                    <span v-if="tabtype === '3'">{{isAdd ? '新增':'编辑'}}专家意见</span>
+                    <span v-if="tabtype === '4'">{{isAdd ? '新增':'编辑'}}调度指令</span>
+                    <div :class="temp.style.details_btn">
+                        <el-button type="primary" plain @click="submit(0)" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag">仅保存</el-button>
+                        <el-button type="primary" @click="submit(1) " :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag">提交</el-button>
+                    </div>
+                </div>
+                <div :class="temp.style.details_add_main" v-if="tabtype === '1'">
+                    <div :class="temp.style.details_main_left">
+                        <p>截止当前累计伤亡人数</p>
+                        <div :class="temp.style.left_main">
+                            <el-row >
+                                <el-col :span="8" :class="temp.style.left_main_col">
+                                    <span>死亡:</span>
+                                    <el-input type="text" :maxlength="9" v-model="addParmes.deathNum" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag"></el-input>
+                                    <span>人</span>
+                                    <!-- <i :class="temp.style.edit_icon" @click="listPop('0', addParmes.deathNum)"></i> -->
+                                </el-col>
+                                <el-col :span="8" :class="temp.style.left_main_col">
+                                    <span>重伤:</span>
+                                    <el-input type="text" :maxlength="9"  v-model="addParmes.seriousInjureNum" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag"></el-input>
+                                    <span>人</span>
+                                    <!-- <i :class="temp.style.edit_icon" @click="listPop('1', addParmes.seriousInjureNum)"></i> -->
+                                </el-col>
+                                <el-col :span="8" :class="temp.style.left_main_col">
+                                    <span>轻伤:</span>
+                                    <el-input type="text" :maxlength="9"  v-model="addParmes.minorInjureNum" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag"></el-input>
+                                    <span>人</span>
+                                    <!-- <i :class="temp.style.edit_icon" @click="listPop('2', addParmes.minorInjureNum)"></i> -->
+
+                                </el-col>
+                                <el-col :span="8" :class="temp.style.left_main_col">
+                                    <span>受伤:</span>
+                                    <el-input type="text" :maxlength="9"  v-model="addParmes.woundNum" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag"></el-input>
+                                    <span>人</span>
+                                    <!-- <i :class="temp.style.edit_icon" @click="listPop('3', addParmes.woundNum)"></i> -->
+
+                                </el-col>
+                                <el-col :span="8" :class="temp.style.left_main_col">
+                                    <span>失踪:</span>
+                                    <el-input type="text" :maxlength="9"  v-model="addParmes.lossNum" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag"></el-input>
+                                    <span>人</span>
+                                    <!-- <i :class="temp.style.edit_icon" @click="listPop('4', addParmes.lossNum)"></i> -->
+
+                                </el-col>
+                                <el-col :span="8" :class="temp.style.left_main_col">
+                                    <span>受困:</span>
+                                    <el-input type="text" :maxlength="9"  v-model="addParmes.trappedNum" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag"></el-input>
+                                    <span>人</span>
+                                    <!-- <i :class="temp.style.edit_icon" @click="listPop('5', addParmes.trappedNum)"></i> -->
+
+                                </el-col>
+                            </el-row>
+                        </div>
+                        <el-row :class="temp.style.event_row">
+                            <el-col :span="6" :class="temp.style.event_col">事件类型</el-col>
+                            <el-col :span="18" :class="temp.style.event_col"><iams-combobox placeholder="请输入事件类型关键字" :rootcheck="true" listtype="getInfoTypeTree"
+                                :defaultchecked="addParmes.eventType" v-model="addParmes.eventType"
+                                :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag"></iams-combobox></el-col>
+                        </el-row>
+                        <el-row :class="temp.style.event_row">
+                            <el-col :span="6" :class="temp.style.event_col">事件等级</el-col>
+                            <el-col :span="18" :class="temp.style.event_col">
+                                <el-select v-model.trim="addParmes.eventLevelCode" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag">
+                                    <el-option :value="item.eventLevelCode" v-for="item in scaleList" :label="item.eventLevelName"
+                                        :key="item.eventLevelName">
+                                    </el-option>
+                                </el-select>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div :class="temp.style.details_main_right">
+                        <p>续报内容</p>
+                        <el-input type="textarea" :rows="6" placeholder="请输入内容" v-model="addParmes.infoDescription"  :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag">
+                        </el-input>
+                    </div>
+               
+                </div>
+                <div :class="temp.style.details_add_box" v-else>
+                    <p>汇报内容</p>
+                    <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="addParmes.infoDescription"  :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag">
+                    </el-input>
+                 
+                </div>
+                <div :class="temp.style.details_upload_box">
+                    <iams-upload listtype="text" v-model="addParmes.attachmentList" ref="upload" :disabled="firstReport.infoStatus === '0' || firstReport.qsFlag"></iams-upload>
+                </div>
+
+                
+            </div>
+            <div :class="temp.style.details_main" v-if="reportList.length || tabtype === '1'">
+                <ul>
+                    <li :class="currentInfoId === item.infoId ? [temp.style.details_item_box,temp.style.details_item_box_active]:index === 0 ?[temp.style.details_item_box,temp.style.details_item_active] : temp.style.details_item_box" v-for="(item,index) in reportList" :key="index">
+                        <div :class="temp.style.title_box" @click="changeInfoId(item)">
+                            <div v-if="tabtype === '1'">
+                                <span :class="temp.style.title">续报</span>
+                                <span>{{item.orgName}}</span>
+                                <span>{{item.reportPerson}}</span>
+                                <span>{{item.reportDate}}</span>
+                            </div>
+                            <div v-else>
+                                <span :class="temp.style.title" v-if="tabtype === '2'">现场汇报</span>
+                                <span :class="temp.style.title" v-if="tabtype === '3'">专家意见</span>
+                                <span :class="temp.style.title" v-if="tabtype === '4'">调度指令</span>
+                                <span>录入人员：{{item.orgName}}</span>
+                                <span>{{item.createPersonName}}</span>
+                                <span>录入时间：{{item.createTime}}</span>
+                            </div>
+                            <div :class="temp.style.btn_box">
+                                <el-button type="primary" @click.stop="signFor(item)" v-if="item.qsFlag">签收</el-button>
+                                <el-button v-if="item.backFlag" type="primary" @click.stop="click('return-report','退回',item)">退回</el-button>
+                                <el-button type="primary" plain icon="el-icon-edit" v-if="item.infoStatus === '0'" @click.stop="editContinue(item)">编辑</el-button>
+                                <el-button type="danger" plain icon="el-icon-delete" v-if="item.infoStatus === '0'" @click.stop="draftDelect(item)">删除</el-button>
+                                <el-button type="primary"  icon="el-icon-document" v-if="item.infoStatus !== '0' && tabtype ==='1' && !item.qsFlag" @click.stop="showManageDialog(item,true)" >信息处理</el-button>
+                            </div>
+                            
+                        </div>
+                        <div :class="temp.style.details_text" >
+                            <el-row :class="temp.style.details_main_msg" v-if="tabtype === '1'">
+                                <el-col :span="6">事件等级：{{item.eventLevelName}}</el-col>
+                                <el-col :span="18">事件类型：{{item.eventTypeName}}</el-col>
+                                <el-col :span="4" v-if="item.deathNum !== 0">死亡人数：{{item.deathNum === null ? '待定' :item.deathNum}}</el-col>
+                                <el-col :span="4" v-if="item.seriousInjureNum !== 0">重伤人数：{{item.seriousInjureNum === null ? '待定':item.seriousInjureNum}}</el-col>
+                                <el-col :span="4" v-if="item.minorInjureNum !== 0">轻伤人数：{{item.minorInjureNum === null ? '待定':item.minorInjureNum}}</el-col>
+                                <el-col :span="4" v-if="item.woundNum !== 0">受伤人数：{{item.woundNum === null ? '待定' :item.woundNum}}</el-col>
+                                <el-col :span="4" v-if="item.lossNum !== 0">失踪人数：{{item.lossNum === null ? '待定' :item.lossNum}}</el-col>
+                                <el-col :span="4" v-if="item.trappedNum !== 0">受困人数：{{item.trappedNum === null ? '待定':firstReport.trappedNum}}</el-col>
+                            </el-row>
+                            <p>
+                                {{item.infoDescription}}
+                            </p>
+                            <el-row :class="temp.style.attachment_list" :gutter="20">
+                                <el-col :span="6" v-for="file in item.attachmentList">
+                                    <div>
+                                        <img v-if="/(.*)\.(jpg|jpeg|png|gif)$/.test(file.url)" :src="file.url" alt="">
+                                        <img v-else-if="/(.*)\.(ppt|pptx)$/.test(file.url)" src="../../../../assets/image/ppt.png" alt="">
+                                        <img v-else-if="/(.*)\.(doc|docx)$/.test(file.url)" src="../../../../assets/image/word.png" alt="">
+                                        <img v-else-if="/(.*)\.(xlsx|xls)$/.test(file.url)" src="../../../../assets/image/excel.png" alt="">
+                                        <img v-else-if="/(.*)\.(txt)$/.test(file.url)" src="../../../../assets/image/txt.png" alt="">
+                                        <img v-else-if="/(.*)\.(pdf)$/.test(file.url)" src="../../../../assets/image/PDF.png" alt="">
+                                        <img v-else-if="/(.*)\.(mp4|mp3|wav)$/.test(file.url)" src="../../../../assets/image/video.png" alt="">
+                                        <img v-else src="../../../../assets/image/file.png" alt="">
+                                        <p :title="file.name"  @click="download(file)">{{file.name}}</p>
+                                    </div>
+                         
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </li>
+                    <li :class="currentInfoId === firstReport.infoId ? [temp.style.details_item_box,temp.style.details_item_box_active] : temp.style.details_item_box" v-if="tabtype === '1'">
+                        <div :class="temp.style.title_box" @click="changeInfoId(firstReport)">
+                            <div>
+                                <span :class="temp.style.title">初报</span>
+                                <span>{{firstReport.orgName}}</span>
+                                <span>{{firstReport.reportPerson}}</span>
+                                <span>{{firstReport.createTime}}</span>
+                            </div>
+                            <div :class="temp.style.btn_box">
+                                <el-button   type="primary" @click.stop="signFor(firstReport)" v-if="firstReport.qsFlag">签收</el-button>
+                                <el-button v-if="firstReport.backFlag" type="primary" @click.stop="click('return-report','退回',firstReport)">退回</el-button>
+                                <el-button type="primary" plain icon="el-icon-edit" @click.stop="editEvent" v-if="firstReport.infoStatus === '0'">编辑</el-button>
+                                <el-button type="primary"   @click.stop="editSubmit(firstReport)" v-if="firstReport.infoStatus === '0'">提交</el-button>
+                                <el-button type="primary"  icon="el-icon-document" @click.stop="showManageDialog(firstReport,false)" v-if="firstReport.infoStatus === '1' && !firstReport.qsFlag">信息处理</el-button>
+                            </div>
+                        </div>
+                        <div :class="temp.style.details_text">
+                            <el-row :class="temp.style.details_main_msg">
+                                <el-col :span="6">事发时间：{{firstReport.incidentDate}}</el-col>
+                                <el-col :span="18">事发地点：{{firstReport.infoAddress}}</el-col>
+                                <el-col :span="6">事件等级：{{firstReport.eventLevelName}}</el-col>
+                                <el-col :span="18">事件类型：{{firstReport.eventTypeName}}</el-col>
+                                <el-col :span="4" v-if="firstReport.deathNum !== 0">死亡人数：{{firstReport.deathNum === null ? '待定' :firstReport.deathNum}}</el-col>
+                                <el-col :span="4" v-if="firstReport.seriousInjureNum !== 0">重伤人数：{{firstReport.seriousInjureNum === null ? '待定' :firstReport.seriousInjureNum}}</el-col>
+                                <el-col :span="4" v-if="firstReport.minorInjureNum !== 0">轻伤人数：{{firstReport.minorInjureNum === null ? '待定' :firstReport.minorInjureNum}}</el-col>
+                                <el-col :span="4" v-if="firstReport.woundNum !== 0">受伤人数：{{firstReport.woundNum === null ? '待定' :firstReport.woundNum}}</el-col>
+                                <el-col :span="4" v-if="firstReport.lossNum !== 0">失踪人数：{{firstReport.lossNum === null ? '待定' :firstReport.lossNum}}</el-col>
+                                <el-col :span="4" v-if="firstReport.trappedNum !== 0">受困人数：{{firstReport.trappedNum === null ? '待定' :firstReport.trappedNum}}</el-col>
+                            </el-row>
+                            <p>
+                                {{firstReport.infoDescription}}
+                            </p>
+                            <el-row :class="temp.style.attachment_list" :gutter="20">
+                                <el-col :span="6" v-for="file in firstReport.attachmentList">
+                                    <div>
+                                        <img v-if="/(.*)\.(jpg|jpeg|png|gif)$/.test(file.url)" :src="file.url" alt="">
+                                        <img v-else-if="/(.*)\.(ppt|pptx)$/.test(file.url)" src="../../../../assets/image/ppt.png" alt="">
+                                        <img v-else-if="/(.*)\.(doc|docx)$/.test(file.url)" src="../../../../assets/image/word.png" alt="">
+                                        <img v-else-if="/(.*)\.(xlsx|xls)$/.test(file.url)" src="../../../../assets/image/excel.png" alt="">
+                                        <img v-else-if="/(.*)\.(txt)$/.test(file.url)" src="../../../../assets/image/txt.png" alt="">
+                                        <img v-else-if="/(.*)\.(pdf)$/.test(file.url)" src="../../../../assets/image/PDF.png" alt="">
+                                        <img v-else-if="/(.*)\.(mp4|mp3|wav)$/.test(file.url)" src="../../../../assets/image/video.png" alt="">
+                                        <img v-else src="../../../../assets/image/file.png" alt="">
+                                        <p :title="file.name" @click="download(file)">{{file.name}}</p>
+                                    </div>
+                            
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </el-scrollbar>
+    <information-handling v-if="manageDialog" @cancelpop="cancelPop" :infoid="currentInfoId" :detailUrlinfoId="detailUrlinfoId" :cbflag="cbFlag" ref="handling" :handletype="handleType"> </information-handling>
+    <el-dialog :title="tilteName" :visible.sync="flag" :destroy-on-close="true" top="8vh">
+        <component :is="templateName" ref="childrenDialog"  @dialogcallback="closeDialogCall" :infoid="returnId">
+        </component>
+    </el-dialog>
+    <el-dialog title="人员情况" width="950px" :visible.sync="personListDialog" class="person-situation-pop"
+        @close="closePersonListDialog">
+        <!-- <el-scrollbar> -->
+        <p style="padding: 0 5px 20px 0;font-size: 0.8rem;">{{currentPersonstatus}}人数：{{currentPersonNumber}}</p>
+        <div style="height:20rem;">
+            <el-scrollbar style="height:100%;width: 100%;">
+                <div>
+                    <el-table :default-sort="{prop: 'layerId'}" highlight-current-row ref="singleTable" :data="activeData">
+                        <el-table-column prop="layerId" label="序号" type="index" align="center" width="50">
+                        </el-table-column>
+                        <el-table-column prop="name" label="姓名" width="100">
+                            <template slot-scope="scope">
+                                <el-input type="text" v-model="scope.row.name" placeholder="" :disabled="scope.row.disabled"
+                                    maxlength="50"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="sex" label="性别" width="80">
+                            <template slot-scope="scope">
+                                <el-input v-if="scope.row.disabled" v-model="scope.row.sex" :disabled="scope.row.disabled"
+                                    maxlength="10"></el-input>
+                                <el-select v-model="scope.row.sex" v-else>
+                                    <el-option label="男" value="男"></el-option>
+                                    <el-option label="女" value="女"></el-option>
+                                </el-select>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="country" label="国籍" width="80">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.country" placeholder="" :disabled="scope.row.disabled"
+                                    maxlength="50"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="nation" label="民族" width="80">
+                            <template slot-scope="scope">
+                                <el-input
+                                    v-if="scope.row.disabled || !scope.row.country || scope.row.country.indexOf('中国') === -1"
+                                    v-model="scope.row.nation" placeholder="" :disabled="scope.row.disabled" maxlength="50">
+                                </el-input>
+                                <el-select v-else v-model="scope.row.nation">
+                                    <el-option :label="item.label" :value="item.name" v-for="(item,index) in nationList"
+                                        :key="index"></el-option>
+                                </el-select>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="idCard" label="身份证号" width="160">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.idCard" placeholder="" :disabled="scope.row.disabled"
+                                    maxlength="50" @change="(val) => {changeIdCard(val, scope.row)}"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="remarks" label="备注" width="200">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.remarks" placeholder="" v-if="!scope.row.disabled"
+                                    maxlength="500"></el-input>
+                                <div v-else class="text-overflow" :title="scope.row.remarks">{{scope.row.remarks}}</div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作" align="center">
+                            <template slot-scope="scope">
+                                <el-button @click="editPersonState(scope.row)" type="text" size="small" title="编辑"
+                                    v-if="!scope.row.isEdit">编辑</el-button>
+                                <el-button @click="savePersonState(scope.row)" type="text" size="small" title="保存"
+                                    v-if="scope.row.isEdit">保存</el-button>
+                                <el-button @click="cancelPersonState(scope.row)" type="text" size="small" title="取消"
+                                    v-if="scope.row.isEdit">取消</el-button>
+                                <el-button @click="deletePersonState(scope.row)" type="text" size="small" title="删除"
+                                    v-if="!scope.row.isEdit">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div @click="addPersonList"
+                        style="height: 36px;width: 100%;border: 2px dashed rgb(238,238,238);line-height: 36px;text-align: center;cursor: pointer;margin-bottom: 20px;margin-top: 24px;">
+                        <span :class="temp.style.add_person">添加</span>
+                    </div>
+                </div>
+            </el-scrollbar>
+        </div>
+    </el-dialog>
+</div>

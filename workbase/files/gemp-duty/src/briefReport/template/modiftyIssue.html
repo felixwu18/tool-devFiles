@@ -1,0 +1,33 @@
+<!-- 修改期号弹出框 -->
+<!-- <el-dialog title="保存" :> -->
+<div class="modiftyIssue">
+    <el-form :class="temp.style.infoExam" :model="formData" :rules="rules" ref="formData" :inline-message="true" @submit.native.prevent>
+        <el-form-item>
+            <span>公文标题：</span>
+            <span>{{formData.reportTitle}}</span>
+        </el-form-item>
+        <el-form-item>
+            <span>公文类型：</span>
+            <span v-show="formData.reportType=='SPECIAL'">专报</span>
+            <span v-show="formData.reportType=='BRIEF'">快报</span>
+            <span v-show="formData.reportType=='REPORT'">报告</span>
+        </el-form-item>
+        <el-form-item>
+            <span>当前期号：</span>
+            <span>{{formData.issueInfo}}</span>
+        </el-form-item>
+        <el-form-item prop="issueNumber">
+            <span>修改期号：</span>
+            <span>{{formData.issueInfo.slice(0,6)}}</span>
+            <div :class="temp.style.issuenumbox">
+                <el-input v-model="formData.issueNumber" maxLength='3'></el-input>
+            </div>
+            <!-- <input type="text" v-model="formData.issueNumber" :class="temp.style.issuenum"> -->
+            <span>期</span>
+        </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" icon="el-icon-check" @click="saveFun">保存</el-button>
+    </div>
+</div>
+<!-- </el-dialog> -->

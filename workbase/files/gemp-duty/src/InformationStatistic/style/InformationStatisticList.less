@@ -1,0 +1,488 @@
+.flex-full{
+    background: red;
+}
+.container{
+    padding: 10px 0;
+    overflow-y: auto;
+}
+.search_container{
+    background: #fcfcfc;
+    // padding: 0 1.4rem;
+    .administration_title{
+        // font-weight: 600;
+        color: #505356;
+        line-height: 1.5rem;
+        text-align: center;
+        // font-size: 14px;
+        // width: 5rem;
+        // margin-right: 12px;
+    }
+
+    .administration_container{
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        .table_operation_text{
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #505356;
+            width: 7rem;
+        }
+        .table_operation_text::before{
+            content: "";
+            border-left: 0.2rem solid #423C5E;
+            margin-right: 0.5rem;
+        }
+        .spacial_time_container{
+            border: 1px solid #CFCFD8;
+            border-radius: 0.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            .area_box{
+                width: 3rem;
+                line-height: 1.5rem;
+                text-align: center;
+                color: #505356;
+                font-size: 0.75rem;
+                cursor: pointer;
+            }
+        }
+        >div:nth-child(5){
+            >div{
+                height: 1.5rem;
+                >i:nth-child(1){
+                    height: 1.5rem !important;
+                }
+                >span:nth-child(3){
+                    line-height: 1.3rem !important;
+                }
+            }
+        }
+        form{
+            >div{
+                >label{
+                    width: 5rem !important;
+                    font-weight: 600;
+                    color: #505356;
+                    text-align: center;
+                    font-size: 0.75rem;
+                }
+            }
+        }
+        //.date_search_container{
+        //    height: 2rem;
+        //    >form{
+        //        >div{
+        //            >div{
+        //                >div{
+        //                    height: 1.5rem;
+        //                    >i:nth-child(1){
+        //                        height: 1.5rem !important;
+        //                    }
+        //                    >span:nth-child(3){
+        //                        line-height: 1.3rem !important;
+        //                    }
+        //                    >div{
+        //                        input:nth-child(1){
+        //                            height: 1.5rem;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            >div:nth-child(2){
+        //                width: 8rem;
+        //            }
+        //        }
+        //    }
+        //}
+    }
+}
+.message_charts{
+    width: 100%;
+    height: 500px;
+}
+.table_operation_container{
+    display: flex;
+    justify-content:  space-between;
+    padding: 0 2rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    .table_operation_text{
+        font-size: 0.875rem;
+        font-weight: bold;
+        color: #505356;
+    }
+    span:nth-child(1)::before{
+        content: "";
+        border-left: 0.2rem solid #423C5E;
+        margin-right: 0.5rem;
+    }
+}
+.table_container{
+    padding: 0 20px;
+    margin: 10px 0 12px 0;
+    table{
+        thead{
+            tr{
+                height: 80px !important;
+                th:nth-child(1){
+                    width: 150px;
+                    height: 50px;
+                    padding: 0 !important;
+                    /*border: 1px solid black;*/
+                    background:
+                            linear-gradient(23deg, transparent 49.5%, #ffffff 49.5%, #c3c3c3 50.5%, transparent 51.5%) !important;
+                    div:nth-child(1){
+                        padding: 0 !important;
+                        width: 180px !important;
+                        height: 80px !important;
+                    }
+                    div:nth-child(1)::before{
+                        content: "行政区划";
+                        display: block;
+                        width: 50%;
+                        height: 50%;
+                        /*border: 1px solid red;*/
+                        text-align: center;
+                        position: absolute;
+                        right: 0;
+                        top: 10px;
+                    }
+                    div:nth-child(1)::after{
+                        content: "事件类型";
+                        display: block;
+                        width: 50%;
+                        height: 50%;
+                        /*border: 1px solid blue;*/
+                        text-align: center;
+                        position: absolute;
+                        left: 0;
+                        bottom: -5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+//.right_panel{
+//    width: calc(100% - 22.5rem);
+//    height:90%;
+//    // padding:0 28px;
+//    padding-left:20px;
+//    .right_panel_contain{
+//        width:100%;
+//        display: flex;
+//        flex-wrap: wrap;
+//        justify-content: flex-start;
+//        box-sizing: border-box;
+//        .right_panel_item{
+//            margin-top:1.75rem;
+//            margin-right:3.625rem;
+//            // width:20rem;
+//            // height:22rem;
+//            width: 23%;
+//            margin-right:2%;
+//            height: 390px;
+//            box-sizing: border-box;
+//            border:1px solid #dddde1;
+//            border-radius:4px;
+//            box-shadow: 2px 1px 13px #ddd;
+//            .days_title{
+//                height:40px;
+//                box-sizing: border-box;
+//                border-bottom:1px solid #dddde1;
+//                background-color:#fafafa;
+//                display: flex;
+//                align-items: center;
+//                justify-content: space-between;
+//                padding:0 1.11rem;
+//                color:#4a7dff;
+//                .days_title_date{
+//                    font-size: 16px
+//                }
+//                .org_user{
+//                    width:98px !important;
+//                    height:26px;
+//                    input{
+//                        width: 100% !important;
+//                        height:26px;
+//                        line-height: 26px;
+//                    }
+//                    i{
+//                        line-height:26px !important;
+//                    }
+//                }
+//            }
+//            .days_center{
+//                display: flex;
+//                flex-direction: column;
+//                height: calc(100% - 72px);
+//                justify-content: space-between;
+//                padding:1.11rem;
+//                box-sizing: border-box;
+//                .days_content{
+//                    height:160px;
+//                    .emptyData{
+//                        width:100%;
+//                        height:160px;
+//                        display: flex;
+//                        justify-content: center;
+//                        align-items: center;
+//                        >img{
+//                            max-width: 100%;
+//                            max-height: 100%;
+//                        }
+//                    }
+//                    .days_content_item{
+//                        >span{
+//                            margin-bottom:12px;
+//                            height:26px;
+//                            display: block;
+//                            >img{
+//                                margin-right:8px;
+//                            }
+//                            >em{
+//                                font-style: normal;
+//                                width: calc(100% - 87px);
+//                                height: 100%;
+//                                display: inline-block;
+//                                overflow: hidden;
+//                                text-overflow: ellipsis;
+//                                white-space: nowrap;
+//                                color: #59556c;
+//                                vertical-align: middle;
+//                                line-height: 26px;
+//                            }
+//                        }
+//                    }
+//                }
+//                .handle_list{
+//                    height:34px;
+//                    box-sizing: border-box;
+//                    border-radius:4px;
+//                    border:1px solid #dddde1;
+//                    background-color:#f3f3f5;
+//                    display: flex;
+//                    justify-content: space-between;
+//                    align-items: center;
+//                    >span{
+//                        max-width:75%;
+//                        height: 34px;
+//                        line-height: 34px;
+//                        overflow: hidden;
+//                        text-overflow: ellipsis;
+//                        white-space: nowrap;
+//                        font-size:13px;
+//                        padding-left:12px;
+//                    }
+//                    .more_button{
+//                        margin-top: -5px;
+//                        span{
+//                            font-size:12px;
+//                        }
+//                    }
+//                }
+//                .other_info{
+//                    height:60px;
+//                    box-sizing: border-box;
+//                    border-radius:4px;
+//                    border:1px solid #dddde1;
+//                    background-color:#f3f3f5;
+//                    .other_inner{
+//                        padding:8px;
+//                        font-size:14px;
+//                    }
+//                }
+//            }
+//            .days_bottom{
+//                height:32px;
+//                box-sizing: border-box;
+//                border-top:1px solid #dddde1;
+//                background-color:#fafafa;
+//                box-sizing: border-box;
+//                display: flex;
+//                justify-content: space-between;
+//                align-items:center;
+//                font-size: 16px;
+//                >div{
+//                    flex: 1;
+//                    color:#4a7dff;
+//                    text-align: center;
+//                    cursor:pointer;
+//                    &:nth-child(1) {
+//                        border-right: 1px solid #dddde1;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//.dialogBox{
+//    width:100%;
+//    height:240px;
+//    margin:0 auto;
+//    // border:1px solid #ccc;
+//    .left{
+//        width:20%;
+//        height:200px;
+//        border:1px solid #ccc;
+//        float:left;
+//        .leftTop{
+//            width:100%;
+//            height:150px;
+//            text-align:right;
+//            font-size:16px;
+//            padding-top:20px;
+//            padding-right:10px;
+//        }
+//        .leftBottom{
+//            width:100%;
+//            height:60px;
+//            border-top:1px solid #ccc;
+//            text-align:right;
+//            padding-top:20px;
+//            padding-right:10px;
+//        }
+//
+//    }
+//    .right{
+//        width:80%;
+//        height:200px;
+//        border: 1px solid #ccc;
+//        border-left:0;
+//        float:left;
+//        .rightTop{
+//            width:100%;
+//            height:20px;
+//            margin:0px 10px;
+//        }
+//        .rightBottom{
+//            width:98%;
+//            height:130px;
+//            margin: 0 auto;
+//            >div{
+//                >span{
+//                    bottom: 0 !important;
+//                }
+//            }
+//        }
+//        .time{
+//            width:100%;
+//            height:60px;
+//            border-top:1px solid #ccc;
+//            .checkTime{
+//                width:100%;
+//                height:60px;
+//                padding-top:5px;
+//                margin-left:10px;
+//                float:left;
+//                .date{
+//                    width:50%;
+//                    height:40px;
+//                }
+//            }
+//        }
+//    }
+//    .button{
+//        margin-top:10px;
+//        width:120px;
+//        height:40px;
+//        line-height:40px;
+//    }
+//}
+//.todayplan{
+//    cursor: pointer;
+//}
+//.editRecordPanel{
+//    height:24rem;
+//    >div{
+//        >div{
+//            >div{
+//                >div{
+//                    >div{
+//                        min-height:82px;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//.work_plan_header {
+//    color:#59556c;
+//    font-size:18px;
+//    line-height: 40px;
+//}
+//.add_work_plan{
+//    border:1px solid #ccc;
+//    border-radius: 4px;
+//    padding:12px 8px;
+//    .add_work_plan_header{
+//        display: flex;
+//        justify-content: space-between;
+//        align-items: center;
+//        padding:8px 0;
+//        >*{
+//            &:nth-child(1) {
+//                flex:1;
+//                margin-right:40%;
+//            }
+//            .work_plan_checkbox{
+//                flex:2;
+//                >*{
+//                    display: block;
+//                }
+//            }
+//        }
+//    }
+//    .add_work_plan_footer{
+//        padding-top:8px;
+//        display: flex;
+//        justify-content: center;
+//        >button:nth-child(1) {
+//            margin-right:22px;
+//        }
+//    }
+//}
+//.work_plan_list{
+//    >li{
+//        &:not(:last-child){
+//            border-bottom: 1px solid #e2e3e4;
+//        }
+//        position: relative;
+//        padding: 12px 80px 12px 12px;
+//        background:#eff4ff;
+//        .list_button{
+//            position: absolute;
+//            top:12px;
+//            right:20px;
+//            width:50px;
+//            display: flex;
+//            justify-content: space-around;
+//            >i {
+//                font-size:18px;
+//                cursor:pointer;
+//                &:nth-child(1){
+//                  color:#aec5ff
+//                }
+//                &:nth-child(2){
+//                  color:#f2d2d8;
+//                }
+//            }
+//        }
+//    }
+//}
+//.work_plan_inner{
+//    height:540px;
+//}
+//.bottom_button{
+//    display: flex;
+//    justify-content: center;
+//    >button:nth-child(1) {
+//        margin-right:20px;
+//    }
+//}

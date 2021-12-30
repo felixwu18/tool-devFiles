@@ -1,0 +1,55 @@
+<div class="flex-full ">
+    <div class="selectLeader">
+        <div :class="temp.style.selectbox">
+            <div :class="temp.style.left">
+                <!-- <el-radio-group v-model="checkPage">
+                        <el-radio-button label="1">组织机构</el-radio-button>
+                        <el-radio-button label="2">分组</el-radio-button>
+                    </el-radio-group> -->
+                <div :class="temp.style.search_tree">
+                    <search-tree v-if="checkPage == '1'" listtype="getOrgTree" @change="getOrg"
+                        :defaultchecked="defaultchecked"></search-tree>
+                    <search-tree v-if="checkPage == '2'" listtype="getOrgTree" @change="getOrg"
+                        :defaultchecked="defaultchecked"></search-tree>
+                </div>
+            </div>
+            <div :class="temp.style.search_filter">
+                <div :class="temp.style.search_filter_top">
+                    <el-page-header title="" content="选择人员"></el-page-header>
+                    <!-- <el-input @keyup.enter.native="getListData" placeholder="全文检索" v-model="searchData.keyWord" :class="temp.style.search_input">
+                            <el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
+                        </el-input>
+                        <el-button type="primary" @click.native="selectAll">全部选择</el-button> -->
+                </div>
+                <div :class="temp.style.search_filter_bottom">
+                    <div :class="temp.style.ordinary">
+                        <el-scrollbar>
+                            <ul>
+                                <li @click='getDomData(options)' v-for="options in allleader" :key="options.userId">
+                                    {{ options.name }}</li>
+                            </ul>
+                        </el-scrollbar>
+                    </div>
+
+                </div>
+            </div>
+            <div :class="temp.style.search_filter">
+                <div :class="temp.style.search_filter_tops">
+                    <el-page-header title="" content="选中人员"></el-page-header>
+                    <el-button size="small" icon="el-icon-delete" type="warning" @click.native="selectAll">删除</el-button>
+                </div>
+                <div :class="temp.style.search_filter_bottoms">
+                    <div :class="temp.style.ordinary">
+                        <ul>
+                            <li :class="temp.style.ordinary_li" v-if="check">{{ selectLeader.name }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div :class="temp.style.search_table">
+        <el-button @click.native="closeDialog" icon="el-icon-error" type="primary" plain>取消</el-button>
+        <el-button @click.native="choosePeople" icon="el-icon-check" type="primary">确定</el-button>
+    </div>
+</div>

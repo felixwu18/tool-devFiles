@@ -1,0 +1,8 @@
+node_modules/
+.history
+.idea
+dist
+dist.zip
+node_modules.rar
+node_modules.zip
+node_modules/.bin/acorn.cmd

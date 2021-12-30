@@ -1,0 +1,66 @@
+<div class="flex-full">
+  <div class="search_filter">
+    <div class="left_search">
+      <el-page-header title="" content="值班统计"></el-page-header>
+
+    </div>
+    <div class="right_search">
+      <div class="search_form">
+        <el-form :inline="true">
+    
+            <!-- <span class="search_title el-form-item__label">时间：</span> -->
+            <el-button class="search_title" type="text" style="font-weight: bold" v-if="btnConfig.time">
+              时间:</el-button>
+            <el-button type="text " :class="[selectBtn=='1'?'activeScopeBtn':'el-btn']" @click="formatSelectDate('1')" v-if="btnConfig.time">
+              本月</el-button>
+            <el-button type="text " :class="[selectBtn=='2'?'activeScopeBtn':'el-btn']" @click="formatSelectDate('2')" v-if="btnConfig.time">
+              本季
+            </el-button>
+            <el-button type="text " :class="[selectBtn=='3'?'activeScopeBtn':'el-btn']" @click="formatSelectDate('3')" v-if="btnConfig.time">
+              本年
+            </el-button>
+         
+          <el-form-item>
+            <el-date-picker v-model="valuetime" type="daterange" range-separator="至" start-placeholder="开始日期"
+              end-placeholder="结束日期" v-if="btnConfig.time">
+              
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-button icon="el-icon-check" type="primary" @click="getTranferList" v-if="btnConfig.time">
+              确定
+            </el-button>
+            <el-button type="primary" icon="el-icon-download" @click="dutyDownload" v-if="btnConfig.export">导出</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    
+    </div>
+  </div>
+  <div :class="temp.style.main">
+    <div class="duty-list">
+      <div class="duty-list-left">
+        <search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+      </div>
+      <div :class="temp.style.content">
+         <div :class="temp.style.title"> 
+           <!-- <span>{{startTime}}</span>至<span>{{endTime}}</span> -->
+           值班排班数据统计</div>
+        <div :class="temp.style.bottom">
+          <div :class="temp.style.table" class="dutyStatisticsList-table">
+            <list-table :propdata="propData" @tablecallback="tablecallback" :classname="tableRowClassName"
+              :unsortable="true"></list-table>
+          </div>
+          <div :class="temp.style.gv">
+            <div :class="temp.style.tu" id="basicPieChart" v-show="!flag"></div>
+            <div :class="temp.style.tu" style='text-align: center' v-show="flag"><img src="../../../../assets/image/free.png" alt=""></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>

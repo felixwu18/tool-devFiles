@@ -1,0 +1,47 @@
+<div :class="listtype === 'text' ? 'upload-list upload-list-text' : 'upload-list'">
+    <div :class="style.font"></div>
+    <el-upload class="el-upload-iams-list" style="display: inline-block;" :limit="limit?limit:5" :on-exceed="exceed" :on-preview="handlePictureCardPreview" :file-list="fileArray" :before-upload="beforeFileName" :action="uploadAddress" :on-error="showError" :headers="header" :list-type="listtype" :on-remove="fileRemove"
+        :on-success="uploadSuccess" :class="{'disabled':limitFile}">
+        <i class="el-icon-upload" v-if="listtype === 'picture-card'"></i>
+        <div class="el-upload--picture-tips-word" v-if="listtype === 'picture-card'">
+            单个附件大小不能超过10M<br>支持上传图片,office文本,音视频类型文件
+        </div>
+        <el-button type="primary" icon="el-icon-paperclip" v-if="listtype === 'text'" plain :disabled="disabled">选择需要上传的附件</el-button>
+        <el-button @click.stop="wavSelect" plain type="primary" icon="el-icon-paperclip"
+        v-if="role.districtCode === '510100' && listtype === 'text'" :disabled="disabled">选择录音或传真文件</el-button>
+        <!-- <div class="el-upload_tip" slot="tip"></div> -->
+        <div :class="style.slot_img" v-if="!/(.*)\.(jpg|bmp|gif|ico|pcx|jpeg|png|raw|tga|ofd)$/.test(scope.file.name) || listtype === 'text'" :title="scope.file.name" slot="file" slot-scope="scope">
+            <img v-if="/(.*)\.(ppt|pptx)$/.test(scope.file.name)" src="../../../assets/image/ppt.png" alt="">
+            <img v-else-if="/(.*)\.(doc|docx)$/.test(scope.file.name)" src="../../../assets/image/word.png" alt="">
+            <img v-else-if="/(.*)\.(xlsx|xls)$/.test(scope.file.name)" src="../../../assets/image/excel.png" alt="">
+            <img v-else-if="/(.*)\.(txt)$/.test(scope.file.name)" src="../../../assets/image/txt.png" alt="">
+            <img v-else-if="/(.*)\.(pdf)$/.test(scope.file.name)" src="../../../assets/image/PDF.png" alt="">
+            <img v-else-if="/(.*)\.(mp4|mp3|wav)$/.test(scope.file.name)" src="../../../assets/image/video.png" alt="">
+            <img v-else src="../../../assets/image/file.png" alt="">
+            <span :class="style.slot_name">{{scope.file.name}}</span>
+            <label class="el-upload-list__item-status-label"><i class="el-icon-upload-success el-icon-check"></i></label>
+            <i class="el-icon-close" @click="handleRemove(scope.file)"></i>
+            <span class="el-upload-list__item-actions">
+                <a @click="download(scope.file)"><!-- modify by rendaming 信息编辑详情页面附件下载 -->
+                    <span class="el-upload-list__item-preview">
+                        <i class="el-icon-download"></i>
+                    </span>
+                </a>
+                <span @click="handleRemove(scope.file)" class="el-upload-list__item-delete">
+                    <i class="el-icon-delete"></i>
+                </span>
+            </span>
+        </div>
+    </el-upload>
+    <!-- 选择录音文件（目前只支持市级账号） -->
+    <div class="el-upload el-upload--picture-card" v-if="role.districtCode === '510100' && listtype === 'picture-card'" @click.stop="wavSelect" style="width: 96px !important">
+        <i class="el-icon-circle-plus"></i> 
+        <div class="el-upload--picture-tips-word" >选择录音或传真文件</div>
+    </div>
+    <el-dialog title="选择录音或传真文件" append-to-body v-if="wavPanelVisible" :visible.sync="wavPanelVisible" :destroy-on-close="true" style="margin-top: -5vh;">
+        <wav-fax-panel @submit-selection="submitSelection" @close="wavPanelVisible=false"></wav-fax-panel>
+    </el-dialog>
+    <el-dialog title="查看附件" append-to-body v-if="dialogVisible" :visible.sync='dialogVisible' :destroy-on-close="true">
+        <el-image style="height:30rem;width:100%" fit="scale-down" :src="dialogImageUrl" alt=""></el-image>
+    </el-dialog>
+</div>

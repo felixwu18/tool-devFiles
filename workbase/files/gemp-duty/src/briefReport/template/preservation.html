@@ -1,0 +1,18 @@
+<!-- 保存弹出框 -->
+<!-- <el-dialog title="保存" :> -->
+<div class="preservation">
+    <el-form :class="temp.style.infoExam" :model="formData" @submit.native.prevent>
+        <el-form-item>
+            <span>报告名称：</span>
+            <el-input placeholder="请输入报告名称" style="float: right;width: 88%;" class="header" v-model="formData.reportTitle" maxlength="50" show-word-limit></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-input type="textarea" :rows="8"  placeholder="请输入保存说明" v-model='formData.comments' style="margin-top:2px;" maxlength="500" show-word-limit></el-input>
+        </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+        <el-button type="primary" icon="el-icon-switch-button" plain @click="closeDialogCall('justclose')">取消</el-button>
+        <el-button type="primary" icon="el-icon-check" @click="saveFun">保存</el-button>
+    </div>
+</div>
+<!-- </el-dialog> -->

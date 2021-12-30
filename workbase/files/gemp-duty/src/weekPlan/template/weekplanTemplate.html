@@ -1,0 +1,67 @@
+<div class="flex-full weekplanTemplate">
+  <div class="search_filter">
+    <div class="left_search">
+      <el-page-header title="" content="模板管理"></el-page-header>
+    </div>
+    <div class="right_search">
+      <el-button icon="el-icon-plus" type="success" @click.native="reportAdd">新增</el-button>
+      <el-button icon="el-icon-check" type="primary" @click.native="submit">保存</el-button>
+      <el-button icon="el-icon-arrow-left" type="primary" @click.native="searchUnread">返回</el-button>
+    </div>
+  </div>
+  <div :class="temp.style.content">
+    <div class="flex-full weekplanselect">
+      <el-scrollbar>
+        <el-table ref="table" :stripe="true" :data="tableData">
+          <el-table-column label="字段" prop="name">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.name"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column label="控件类型" prop="tempType">
+            <template slot-scope="scope">
+              <div :class="scope.row.tempType=='5'?temp.style.detailsop:''">
+              <el-select v-model="scope.row.tempType" placeholder="请选择" clearable @change="tempchange(scope.row.tempType,scope.row)">
+                <el-option v-for="item,index in options" :key="index" :label='item.name' :value="item.value">
+                </el-option>
+                <span slot="prefix" v-show="scope.row.tempType=='5'" @click.stop="tempchange(scope.row.tempType,scope.row)" style="line-height: 2.25rem">
+                  <i class="el-icon-menu"></i>
+                </span>
+              </el-select>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" prop="desc">
+            <template slot-scope="scope">
+              <el-button size="small" type="warning" @click.native="delet(scope.$index)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-scrollbar>
+    </div>
+  </div>
+  <el-dialog title="下拉菜单选项编辑" :visible.sync="viewlog">
+  
+
+    <el-table ref="table" :stripe="true" :data="tempOption">
+      <el-table-column label="选项名" prop="name">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.name"></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column label="选项值" prop="opvalue">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.opvalue"></el-input>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="small" type="warning" @click="deletop(scope.$index)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+      <div :class="temp.style.selectbutn">
+        <el-button type="primary" icon="el-icon-check" @click="subimtop">保存</el-button>
+      </div>
+  </el-dialog>
+</div>

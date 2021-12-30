@@ -1,0 +1,33 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="值班要情列表"></el-page-header>
+        </div>
+        <div class="right_search">
+            <div class="search_form">
+                <el-form :inline="true">
+                    <el-form-item label="值班时间："v-if="btnConfig.time">
+                        <el-date-picker v-model="search_time" type="datetimerange" range-separator="至"
+                            start-placeholder="开始日期" end-placeholder="结束日期">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button icon="el-icon-check" type="primary" @click="dutySearch" v-if="btnConfig.search">查询</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <el-button icon="el-icon-plus" type="success" @click.native="situationAdd" v-if="btnConfig.add">新增</el-button>
+        </div>
+    </div>
+    <div class="duty-list">
+        <div class="duty-list-left">
+            <search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+        </div>
+        <div class="duty-list-right" >
+                <list-table :propdata="propData" @tablecallback="tablecallback" :classname="tableRowClassName" :unsortable="true"></list-table>
+        </div>
+    </div>
+    <el-dialog :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog" :destroy-on-close="true">
+        <component :is="dialogConfig.templateName" :propdata="propsData" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+</div>

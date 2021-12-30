@@ -1,0 +1,31 @@
+<div class="flex-full">
+    <!-- 列表 -->
+    <div class="duty-list ">
+        <div :class="['duty-list-left',temp.style.leftTree]">
+            <search-tree listtype="getBussinessTree" ref="searchtree" @change="getOrg" :configtree="configtree"
+                :defaultchecked="defaultchecked" @treecallback="treecallback"></search-tree>
+        </div>
+        <div :class="['duty-list-right',temp.style.listright,'flex-full']">
+            <div :class="['search_filter_title',temp.style.search_filter]">
+                <div :class="[temp.style.titleleft,temp.style.title_special]">
+                    <!-- <el-date-picker v-model="value1" type="daterange" range-separator="至" start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                    </el-date-picker> -->
+                    <el-date-picker v-model="value1" :clearable="false" type="date" placeholder="开始日期"></el-date-picker>
+                      至 
+                      <el-date-picker v-model="value2" :clearable="false" type="date" placeholder="结束日期"></el-date-picker>
+                    <div :class="[temp.style.renovate]">
+                        <el-button type="primary" @click.native="inquire">查询</el-button>
+                        <!-- <el-button type="primary" @click.native="renovate">刷新</el-button> -->
+                    </div>
+                    <div :class="[temp.style.derive]">
+                        <el-button type="success" @click.native="exportAll">导出</el-button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-full" style="margin-right: 1rem;">
+                <list-table :propdata="propData" :unsortable="true"></list-table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="transferDialog">
+    <div :class="temp.style.transferInner">
+        <el-form :class="temp.style.infoExam" :model="transferData" label-width="180px" ref="transferDialog"
+            :rules="rules">
+            <div>发送给</div>
+            <el-form-item label="接收单位：" prop="orgCodes">
+                <div>
+                    <iams-combobox :list="false" listtype="getTreeByTenantId" :rootcheck="true" :multiple="true"
+                    v-model="transferData.orgCodes"></iams-combobox>
+                </div>
+            </el-form-item>
+            <el-form-item label="接收人：" prop="userids">
+                <div>
+                    <el-select v-model="transferData.userids" multiple>
+                        <el-option v-for="item in reviceUserdata" :label="item.label" :value="item.id" :key="item.id">
+                        </el-option>
+                    </el-select>
+                </div>
+            </el-form-item>
+            <el-form-item label="内容：">
+                <div>
+                    <iams-replybox ref="emoticon" v-model="approvalContent" ></iams-replybox>
+                </div>
+            </el-form-item>
+            <el-form-item>
+                <div :class="temp.style.ordinary">
+                    <!-- <div style="position: absolute;left: -49px;line-height: 37px;">常用:</div> -->
+                    <ul>
+                        <li @click='getDomData'>请赵处长阅示</li>
+                        <li @click='getDomData'>拟报分管市长、秘书长、及分管秘书长，请赵处长阅示</li>
+                    </ul>
+                </div>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click.native="saveFun">发送</el-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+.area{
+    width:100%;
+    height:8.375rem;
+    display: flex;
+    box-sizing: border-box;
+    // border:1px solid #dfdfe3;
+    flex-direction: column;
+    border-radius:4px;
+    margin-bottom: 22px;
+    .emoticon_part{
+        position: relative;
+        width:100%;
+        padding-left:12px;
+        box-sizing: border-box;
+        border:1px solid #dfdfe3;
+        background-color:#fbfbfb;
+        line-height:2.25rem;
+        >svg{
+            cursor:pointer;
+        }
+        >.emoticon_list{
+            position: absolute;
+            left:0;
+            padding:12px;
+            display: flex;
+            background: #fff;
+            border: 1px solid #dfdfe3;
+            bottom: 110%;
+            border-radius:4px;
+            display: flex;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+            >span{
+                width:2rem;
+                height:2rem;
+                line-height: 2rem;
+                text-align:center;
+                cursor:pointer;
+                &:hover{
+                    background: #dfdfdf
+                }
+            }
+            &::after{
+                content: '';
+                bottom: -24px;
+                left:12px;
+                position: absolute;
+                border-top: 12px solid #d4cece;
+                border-left: 12px solid transparent;
+                border-right: 12px solid transparent;
+                border-bottom: 12px solid transparent;
+            }
+        }
+    }
+    .emoticon_main{
+        // height:6.125rem;
+        height: auto;
+        position: relative;
+
+        .emoticon_main_input {
+            width:100%;
+            // height: 100%;
+            border-radius: 0px;
+
+            & > span {
+                line-height: 30px !important;
+            }
+        }
+
+        // >span{
+        //     display: block;
+        //     width:100%;
+        //     height:100%;
+        //     text-indent:12px;
+        //     overflow:hidden;
+        //     overflow-y:auto;
+        //     line-height:1rem;
+        // }
+        // .count{
+        //     color:#a3a3b9;
+        //     text-align:right;
+        //     font-size:12px;
+        // }
+
+        // .placeholder {
+        //     display: block;
+        //     position: absolute;
+        //     top: -12px;
+        //     left: 12px;
+        // }
+    }
+}

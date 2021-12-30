@@ -1,0 +1,42 @@
+<div class="flex-full">
+    <div class="search_filter padding_0">
+        <div class="left_search">
+            <el-page-header title="" content="上报公文"></el-page-header>
+        </div>
+        <div class="right_search">
+            <!-- <el-button icon="el-icon-plus" type="primary" @click="reportAdd" v-show="showReportButton&&btnConfig.add">上报</el-button> -->
+            <el-button icon="el-icon-minus" type="danger" @click="recall">撤回</el-button>                        
+            <el-button icon="el-icon-plus" type="success" @click="reportAdd">新增</el-button>
+            <!-- <el-button icon="el-icon-share" type="primary" @click.native="searchUnread">{{readSign}}</el-button> -->
+            <!-- <el-button icon="el-icon-star-on" type="primary" @click.native="signReaded">标记已读</el-button> -->
+            <el-input placeholder="可按标题搜索" v-model.trim="searchData.documentTitle" class="search_input" @keyup.enter.native="getListData" v-if="btnConfig.search">
+                <el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
+            </el-input>
+            <div class="search_slot">
+                <el-button @click="showSearch = !showSearch" type="primary" plain v-if="btnConfig.accurate">
+                    高级搜索<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <div class="search_form" v-show="showSearch">
+                    <el-form :inline="true">
+                        <el-form-item label="上报时间">
+                            <el-button @click="getAllTime">
+                                全部
+                            </el-button>
+                            <el-date-picker v-model="search_time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button icon="el-icon-check" type="primary" @click="getListDataBytime">
+                                确定
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-full">
+        <list-table :propdata="propData" @tablecallback="tablecallback" @handleselection="handleselection" :unsortable="true">
+        </list-table>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+<div :class="temp.style.new_text_add">
+    <div class="search_filter">
+        <div class="toolbar_txt">
+            <el-page-header title="" content="转办信息"></el-page-header>
+        </div>
+        <div class="toolbar_right">
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click.native="go('/information/transfer')">返回</el-button>
+            <el-button size="small" type="primary" class="el-icon-s-promotion" @click="saveTransfer">提交</el-button>
+        </div>
+    </div>
+    <div :class="temp.style.add_nav">
+        <div :class="temp.style.textAdd_left">
+            <!-- 领导批示 -->
+            <details-leader ref="leaderWrap" v-show="transferData.instruction && transferData.instruction.length > 0" :propdata="transferData.instruction"
+                :config="leaderCfg" @checkChange="checkChange" style="margin-bottom:20px;">
+            </details-leader>
+            <!-- 表单 -->
+            <div v-show="!detailsFlag" :class="['red',temp.style.prompt]">请在事件列表中，选择需待转办事件<i class="el-icon-right"></i></div>
+            <div :class="temp.style.transfer_form">
+                <el-form label-width="140px" :model="transferData" :rules="rules" ref="fomdata" :disabled="!detailsFlag">
+                    <el-form-item label="标题" prop="title">
+                        <el-input maxlength="100" v-model="transferData.title"></el-input>
+                    </el-form-item>
+                    <el-row>
+                        <el-col :span="8">
+                            <el-form-item label="接收单位：" prop="orgCodes">
+                                <div>
+                                    <iams-combobox :list="false" listtype="getTreeByTenantId" :receive="true" :rootcheck="true" :multiple="true"
+                                     v-model="transferData['orgCodes']"></iams-combobox>
+                                </div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item label="接收人：" prop="userids">
+                                <div>
+                                    <el-select v-model="transferData.userids" multiple>
+                                        <el-option v-for="item in reviceUserdata" :label="item.label" :value="item.id" :key="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item label="紧急程度" prop="disposePriority">
+                                <el-select v-model="transferData.disposePriority" clearable>
+                                    <el-option v-for="item in disposePriorityData" :label="item.label" :value="item.id" :key="item.id"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-form-item label="转办内容及意见" prop="opinionContent">
+                        <el-input resize="none" rows="6" type="textarea" placeholder="请输入内容" maxlength='500' show-word-limit v-model="transferData.opinionContent"></el-input>
+                    </el-form-item>
+                    <el-form-item label="信息附件" prop="attachmentList">
+                        <iams-upload :limit="5" v-model="transferData.attachmentList"  ref="upload" ></iams-upload>
+                    </el-form-item>
+                </el-form>
+            </div>
+
+            <div :class="temp.style.textAdd_right" class="text_right transfer">
+                <!-- 事件列表 -->
+                <div v-show="!detailsFlag" :class="temp.style.rightHight">
+                    <!-- 搜索框 -->
+                    <div class="right_search">
+                        <el-input placeholder="请输入事件标题" v-model="serachItem.keyWord" @keyup.enter.native="getTransactAddlist" clearable>
+                            <el-button slot="append" icon="el-icon-search" @click.native="getTransactAddlist"></el-button>
+                        </el-input>
+                    </div>
+                    <el-scrollbar>
+
+                        <!-- 列表 -->
+                        <el-card v-for="(item,index) in propdata.data" :key="index" shadow="hover" :class="temp.style.box_card" :body-style="{padding:'10px',position:'relative',paddingBottom:'30px',cursor:'pointer'}" @click.native="trSelectChange(item)">
+                            <div slot="header" class="clearfix">
+                                <!-- 标题 -->
+                                <p :class="temp.style.card_header">{{item.infoTitle}}</p>
+                                <!-- 类型 -->
+                                <div :class="temp.style.card_title" v-show="item.infoTypeName">
+                                    <span>{{item.infoTypeName}}</span>
+                                </div>
+                            </div>
+                            <!-- body -->
+                            <div :class="temp.style.card_body">
+                                <p>
+                                    <span>
+                                        <i class="el-icon-user-solid"></i> 上报人:</span>
+                                    <span>{{item.reportPerson}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.reportPersonPhone}}</span>
+                                </p>
+                                <p>
+                                    <span>
+                                        <i class="el-icon-time"></i>上报时间:</span>
+                                    <span>{{item.reportDate}}</span>
+                                </p>
+                            </div>
+                            <!-- footer -->
+                            <div :class="temp.style.card_footer">
+                                <span>
+                                    <i class="el-icon-s-promotion"></i> 转办此事件</span>
+                            </div>
+                        </el-card>
+                    </el-scrollbar>
+                    <!-- 分页 -->
+                    <div :class="temp.style.pager">
+                        <el-pagination @current-change="handlePageChange" :page-size="serachItem.pageSize" :current-page="serachItem.nowPage" :total="serachItem.total"
+                            layout="total,prev,next,jumper" :pager-count="5">
+                        </el-pagination>
+                    </div>
+                </div>
+                <!-- 事件详情 -->
+                <div v-show="detailsFlag" :class="temp.style.box_detail">
+                    <p :class="temp.style.detail_header">{{detailsInfo.infoTitle}}</p>
+                    <div :class="temp.style.detail_body">
+                        <p>
+                            <span>
+                                <i class="el-icon-user-solid"></i> 上报人:</span>
+                            <span>{{detailsInfo.reportPerson}}&nbsp;&nbsp;&nbsp;&nbsp;{{detailsInfo.reportPersonPhone}}</span>
+                        </p>
+                        <p>
+                            <span>
+                                <i class="el-icon-time"></i>上报时间:</span>
+                            <span>{{detailsInfo.reportDate}}</span>
+                        </p>
+                    </div>
+                    <ul :class="temp.style.detail_content">
+                        <li>事发时间:{{detailsInfo.incidentDate}}</li>
+                        <li>事发地点:{{detailsInfo.infoAddress}}</li>
+                        <li>事件等级:{{detailsInfo.eventLevelName}}</li>
+                        <li>事件类型:{{detailsInfo.infoTypeName}}</li>
+                        <li>受伤人数:{{detailsInfo.woundNum}}</li>
+                        <li>死亡人数{{detailsInfo.deathNum}}</li>
+                    </ul>
+                    <div :class="temp.style.detail_desc">
+                        <p>详情描述:</p>
+                        <div>{{detailsInfo.infoDescription}}</div>
+                        <el-button @click="backlist" type="primary" plain>返回事件列表</el-button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div :class="temp.style.wrapper">
+  <div :class="temp.style.search_wrapper">
+      <el-input placeholder="请输入关键字查询" suffix-icon="el-icon-search" v-model="keyword" @click.native="searchPanelShow=true"></el-input>
+      <div id="out_contain" :class="temp.style.tabs_list" v-show="searchPanelShow && keyword" @click.stop>
+          <el-scrollbar>
+              <ul id="filter_list" :class="temp.style.filter_list">
+                  <div v-if="searchList.length == 0" style="text-align:center;height:100%;padding:12px 0">
+                      <span>
+                          未搜索到数据
+                      </span>
+                  </div>
+                  <li v-for="(item,index) in searchList" @click.stop="handleSelect(item)">
+                      <span :class="temp.style.filter_list_content">{{item.personName}}</span>
+                  </li>
+              </ul>
+          </el-scrollbar>
+      </div>
+  </div>
+  <div :class="temp.style.tree_wrapper" class="tree-select-right">
+      <el-tree
+          ref="tree"
+          :data="treeData"
+          show-checkbox
+          highlight-current
+          node-key="id"
+          :render-after-expand="false"
+          @check="checkTreeNode"
+          @node-click="handleNodeClick"
+          :props="defaultProps"
+          :default-expanded-keys="[1]">
+      </el-tree>
+  </div>
+</div>

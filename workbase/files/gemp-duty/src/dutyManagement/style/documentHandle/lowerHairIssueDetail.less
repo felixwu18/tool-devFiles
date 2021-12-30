@@ -1,0 +1,93 @@
+.new_text_add{
+    height: 100%;
+   .add_nav{
+       width: 100%;
+       height: 100%;
+    //    margin-top:1rem;
+       position: relative;
+       padding: 0 2rem;
+       .textAdd_left{
+           width: 75%;
+           height: 100%;
+           padding: 1rem 2rem;
+           .first_pane{
+               h4{
+                   display: inline-block;
+               }
+               .input{
+                   overflow: hidden;
+               }
+           }
+       }
+   }
+  }
+  .textAdd_right{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25%;
+    height: 100%;
+    border-left: 1px solid #DCDFE6;
+    .details_process_tree {
+        width: 100%;
+        height: 100%;
+      
+        .process_tree_ul {
+            padding:0 1rem;
+            font-size: 1rem;
+        }
+      
+        .process_tree_li {
+            position: relative;
+            min-height: 5.125rem;
+            padding-left: 2.625rem;
+        }
+      
+        .process_tree_li::before {
+            content: "";
+            display: inline-block;
+            width: 0.625rem;
+            height: 0.625rem;
+            background-color: #4a7dff;
+            border-radius: 50%;
+            position: absolute;
+            top: 0.4375rem;
+            left: 0.5rem;
+        }
+      
+        .process_tree_li::after {
+            content: "";
+            display: inline-block;
+            width: 2px;
+            height: 88%;
+            background-color: #ccc;
+            position: absolute;
+            top: 1.25rem;
+            left: 0.75rem;
+        }
+      
+        .process_tree_li:nth-of-type(1)::before {
+            background-color: #4a7dff;
+        }
+      
+        .process_tree_li div {
+            line-height: 1.5rem
+        }
+      
+        .process_tree_name {
+            padding: .5rem 0;
+            line-height: 2rem;
+            color:#8f8c9b;
+        }
+      
+        .process_tree_desc{
+            word-break: break-all;
+            word-wrap:break-word;
+            color:#49445f;
+        }
+      
+        .process_tree_time{
+            color:#aaaabe;
+        }
+       }
+}

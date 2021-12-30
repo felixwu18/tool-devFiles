@@ -1,0 +1,38 @@
+<div :class="temp.style.panel">
+    <div :class="temp.style.phone_panel">
+        <div v-show="!online" :class="temp.style.offline">
+            <el-input v-model="phoneNumber" :class="temp.style.phone_number" 
+             @input="changeSearchStatus">
+                <i @click="deleteNumber" class="el-icon-circle-close el-input__icon"
+                slot="suffix">
+              </i>
+            </el-input>
+            <div :class="temp.style.dial_panel">
+                <div v-for="item in phonePanelValue" @click="appendNumber(item)">{{item}}</div>
+            </div>
+            <div :class="temp.style.dial_button" @click="dial"><i class="el-icon-phone"></i> 拨打</div>
+            <div :class="temp.style.liasion">
+                  <el-scrollbar>
+                        <div v-if="liasionList.length != 0" @click="toggleLiasion(liasions.telNumber)" :class="temp.style.liasion_item" v-for="liasions in liasionList">
+                            <span>{{liasions.personName}}</span>
+                            <span>{{liasions.telNumber}}</span>
+                        </div>
+                        <p v-if="liasionList.length == 0" style="text-align: center;">
+                        未搜索到数据
+                        </p>
+                  </el-scrollbar>
+            </div>
+        </div>
+        <div v-show="online" :class="temp.style.online">
+            <div :class="temp.style.online_info">
+                <img src="../../../assets/image/person-img.png" alt="">
+                <p>{{callPerson.personName}}</p>
+                <p>{{phoneNumber}}</p>
+                <span>{{callPerson.personJob}}</span>
+            </div>
+            <img src="../../../assets/image/soundtrack.png" alt="">
+            <span v-show="timeing" :class="temp.style.time_line">{{callDuration}}</span>
+            <div :class="temp.style.hangup_button" @click="hangup"><i class="el-icon-phone"></i>挂断</div>
+        </div>
+    </div>
+</div>

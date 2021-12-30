@@ -1,0 +1,51 @@
+<div class="transferDialog">
+  <div :class="temp.style.transferInner">
+    <el-scrollbar>
+      <el-form :class="temp.style.infoExam" :model="transferData" label-width="180px" ref="transferDialog"
+        :rules="rules">
+        <el-form-item label="接收单位：" prop="orgCodes">
+          <div>
+            <!-- <iams-combobox :list="false" listtype="getTreeByTenantId" :receive="true" :rootcheck="true" :multiple="true"
+                   v-model="transferData.orgCodes"></iams-combobox> -->
+            <el-cascader placeholder="请输入接收单位名称" v-model="transferData.orgCodes" :options="reviceOrgdata"
+              :collapse-tags="transferData.orgCodes.length > 1" :props="optionProps" change-on-select filterable>
+            </el-cascader>
+          </div>
+        </el-form-item>
+        <el-form-item label="接收人：" prop="userids">
+          <div>
+            <el-cascader :disabled="transferData.orgCodes.length === 0" v-model="transferData.userids"
+              :options="reviceUserdata" :collapse-tags="transferData.userids.length > 2" :props="{ multiple: true }">
+            </el-cascader>
+          </div>
+        </el-form-item>
+        <el-form-item label="紧急程度：" prop="disposePriority">
+          <el-select v-model="transferData.disposePriority" clearable>
+            <el-option v-for="item in disposePriorityData" :label="item.label" :value="item.id" :key="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="转办事项：">
+          <div>
+            <el-input v-model="transferData.title" :disabled="true"></el-input>
+          </div>
+        </el-form-item>
+        <el-form-item label="转办内容及意见：" prop="opinionContent">
+          <div>
+            <el-input resize="none" rows="6" type="textarea" maxlength='500' show-word-limit
+              v-model.trim="transferData.opinionContent"></el-input>
+          </div>
+        </el-form-item>
+        <el-form-item label="信息附件：">
+          <div :class="temp.style.img">
+            <iams-upload :limit="5" v-model="transferData.attachmentList"></iams-upload>
+          </div>
+        </el-form-item>
+      </el-form>
+    </el-scrollbar>
+  </div>
+  <div slot="footer" class="dialog-footer">
+    <el-button type="danger" icon="el-icon-switch-button" plain @click="cancleTransfer">取消</el-button>
+    <el-button type="primary" icon="el-icon-check" @click="saveTransfer">确定</el-button>
+  </div>
+</div>

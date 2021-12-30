@@ -1,0 +1,16 @@
+<el-tabs v-model="activeNamex" @tab-click="handleClick" :class="temp.style.right_tab">
+    <el-tab-pane label="处理过程" name="first">
+        <div :class="temp.style.details_process_tree">
+            <el-scrollbar style="height:100%">
+                <ul v-if="handlelist && handlelist.length > 0" :class="temp.style.process_tree_ul">
+                    <li :class="temp.style.process_tree_li" v-for="item in handlelist">
+                        <div :class="temp.style.process_tree_name">{{item.operPersonName + ' ' + item.remark + ':'}}</div>
+                        <div :class="temp.style.process_tree_desc" v-html="item.operDescription"></div>
+                        <div :class="temp.style.process_tree_time">{{item.updateTime}}</div>
+                    </li>
+                </ul>
+                <el-table v-else :data="[]"></el-table>
+            </el-scrollbar>
+        </div>
+    </el-tab-pane>
+</el-tabs>

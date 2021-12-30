@@ -1,0 +1,49 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="常用通讯"></el-page-header>
+            <div :class="temp.style.loader">
+                <div>
+                    <span class="fz18" :class="temp.style.loader_title">值班电话</span>
+                    <el-button size="small" type="text" v-for="(item,index) in loadrNumber" :key="index">{{item.num}}
+                    </el-button>
+                </div>
+                <div>
+                    <span class="fz18" :class="temp.style.loader_title">传真</span>
+                    <el-button size="small" type="text" v-for="(item,index) in dutyNumber" :key="index">{{item.num}}
+                    </el-button>
+                </div>
+            </div>
+        </div>
+        <div class="right_search">
+            <el-input placeholder="可按姓名、职务、电话过滤" v-model="searchData.keyWord" class="search_input"
+                @keyup.enter.native="getListData">
+                <el-button slot="append" @click="getListData" icon="el-icon-search"></el-button>
+            </el-input>
+        </div>
+    </div>
+    <div class="duty-list">
+        <div class="duty-list-left">
+            <search-tree listtype="getOrgTree" @change="getOrg" :defaultchecked="defaultchecked"></search-tree>
+        </div>
+        <div class="duty-list-right">
+            <list-table unsortable="true" :propdata="propData" :classname="tableRowClassName"
+                @tablecallback="tablecallback"></list-table>
+        </div>
+    </div>
+
+    <el-dialog width="60%" :title="dialogConfig.tilteName" :visible.sync="dialogConfig.viewDialog"
+        :destroy-on-close="true">
+        <component :is="dialogConfig.templateName" :propdata="propsData" @dialogcallback="closeDialogCall"></component>
+    </el-dialog>
+    <el-dialog :title="sendMessageConfig.tilteName" :visible.sync="sendMessageConfig.viewDialog"
+        :destroy-on-close="true">
+        <!-- 发送短信 -->
+        <component :is="sendMessageConfig.templateName" :sendMessageProp="sendMessageProp"
+            @dialogcallback="closeSendDialog"></component>
+    </el-dialog>
+    <el-dialog title="拨打电话" width="388px" :visible.sync="phonePanelVisible" :destroy-on-close="true">
+        <phone-panel :callnumber="callnumber"></phone-panel>
+    </el-dialog>
+
+</div>

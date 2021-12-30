@@ -1,0 +1,105 @@
+<div class="flex-full">
+    <div class="search_filter">
+        <div class="left_search">
+            <el-page-header title="" content="已发传真新增"></el-page-header>
+        </div>
+        <div class="right_search">
+            <el-button size="small" type="primary" icon="el-icon-arrow-left" plain @click="$router.history.go(-1)">返回</el-button>
+        </div>
+    </div>
+
+
+    <div class="list-contain flex-full">
+        <div class="duty-list">
+            <div class="duty-list-left" :class="temp.style.outbox_add_left">
+                <div :class="temp.style.outbox_simple">
+                    <iams-form v-model="formdata" ref="simpleTable"></iams-form>
+                </div>
+                <div :class="temp.style.outbox_send">
+                    <div :class="temp.style.outbox_send_content">
+                        <span :class="temp.style.outbox_send_name">发送对象: </span>
+                        <div :class="temp.style.outbox_send_org">
+                            <div :class="temp.style.outbox_send_org_content">
+                                <el-scrollbar>
+                                    <div class="outbox-org-conut active" ref="orgName" @click="choosed(index,item)" v-for="(item , index) in checkBoxContent" :key="index">
+                                        <div :class="temp.style.outbox_org_top">
+                                            <span :class="temp.style.outbox_org_name">{{item.name}}</span>
+                                            <span :class="temp.style.outbox_org_position">{{item.position}}</span>
+                                        </div>
+                                        <p title="市政府总值班室">{{item.unit}}</p>
+                                    </div>
+                                </el-scrollbar>
+                            </div>
+                            <div :class="temp.style.outbox_send_org_button">
+                                <el-button type="text" icon="el-icon-circle-close" plain @click="clearCheck">全部清除</el-button>
+                            </div>
+                        </div>
+                    </div>
+                    <div :class="temp.style.outbox_button">
+                        <el-button type="primary" @click="sendMessage">发送</el-button>
+                    </div>
+                </div>
+            </div>
+            <div class="duty-list-right" :class="temp.style.outbox_add_right">
+                <div class="flex-header">
+                    <el-radio-group v-model="checkPage">
+                        <el-radio-button label="1">常见分组</el-radio-button>
+                        <el-radio-button label="2">快速检索</el-radio-button>
+                    </el-radio-group>
+                </div>
+                <div class="flex-full">
+                    <div :class="temp.style.outbox_common" v-if="checkPage == '1'">
+                            <el-collapse v-model="activeNames" @change="handleChange">
+                                <el-collapse-item title="一致性 Consistency" name="1">
+                                    <template slot="title">
+                                        <div style="font-size: 1rem;font-weight:700;color:#000;padding-left: 0">
+                                            <span>机动组</span>
+                                        </div>
+                                        <el-button style="margin-left: 62%" icon="el-icon-circle-check"  type="primary" plain @click.stop="checkAll">全选</el-button>
+                                    </template>
+                                    <div class="outbox-org-conut" ref="orgName" @click="choosed(item, index)" v-for="(item , index) in formName" :key="index">
+                                        <!-- <div class="outbox-org-conut" :class="{active: index == }" @click="" v-for="(item , index) in formName" :key="index"> -->
+                                        <div :class="temp.style.outbox_org_top">
+                                            <span :class="temp.style.outbox_org_name">{{item.name}}</span>
+                                            <span :class="temp.style.outbox_org_position">{{item.position}}</span>
+                                        </div>
+                                        <p title="市政府总值班室">{{item.unit}}</p>
+                                    </div>
+                                </el-collapse-item>
+                                <el-collapse-item title="反馈 Feedback" name="2">
+                                    <template slot="title">
+                                        <div style="font-size: 1rem;font-weight:700;color:#000;padding-left: 0">
+                                            <span>值班人员</span>
+                                        </div>
+                                    </template>
+                                    <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
+                                    <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+                                </el-collapse-item>
+                                <el-collapse-item title="效率 Efficiency" name="3">
+                                    <template slot="title">
+                                        <div style="font-size: 1rem;font-weight:700;color:#000;padding-left: 0">
+                                            <span>常用电话</span>
+                                        </div>
+                                    </template>
+                                    <div>简化流程：设计简洁直观的操作流程；</div>
+                                    <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
+                                    <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+                                </el-collapse-item>
+                                <el-collapse-item title="可控 Controllability" name="4">
+                                    <template slot="title">
+                                        <div style="font-size: 1rem;font-weight:700;color:#000;padding-left: 0">
+                                            <span>新建分组</span>
+                                        </div>
+                                    </template>
+                                    <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+                                    <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+                                </el-collapse-item>
+                            </el-collapse>
+                    </div>
+                    <div :class="temp.style.outbox_search" v-if="checkPage == '2'">快速检索</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

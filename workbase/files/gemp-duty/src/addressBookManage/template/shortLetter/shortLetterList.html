@@ -1,0 +1,13 @@
+<!-- 短信收发 -->
+<div class="flex-full">
+        <div class="flex-header">
+            <el-radio-group v-model="checkPage">
+                <el-radio-button label="1">发件箱</el-radio-button>
+                <el-radio-button label="2">收件箱</el-radio-button>
+            </el-radio-group>
+        </div>
+        <div class="flex-full">
+            <outbox-list v-if="checkPage == '1'"></outbox-list>
+            <inbox-list v-if="checkPage == '2'"></inbox-list>
+        </div>
+    </div>

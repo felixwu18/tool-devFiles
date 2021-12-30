@@ -1,0 +1,14 @@
+<div class="flex-full">
+  <div class="search_filter">
+    <div class="left_search">
+    <el-button-group >
+      <el-button  type="primary">节假日带班</el-button>
+      <el-button @click="go('/workforceManagement/majorList')">重要时段带班</el-button>
+    </el-button-group>
+    </div>
+    <div class="right_search">
+      <el-date-picker placeholder="请选择年份" type="year" v-model="searchData.abscriptYear" @change="getListData" value-format="yyyy"></el-date-picker>
+    </div>
+  </div>
+  <list-table :propdata="propData" @tablecallback="tablecallback"  :unsortable="true"></list-table>
+</div>
